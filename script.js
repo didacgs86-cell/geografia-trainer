@@ -19,6 +19,17 @@ const espanaMenu = document.getElementById("espana-menu");
 const btnCapitales = document.getElementById("btn-capitales");
 const btnPaises = document.getElementById("btn-paises");
 const btnEspana = document.getElementById("btn-espana");
+const btnEspanaCapitales =
+  document.getElementById("btn-espana-capitales");
+
+const btnEspanaProvinciaComunidad =
+  document.getElementById("btn-espana-provincia-comunidad");
+
+const btnEspanaComunidadProvincia =
+  document.getElementById("btn-espana-comunidad-provincia");
+
+const btnEspanaMixto =
+  document.getElementById("btn-espana-mixto");
 const btnVolverInicio = document.getElementById("volver-inicio");
 const btnVolverMenu = document.getElementById("volver-menu");
 const btnVolverFin = document.getElementById("volver-fin");
@@ -59,6 +70,7 @@ let tipoJuego = "capitales";
 let contenidoSeleccionado = "estados";
 let regionSeleccionada = "Todos";
 let modoSeleccionado = "entrenamiento";
+let modoEspana = null;
 
 let listaPreguntas = [];
 let colaPreguntas = [];
@@ -111,9 +123,23 @@ btnEspana.addEventListener("click", () => {
   espanaMenu.classList.remove("oculto");
 
 });
+btnEspanaCapitales.addEventListener("click", () => {
+  iniciarJuegoEspana("capitales");
+});
 
+btnEspanaProvinciaComunidad.addEventListener("click", () => {
+  iniciarJuegoEspana("provincia-comunidad");
+});
+
+btnEspanaComunidadProvincia.addEventListener("click", () => {
+  iniciarJuegoEspana("comunidad-provincia");
+});
+
+btnEspanaMixto.addEventListener("click", () => {
+  iniciarJuegoEspana("mixto");
+});
 function abrirConfiguracion(tipo) {
-
+modoEspana = null;
   tipoJuego = tipo;
 
   ocultarTodasLasPantallas();
@@ -825,10 +851,19 @@ function crearDetalleEstatus(p) {
 // SIGUIENTE
 // ==========================================
 
-btnSiguiente.addEventListener(
-  "click",
-  generarPregunta
-);
+btnSiguiente.addEventListener("click", () => {
+
+  if (modoEspana !== null) {
+
+    generarPreguntaEspana();
+
+  } else {
+
+    generarPregunta();
+
+  }
+
+});
 
 
 // ==========================================
@@ -1378,7 +1413,341 @@ function ocultarTodasLasPantallas() {
   finExamen.classList.add("oculto");
 espanaMenu.classList.add("oculto");
 }
+// ==========================================
+// JUEGO DE ESPAÑA
+// ==========================================
 
+function iniciarJuegoEspana(modo) {
+
+  modoEspana = modo;
+
+  numeroPregunta = 0;
+  aciertos = 0;
+  fallos = 0;
+  yaRespondida = false;
+
+  ocultarTodasLasPantallas();
+  juego.classList.remove("oculto");
+
+  tipoPartida.textContent = "🇪🇸 España";
+
+  if (modo === "capitales") {
+    continentePartida.textContent = "Capitales de provincia";
+  }
+
+  if (modo === "provincia-comunidad") {
+    continentePartida.textContent = "Provincia → Comunidad";
+  }
+
+  if (modo === "comunidad-provincia") {
+    continentePartida.textContent = "Comunidad → Provincia";
+  }
+
+  if (modo === "mixto") {
+    continentePartida.textContent = "Modo mixto";
+  }
+
+  actualizarMarcador();
+
+  generarPreguntaEspana();
+}
+
+
+// ==========================================
+// GENERAR PREGUNTA DE ESPAÑA
+// ==========================================
+
+function generarPreguntaEspana() {
+
+  yaRespondida = false;
+
+  numeroPregunta++;
+
+  resultado.innerHTML = "";
+
+  contenedorRespuestas.innerHTML = "";
+
+  btnSiguiente.classList.add("oculto");
+
+  ocultarMapa();
+
+  let tipoPregunta = modoEspana;
+
+  if (modoEspana === "mixto") {
+
+    const tipos = [
+      "capitales",
+      "provincia-comunidad",
+      "comunidad-provincia"
+    ];
+
+    tipoPregunta =
+      tipos[Math.floor(Math.random() * tipos.length)];
+  }
+
+  const provincia =
+    ESPANA_PROVINCIAS[
+      Math.floor(Math.random() * ESPANA_PROVINCIAS.length)
+    ];
+
+  preguntaActual = {
+    ...provincia,
+    tipoPregunta: tipoPregunta
+  };
+
+
+  // CAPITAL DE PROVINCIA
+
+  if (tipoPregunta === "capitales") {
+
+    textoPregunta.textContent =
+      `¿Cuál es la capital de la provincia de ${provincia.provincia}?`;
+
+  }
+
+
+  // PROVINCIA → COMUNIDAD
+
+  if (tipoPregunta === "provincia-comunidad") {
+
+    textoPregunta.textContent =
+      `¿A qué comunidad autónoma pertenece ${provincia.provincia}?`;
+
+  }
+
+
+  // COMUNIDAD → PROVINCIA
+
+  if (tipoPregunta === "comunidad-provincia") {
+
+    textoPregunta.textContent =
+      `¿Cuál de estas provincias pertenece a ${provincia.comunidad}?`;
+
+  }
+
+
+  textoNumeroPregunta.textContent =
+    `Pregunta ${numeroPregunta}`;
+
+
+  const respuestas =
+    generarRespuestasEspana(preguntaActual);
+
+
+  respuestas.forEach(respuesta => {
+
+    const boton =
+      document.createElement("button");
+
+    boton.textContent =
+      respuesta;
+
+    boton.addEventListener(
+      "click",
+      () => comprobarRespuestaEspana(
+        respuesta,
+        boton
+      )
+    );
+
+    contenedorRespuestas.appendChild(boton);
+
+  });
+
+}
+
+
+// ==========================================
+// RESPUESTAS DE ESPAÑA
+// ==========================================
+
+function generarRespuestasEspana(pregunta) {
+
+  let correcta;
+  let candidatas;
+
+
+  // CAPITAL
+
+  if (pregunta.tipoPregunta === "capitales") {
+
+    correcta = pregunta.capital;
+
+    candidatas =
+      ESPANA_PROVINCIAS.map(
+        p => p.capital
+      );
+
+  }
+
+
+  // PROVINCIA → COMUNIDAD
+
+  if (pregunta.tipoPregunta === "provincia-comunidad") {
+
+    correcta = pregunta.comunidad;
+
+    candidatas =
+      [...ESPANA_COMUNIDADES];
+
+  }
+
+
+  // COMUNIDAD → PROVINCIA
+
+  if (pregunta.tipoPregunta === "comunidad-provincia") {
+
+    correcta = pregunta.provincia;
+
+    candidatas =
+      ESPANA_PROVINCIAS
+        .filter(
+          p => p.comunidad !== pregunta.comunidad
+        )
+        .map(
+          p => p.provincia
+        );
+
+  }
+
+
+  const respuestas = [correcta];
+
+  const mezcladas =
+    mezclar([...candidatas]);
+
+
+  for (const opcion of mezcladas) {
+
+    if (
+      opcion !== correcta &&
+      !respuestas.includes(opcion)
+    ) {
+
+      respuestas.push(opcion);
+
+    }
+
+    if (respuestas.length === 4) {
+      break;
+    }
+
+  }
+
+
+  return mezclar(respuestas);
+}
+
+
+// ==========================================
+// COMPROBAR RESPUESTA ESPAÑA
+// ==========================================
+
+function comprobarRespuestaEspana(
+  respuestaSeleccionada,
+  botonSeleccionado
+) {
+
+  if (yaRespondida) return;
+
+  yaRespondida = true;
+
+
+  let correcta;
+
+
+  if (
+    preguntaActual.tipoPregunta === "capitales"
+  ) {
+
+    correcta =
+      preguntaActual.capital;
+
+  }
+
+
+  if (
+    preguntaActual.tipoPregunta === "provincia-comunidad"
+  ) {
+
+    correcta =
+      preguntaActual.comunidad;
+
+  }
+
+
+  if (
+    preguntaActual.tipoPregunta === "comunidad-provincia"
+  ) {
+
+    correcta =
+      preguntaActual.provincia;
+
+  }
+
+
+  const botones =
+    contenedorRespuestas.querySelectorAll("button");
+
+
+  botones.forEach(boton => {
+
+    boton.disabled = true;
+
+    if (boton.textContent === correcta) {
+
+      boton.classList.add("correcta");
+
+    }
+
+  });
+
+
+  if (
+    respuestaSeleccionada === correcta
+  ) {
+
+    aciertos++;
+
+    resultado.innerHTML =
+      `✅ Correcto.<br><br>${textoExplicacionEspana()}`;
+
+  }
+
+  else {
+
+    fallos++;
+
+    botonSeleccionado.classList.add("incorrecta");
+
+    resultado.innerHTML =
+      `❌ Incorrecto.<br><br>${textoExplicacionEspana()}`;
+
+  }
+
+
+  actualizarMarcador();
+
+  btnSiguiente.textContent =
+    "Siguiente pregunta →";
+
+  btnSiguiente.classList.remove("oculto");
+}
+
+
+// ==========================================
+// EXPLICACIÓN
+// ==========================================
+
+function textoExplicacionEspana() {
+
+  return `
+    <strong>${preguntaActual.provincia}</strong>
+    → ${preguntaActual.capital}
+    <br>
+    ${preguntaActual.comunidad}
+  `;
+}
 
 // ==========================================
 // MEZCLAR
