@@ -16,6 +16,7 @@ const configuracion = document.getElementById("configuracion");
 const juego = document.getElementById("juego");
 const finExamen = document.getElementById("fin-examen");
 const espanaMenu = document.getElementById("espana-menu");
+const espanaConfig = document.getElementById("espana-config");
 const btnCapitales = document.getElementById("btn-capitales");
 const btnPaises = document.getElementById("btn-paises");
 const btnEspana = document.getElementById("btn-espana");
@@ -30,6 +31,11 @@ const btnEspanaComunidadProvincia =
 
 const btnEspanaMixto =
   document.getElementById("btn-espana-mixto");
+const tituloEspanaConfig =
+  document.getElementById("titulo-espana-config");
+
+const btnVolverEspanaMenu =
+  document.getElementById("volver-espana-menu");
 const btnVolverInicio = document.getElementById("volver-inicio");
 const btnVolverMenu = document.getElementById("volver-menu");
 const btnVolverFin = document.getElementById("volver-fin");
@@ -124,19 +130,48 @@ btnEspana.addEventListener("click", () => {
 
 });
 btnEspanaCapitales.addEventListener("click", () => {
-  iniciarJuegoEspana("capitales");
+  abrirConfiguracionEspana(
+    "capitales",
+    "Capitales de provincia"
+  );
 });
 
 btnEspanaProvinciaComunidad.addEventListener("click", () => {
-  iniciarJuegoEspana("provincia-comunidad");
+  abrirConfiguracionEspana(
+    "provincia-comunidad",
+    "Provincia → Comunidad"
+  );
 });
 
 btnEspanaComunidadProvincia.addEventListener("click", () => {
-  iniciarJuegoEspana("comunidad-provincia");
+  abrirConfiguracionEspana(
+    "comunidad-provincia",
+    "Comunidad → Provincia"
+  );
 });
 
 btnEspanaMixto.addEventListener("click", () => {
-  iniciarJuegoEspana("mixto");
+  abrirConfiguracionEspana(
+    "mixto",
+    "Modo mixto"
+  );
+});
+function abrirConfiguracionEspana(modo, titulo) {
+
+  modoEspana = modo;
+
+  ocultarTodasLasPantallas();
+
+  espanaConfig.classList.remove("oculto");
+
+  tituloEspanaConfig.textContent = titulo;
+}
+btnVolverEspanaMenu.addEventListener("click", () => {
+
+  ocultarTodasLasPantallas();
+
+  espanaMenu.classList.remove("oculto");
+
 });
 function abrirConfiguracion(tipo) {
 modoEspana = null;
@@ -1412,6 +1447,7 @@ function ocultarTodasLasPantallas() {
 
   finExamen.classList.add("oculto");
 espanaMenu.classList.add("oculto");
+  espanaConfig.classList.add("oculto");
 }
 // ==========================================
 // JUEGO DE ESPAÑA
