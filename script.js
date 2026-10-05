@@ -36,6 +36,14 @@ const tituloEspanaConfig =
 
 const btnVolverEspanaMenu =
   document.getElementById("volver-espana-menu");
+const btnEspanaEntrenamiento =
+  document.getElementById("espana-entrenamiento");
+
+const btnEspanaExamen10 =
+  document.getElementById("espana-examen10");
+
+const btnEspanaExamen20 =
+  document.getElementById("espana-examen20");
 const btnVolverInicio = document.getElementById("volver-inicio");
 const btnVolverMenu = document.getElementById("volver-menu");
 const btnVolverFin = document.getElementById("volver-fin");
@@ -77,7 +85,9 @@ let contenidoSeleccionado = "estados";
 let regionSeleccionada = "Todos";
 let modoSeleccionado = "entrenamiento";
 let modoEspana = null;
-
+let tipoPracticaEspana = "entrenamiento";
+let totalPreguntasEspana = null;
+let colaPreguntasEspana = [];
 let listaPreguntas = [];
 let colaPreguntas = [];
 let preguntaActual = null;
@@ -172,6 +182,17 @@ btnVolverEspanaMenu.addEventListener("click", () => {
 
   espanaMenu.classList.remove("oculto");
 
+});
+btnEspanaEntrenamiento.addEventListener("click", () => {
+  iniciarJuegoEspana("entrenamiento", null);
+});
+
+btnEspanaExamen10.addEventListener("click", () => {
+  iniciarJuegoEspana("examen", 10);
+});
+
+btnEspanaExamen20.addEventListener("click", () => {
+  iniciarJuegoEspana("examen", 20);
 });
 function abrirConfiguracion(tipo) {
 modoEspana = null;
@@ -1041,11 +1062,22 @@ function mostrarResultadoFinal() {
 // REPETIR EXAMEN
 // ==========================================
 
-btnRepetirExamen
-  .addEventListener(
-    "click",
-    prepararPartida
-  );
+btnRepetirExamen.addEventListener("click", () => {
+
+  if (modoEspana !== null) {
+
+    iniciarJuegoEspana(
+      tipoPracticaEspana,
+      totalPreguntasEspana
+    );
+
+  } else {
+
+    prepararPartida();
+
+  }
+
+});
 
 
 // ==========================================
@@ -1453,34 +1485,53 @@ espanaMenu.classList.add("oculto");
 // JUEGO DE ESPAÑA
 // ==========================================
 
-function iniciarJuegoEspana(modo) {
+function iniciarJuegoEspana(tipoPractica, cantidadPreguntas) {
 
-  modoEspana = modo;
+  tipoPracticaEspana = tipoPractica;
+  totalPreguntasEspana = cantidadPreguntas;
 
   numeroPregunta = 0;
   aciertos = 0;
   fallos = 0;
   yaRespondida = false;
 
+  colaPreguntasEspana =
+    mezclar([...ESPANA_PROVINCIAS]);
+
+  if (totalPreguntasEspana !== null) {
+
+    colaPreguntasEspana =
+      colaPreguntasEspana.slice(
+        0,
+        totalPreguntasEspana
+      );
+  }
+
   ocultarTodasLasPantallas();
+
   juego.classList.remove("oculto");
 
-  tipoPartida.textContent = "🇪🇸 España";
+  tipoPartida.textContent =
+    "🇪🇸 España";
 
-  if (modo === "capitales") {
-    continentePartida.textContent = "Capitales de provincia";
+  if (modoEspana === "capitales") {
+    continentePartida.textContent =
+      "Capitales de provincia";
   }
 
-  if (modo === "provincia-comunidad") {
-    continentePartida.textContent = "Provincia → Comunidad";
+  if (modoEspana === "provincia-comunidad") {
+    continentePartida.textContent =
+      "Provincia → Comunidad";
   }
 
-  if (modo === "comunidad-provincia") {
-    continentePartida.textContent = "Comunidad → Provincia";
+  if (modoEspana === "comunidad-provincia") {
+    continentePartida.textContent =
+      "Comunidad → Provincia";
   }
 
-  if (modo === "mixto") {
-    continentePartida.textContent = "Modo mixto";
+  if (modoEspana === "mixto") {
+    continentePartida.textContent =
+      "Modo mixto";
   }
 
   actualizarMarcador();
@@ -1494,7 +1545,14 @@ function iniciarJuegoEspana(modo) {
 // ==========================================
 
 function generarPreguntaEspana() {
+if (
+  totalPreguntasEspana !== null &&
+  numeroPregunta >= totalPreguntasEspana
+) {
 
+  mostrarResultadoFinalEspana();
+  return;
+}
   yaRespondida = false;
 
   numeroPregunta++;
@@ -1521,10 +1579,15 @@ function generarPreguntaEspana() {
       tipos[Math.floor(Math.random() * tipos.length)];
   }
 
-  const provincia =
-    ESPANA_PROVINCIAS[
-      Math.floor(Math.random() * ESPANA_PROVINCIAS.length)
-    ];
+  if (colaPreguntasEspana.length === 0) {
+
+  colaPreguntasEspana =
+    mezclar([...ESPANA_PROVINCIAS]);
+
+}
+
+const provincia =
+  colaPreguntasEspana.shift();
 
   preguntaActual = {
     ...provincia,
@@ -1562,8 +1625,17 @@ function generarPreguntaEspana() {
   }
 
 
+if (totalPreguntasEspana !== null) {
+
+  textoNumeroPregunta.textContent =
+    `Pregunta ${numeroPregunta}/${totalPreguntasEspana}`;
+
+} else {
+
   textoNumeroPregunta.textContent =
     `Pregunta ${numeroPregunta}`;
+
+}
 
 
   const respuestas =
@@ -1763,10 +1835,20 @@ function comprobarRespuestaEspana(
 
 
   actualizarMarcador();
+if (
+  totalPreguntasEspana !== null &&
+  numeroPregunta === totalPreguntasEspana
+) {
+
+  btnSiguiente.textContent =
+    "Ver resultado →";
+
+} else {
 
   btnSiguiente.textContent =
     "Siguiente pregunta →";
 
+}
   btnSiguiente.classList.remove("oculto");
 }
 
@@ -1774,7 +1856,77 @@ function comprobarRespuestaEspana(
 // ==========================================
 // EXPLICACIÓN
 // ==========================================
+function mostrarResultadoFinalEspana() {
 
+  ocultarTodasLasPantallas();
+
+  finExamen.classList.remove("oculto");
+
+  const porcentaje =
+    Math.round(
+      (aciertos / totalPreguntasEspana) * 100
+    );
+
+  let mensaje = "📚 Sigue practicando";
+
+  if (porcentaje === 100) {
+    mensaje = "🏆 ¡Perfecto!";
+  }
+
+  else if (porcentaje >= 80) {
+    mensaje = "👏 Muy buen resultado";
+  }
+
+  else if (porcentaje >= 60) {
+    mensaje = "👍 Buen progreso";
+  }
+
+  let nombreModo = "";
+
+  if (modoEspana === "capitales") {
+    nombreModo = "Capitales de provincia";
+  }
+
+  if (modoEspana === "provincia-comunidad") {
+    nombreModo = "Provincia → Comunidad";
+  }
+
+  if (modoEspana === "comunidad-provincia") {
+    nombreModo = "Comunidad → Provincia";
+  }
+
+  if (modoEspana === "mixto") {
+    nombreModo = "Modo mixto";
+  }
+
+  resultadoExamen.innerHTML = `
+
+    <div>${mensaje}</div>
+
+    <div class="nota-grande">
+      ${porcentaje}%
+    </div>
+
+    <div class="detalle-examen">
+
+      <strong>${aciertos}</strong>
+      de
+      <strong>${totalPreguntasEspana}</strong>
+      respuestas correctas
+
+      <br><br>
+
+      ✅ ${aciertos}
+      &nbsp;&nbsp;
+      ❌ ${fallos}
+
+      <br><br>
+
+      🇪🇸 España · ${nombreModo}
+
+    </div>
+  `;
+}
 function textoExplicacionEspana() {
 
   return `
