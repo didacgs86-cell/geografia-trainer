@@ -678,3 +678,34 @@ body {
 #mapa-error {
   display: none !important;
 }
+/* =========================================
+   PANTALLA ESPAÑA
+========================================= */
+
+#espana-menu {
+  color: #1f2937;
+}
+
+.espana-cabecera {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.espana-bandera {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.espana-cabecera h2 {
+  color: #111827;
+  font-size: 30px;
+  margin: 0 0 10px;
+}
+
+.espana-cabecera p {
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-width: 520px;
+}
