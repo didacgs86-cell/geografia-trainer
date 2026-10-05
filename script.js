@@ -1524,7 +1524,10 @@ function iniciarJuegoEspana(tipoPractica, cantidadPreguntas) {
     continentePartida.textContent =
       "Capitales de provincia";
   }
-
+if (modoEspana === "comunidades") {
+  continentePartida.textContent =
+    "Comunidades autónomas";
+}
   if (modoEspana === "provincia-comunidad") {
     continentePartida.textContent =
       "Provincia → Comunidad";
@@ -1571,19 +1574,39 @@ if (
 
   ocultarMapa();
 
-  let tipoPregunta = modoEspana;
+ let tipoPregunta = modoEspana;
 
-  if (modoEspana === "mixto") {
 
-    const tipos = [
-      "capitales",
-      "provincia-comunidad",
-      "comunidad-provincia"
+// MODO COMUNIDADES AUTÓNOMAS
+// Alterna preguntas en los dos sentidos
+
+if (modoEspana === "comunidades") {
+
+  const tiposComunidades = [
+    "provincia-comunidad",
+    "comunidad-provincia"
+  ];
+
+  tipoPregunta =
+    tiposComunidades[
+      Math.floor(Math.random() * tiposComunidades.length)
     ];
+}
 
-    tipoPregunta =
-      tipos[Math.floor(Math.random() * tipos.length)];
-  }
+
+// MODO MIXTO
+
+if (modoEspana === "mixto") {
+
+  const tipos = [
+    "capitales",
+    "provincia-comunidad",
+    "comunidad-provincia"
+  ];
+
+  tipoPregunta =
+    tipos[Math.floor(Math.random() * tipos.length)];
+}
 
   if (colaPreguntasEspana.length === 0) {
 
