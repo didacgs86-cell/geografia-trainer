@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>GeoTrainer</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-
   <main class="container">
 
     <header>
@@ -19,40 +16,41 @@
     </header>
 
     <section id="inicio">
-
       <h2>¿Qué quieres practicar?</h2>
 
       <button id="btn-capitales">
         🏛️ Capitales
       </button>
 
-      <button id="btn-paises" disabled>
+      <button id="btn-paises">
         🌍 Países
-        <span>Próximamente</span>
       </button>
-
     </section>
-
 
     <section id="juego" class="oculto">
 
       <div class="marcador">
         <span id="numero-pregunta">Pregunta 1</span>
-
         <span>
           ✅ <span id="aciertos">0</span>
           ❌ <span id="fallos">0</span>
         </span>
       </div>
 
-      <h2 id="pregunta">
-        ¿Cuál es la capital de...?
-      </h2>
+      <h2 id="pregunta">Pregunta</h2>
 
-      <div id="respuestas">
-      </div>
+      <div id="respuestas"></div>
 
       <div id="resultado"></div>
+
+      <div id="mapa-error" class="oculto">
+        <h3>🗺️ Ubicación</h3>
+        <p id="mapa-titulo"></p>
+        <div id="mapa-svg"></div>
+        <p class="mapa-ayuda">
+          El punto rojo marca el país preguntado dentro de su continente.
+        </p>
+      </div>
 
       <button id="siguiente" class="oculto">
         Siguiente pregunta →
@@ -63,6 +61,5 @@
   </main>
 
   <script src="script.js"></script>
-
 </body>
 </html>
