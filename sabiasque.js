@@ -24,7 +24,9 @@ const SABIAS_QUE = [
 
       Esta relación con la montaña sigue siendo una parte fundamental
       de la identidad cultural del país.
+       ESTO ES UNA PRUEBA DE DIDAC GONZALEZ, NO ES DEFINITIVO
     `
   }
 
 ];
+ 
