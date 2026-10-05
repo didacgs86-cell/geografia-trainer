@@ -22,7 +22,8 @@ const btnPaises = document.getElementById("btn-paises");
 const btnEspana = document.getElementById("btn-espana");
 const btnEspanaCapitales =
   document.getElementById("btn-espana-capitales");
-
+const btnEspanaComunidades =
+  document.getElementById("btn-espana-comunidades");
 const btnEspanaProvinciaComunidad =
   document.getElementById("btn-espana-provincia-comunidad");
 
@@ -145,7 +146,12 @@ btnEspanaCapitales.addEventListener("click", () => {
     "Capitales de provincia"
   );
 });
-
+btnEspanaComunidades.addEventListener("click", () => {
+  abrirConfiguracionEspana(
+    "comunidades",
+    "Comunidades autónomas"
+  );
+});
 btnEspanaProvinciaComunidad.addEventListener("click", () => {
   abrirConfiguracionEspana(
     "provincia-comunidad",
