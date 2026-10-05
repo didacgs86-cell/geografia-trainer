@@ -1,4 +1,9 @@
+// ==========================================
+// BASE DE DATOS
+// ==========================================
+
 const paises = [
+
   // EUROPA
   { pais: "España", capital: "Madrid", continente: "Europa", x: 90, y: 225 },
   { pais: "Francia", capital: "París", continente: "Europa", x: 125, y: 190 },
@@ -64,252 +69,833 @@ const paises = [
   // OCEANÍA
   { pais: "Australia", capital: "Canberra", continente: "Oceanía", x: 240, y: 170 },
   { pais: "Nueva Zelanda", capital: "Wellington", continente: "Oceanía", x: 380, y: 230 }
+
 ];
 
+
+// ==========================================
+// FORMAS ESQUEMÁTICAS DE LOS CONTINENTES
+// ==========================================
+
 const mapasContinente = {
-  "Europa": `
-    <path class="continent-shape" d="M55 225
-      L60 175 L90 125 L125 95 L175 70 L250 72 L315 100 L340 145
-      L330 185 L295 220 L235 248 L155 255 L100 245 Z" />
+
+  Europa: `
+    <path class="continent-shape" d="
+    M55 225
+    L60 175 L90 125 L125 95 L175 70
+    L250 72 L315 100 L340 145
+    L330 185 L295 220 L235 248
+    L155 255 L100 245 Z" />
   `,
-  "Asia": `
-    <path class="continent-shape" d="M70 165
-      L95 110 L145 90 L220 75 L310 70 L390 90 L445 125 L452 170
-      L430 200 L390 215 L360 245 L310 255 L250 235 L205 190 L165 195
-      L120 178 Z" />
+
+  Asia: `
+    <path class="continent-shape" d="
+    M70 165
+    L95 110 L145 90 L220 75
+    L310 70 L390 90 L445 125
+    L452 170 L430 200 L390 215
+    L360 245 L310 255 L250 235
+    L205 190 L165 195 L120 178 Z" />
   `,
-  "África": `
-    <path class="continent-shape" d="M110 55
-      L180 45 L250 60 L300 105 L315 155 L302 225 L255 285 L195 300
-      L150 270 L122 225 L108 160 L120 105 Z" />
+
+  África: `
+    <path class="continent-shape" d="
+    M110 55
+    L180 45 L250 60 L300 105
+    L315 155 L302 225 L255 285
+    L195 300 L150 270 L122 225
+    L108 160 L120 105 Z" />
   `,
-  "América": `
-    <path class="continent-shape" d="M95 30
-      L145 28 L198 45 L220 75 L205 110 L180 140 L178 168 L208 172
-      L248 165 L285 182 L310 218 L320 255 L310 292 L285 300 L258 275
-      L245 235 L222 200 L190 180 L155 145 L125 105 L102 70 Z" />
+
+  América: `
+    <path class="continent-shape" d="
+    M95 30
+    L145 28 L198 45 L220 75
+    L205 110 L180 140 L178 168
+    L208 172 L248 165 L285 182
+    L310 218 L320 255 L310 292
+    L285 300 L258 275 L245 235
+    L222 200 L190 180 L155 145
+    L125 105 L102 70 Z" />
   `,
-  "Oceanía": `
-    <path class="continent-shape" d="M165 170
-      L195 145 L245 138 L285 152 L302 182 L290 212 L255 225 L210 220
-      L175 205 L160 185 Z" />
-    <path class="continent-shape" d="M365 215
-      L385 205 L398 225 L388 248 L370 238 Z" />
+
+  Oceanía: `
+    <path class="continent-shape" d="
+    M165 170
+    L195 145 L245 138 L285 152
+    L302 182 L290 212 L255 225
+    L210 220 L175 205 L160 185 Z" />
+
+    <path class="continent-shape" d="
+    M365 215
+    L385 205 L398 225
+    L388 248 L370 238 Z" />
   `
 };
 
+
+// ==========================================
 // ELEMENTOS HTML
-const pantallaInicio = document.getElementById("inicio");
-const pantallaJuego = document.getElementById("juego");
+// ==========================================
 
-const botonCapitales = document.getElementById("btn-capitales");
-const botonPaises = document.getElementById("btn-paises");
+const inicio = document.getElementById("inicio");
+const configuracion = document.getElementById("configuracion");
+const juego = document.getElementById("juego");
+const finExamen = document.getElementById("fin-examen");
 
-const textoPregunta = document.getElementById("pregunta");
-const contenedorRespuestas = document.getElementById("respuestas");
-const resultado = document.getElementById("resultado");
-const botonSiguiente = document.getElementById("siguiente");
+const btnCapitales = document.getElementById("btn-capitales");
+const btnPaises = document.getElementById("btn-paises");
+
+const btnVolverInicio = document.getElementById("volver-inicio");
+const btnVolverMenu = document.getElementById("volver-menu");
+const btnVolverFin = document.getElementById("volver-fin");
+
+const btnEmpezar = document.getElementById("btn-empezar");
+const btnSiguiente = document.getElementById("siguiente");
+const btnRepetirExamen = document.getElementById("repetir-examen");
+
+const selectorContinente = document.getElementById("continente");
+const selectorModoJuego = document.getElementById("modo-juego");
+
+const tituloConfiguracion = document.getElementById("titulo-configuracion");
+
+const tipoPartida = document.getElementById("tipo-partida");
+const continentePartida = document.getElementById("continente-partida");
 
 const textoNumeroPregunta = document.getElementById("numero-pregunta");
 const textoAciertos = document.getElementById("aciertos");
 const textoFallos = document.getElementById("fallos");
 
+const textoPregunta = document.getElementById("pregunta");
+const contenedorRespuestas = document.getElementById("respuestas");
+const resultado = document.getElementById("resultado");
+
 const mapaError = document.getElementById("mapa-error");
 const mapaTitulo = document.getElementById("mapa-titulo");
 const mapaSvg = document.getElementById("mapa-svg");
 
-// ESTADO DEL JUEGO
+const resultadoExamen = document.getElementById("resultado-examen");
+
+
+// ==========================================
+// VARIABLES DEL JUEGO
+// ==========================================
+
+let tipoJuego = "capitales";
+
+let continenteSeleccionado = "Todos";
+let modoSeleccionado = "entrenamiento";
+
+let listaPreguntas = [];
+
 let preguntaActual = null;
+
 let numeroPregunta = 0;
 let aciertos = 0;
 let fallos = 0;
+
+let totalPreguntasExamen = null;
+
 let yaRespondida = false;
-let modoActual = "capitales";
 
-// EVENTOS
-botonCapitales.addEventListener("click", () => iniciarJuego("capitales"));
-botonPaises.addEventListener("click", () => iniciarJuego("paises"));
-botonSiguiente.addEventListener("click", generarPregunta);
 
-// INICIAR JUEGO
-function iniciarJuego(modo) {
-  modoActual = modo;
+// ==========================================
+// MENÚ PRINCIPAL
+// ==========================================
 
-  pantallaInicio.classList.add("oculto");
-  pantallaJuego.classList.remove("oculto");
+btnCapitales.addEventListener("click", () => {
+  abrirConfiguracion("capitales");
+});
+
+btnPaises.addEventListener("click", () => {
+  abrirConfiguracion("paises");
+});
+
+
+function abrirConfiguracion(tipo) {
+
+  tipoJuego = tipo;
+
+  ocultarTodasLasPantallas();
+  configuracion.classList.remove("oculto");
+
+  if (tipoJuego === "capitales") {
+
+    tituloConfiguracion.textContent =
+      "🏛️ Practicar capitales";
+
+  } else {
+
+    tituloConfiguracion.textContent =
+      "🌍 Practicar países";
+
+  }
+
+}
+
+
+// ==========================================
+// BOTONES VOLVER
+// ==========================================
+
+btnVolverInicio.addEventListener("click", volverAlMenu);
+btnVolverMenu.addEventListener("click", volverAlMenu);
+btnVolverFin.addEventListener("click", volverAlMenu);
+
+
+function volverAlMenu() {
+
+  ocultarTodasLasPantallas();
+
+  inicio.classList.remove("oculto");
+
+}
+
+
+// ==========================================
+// EMPEZAR PARTIDA
+// ==========================================
+
+btnEmpezar.addEventListener("click", () => {
+
+  continenteSeleccionado = selectorContinente.value;
+  modoSeleccionado = selectorModoJuego.value;
+
+  prepararPartida();
+
+});
+
+
+function prepararPartida() {
 
   numeroPregunta = 0;
   aciertos = 0;
   fallos = 0;
 
+  yaRespondida = false;
+
+  ocultarMapa();
+
+  // Filtramos los países según el continente
+
+  if (continenteSeleccionado === "Todos") {
+
+    listaPreguntas = [...paises];
+
+  } else {
+
+    listaPreguntas = paises.filter(
+      p => p.continente === continenteSeleccionado
+    );
+
+  }
+
+
+  // Número de preguntas según el modo
+
+  if (modoSeleccionado === "examen10") {
+
+    totalPreguntasExamen = 10;
+
+  } else if (modoSeleccionado === "examen20") {
+
+    totalPreguntasExamen = 20;
+
+  } else {
+
+    totalPreguntasExamen = null;
+
+  }
+
+
+  ocultarTodasLasPantallas();
+
+  juego.classList.remove("oculto");
+
+
+  tipoPartida.textContent =
+    tipoJuego === "capitales"
+      ? "🏛️ Capitales"
+      : "🌍 Países";
+
+
+  continentePartida.textContent =
+    continenteSeleccionado === "Todos"
+      ? "🌎 Todo el mundo"
+      : `🌎 ${continenteSeleccionado}`;
+
+
   actualizarMarcador();
+
   generarPregunta();
+
 }
 
+
+// ==========================================
 // GENERAR PREGUNTA
+// ==========================================
+
 function generarPregunta() {
+
+  // Si el examen ha terminado
+
+  if (
+    totalPreguntasExamen !== null &&
+    numeroPregunta >= totalPreguntasExamen
+  ) {
+
+    mostrarResultadoFinal();
+    return;
+
+  }
+
+
   yaRespondida = false;
+
   numeroPregunta++;
 
   resultado.innerHTML = "";
-  botonSiguiente.classList.add("oculto");
+
+  btnSiguiente.classList.add("oculto");
+
   contenedorRespuestas.innerHTML = "";
+
   ocultarMapa();
 
-  preguntaActual = paises[Math.floor(Math.random() * paises.length)];
 
-  textoNumeroPregunta.textContent =
-    `Pregunta ${numeroPregunta} · ${modoActual === "capitales" ? "Capitales" : "Países"}`;
+  preguntaActual =
+    listaPreguntas[
+      Math.floor(Math.random() * listaPreguntas.length)
+    ];
 
-  if (modoActual === "capitales") {
-    textoPregunta.textContent = `¿Cuál es la capital de ${preguntaActual.pais}?`;
+
+  // Texto de la pregunta
+
+  if (tipoJuego === "capitales") {
+
+    textoPregunta.textContent =
+      `¿Cuál es la capital de ${preguntaActual.pais}?`;
+
   } else {
-    textoPregunta.textContent = `¿A qué país pertenece la capital ${preguntaActual.capital}?`;
+
+    textoPregunta.textContent =
+      `¿A qué país pertenece la capital ${preguntaActual.capital}?`;
+
   }
+
+
+  // Número de pregunta
+
+  if (totalPreguntasExamen !== null) {
+
+    textoNumeroPregunta.textContent =
+      `Pregunta ${numeroPregunta}/${totalPreguntasExamen}`;
+
+  } else {
+
+    textoNumeroPregunta.textContent =
+      `Pregunta ${numeroPregunta}`;
+
+  }
+
 
   const respuestas = generarRespuestas();
 
-  respuestas.forEach((respuesta) => {
+
+  respuestas.forEach(respuesta => {
+
     const boton = document.createElement("button");
+
     boton.textContent = respuesta;
 
     boton.addEventListener("click", () => {
-      comprobarRespuesta(respuesta, boton);
+
+      comprobarRespuesta(
+        respuesta,
+        boton
+      );
+
     });
 
     contenedorRespuestas.appendChild(boton);
+
   });
+
 }
 
-// GENERAR 4 OPCIONES
+
+// ==========================================
+// GENERAR LAS 4 OPCIONES
+// ==========================================
+
 function generarRespuestas() {
-  const respuestas = [];
+
   const correcta = obtenerRespuestaCorrecta();
 
-  respuestas.push(correcta);
+  const respuestas = [correcta];
 
-  while (respuestas.length < 4) {
-    const paisAleatorio = paises[Math.floor(Math.random() * paises.length)];
-    const opcion = modoActual === "capitales" ? paisAleatorio.capital : paisAleatorio.pais;
 
-    if (!respuestas.includes(opcion)) {
-      respuestas.push(opcion);
-    }
+  // Intentamos que los distractores sean del mismo
+  // continente que estamos estudiando.
+
+  let posiblesDistractores = [...listaPreguntas];
+
+
+  // Si hay muy pocos países, usamos también
+  // países del resto del mundo.
+
+  if (posiblesDistractores.length < 4) {
+
+    posiblesDistractores = [...paises];
+
   }
 
+
+  while (respuestas.length < 4) {
+
+    const paisAleatorio =
+      posiblesDistractores[
+        Math.floor(
+          Math.random() *
+          posiblesDistractores.length
+        )
+      ];
+
+
+    const opcion =
+      tipoJuego === "capitales"
+        ? paisAleatorio.capital
+        : paisAleatorio.pais;
+
+
+    if (!respuestas.includes(opcion)) {
+
+      respuestas.push(opcion);
+
+    }
+
+  }
+
+
   return mezclar(respuestas);
+
 }
 
+
+// ==========================================
+// RESPUESTA CORRECTA
+// ==========================================
+
+function obtenerRespuestaCorrecta() {
+
+  if (tipoJuego === "capitales") {
+
+    return preguntaActual.capital;
+
+  }
+
+  return preguntaActual.pais;
+
+}
+
+
+// ==========================================
 // COMPROBAR RESPUESTA
-function comprobarRespuesta(respuestaSeleccionada, botonSeleccionado) {
+// ==========================================
+
+function comprobarRespuesta(
+  respuestaSeleccionada,
+  botonSeleccionado
+) {
+
   if (yaRespondida) return;
 
   yaRespondida = true;
 
-  const correcta = obtenerRespuestaCorrecta();
-  const botones = contenedorRespuestas.querySelectorAll("button");
 
-  botones.forEach((boton) => {
+  const correcta =
+    obtenerRespuestaCorrecta();
+
+
+  const botones =
+    contenedorRespuestas.querySelectorAll("button");
+
+
+  // Bloquear respuestas
+
+  botones.forEach(boton => {
+
     boton.disabled = true;
 
+
+    // Señalamos la correcta
+
     if (boton.textContent === correcta) {
+
       boton.classList.add("correcta");
+
     }
+
   });
 
+
+  // =========================
+  // RESPUESTA CORRECTA
+  // =========================
+
   if (respuestaSeleccionada === correcta) {
+
     aciertos++;
 
-    if (modoActual === "capitales") {
-      resultado.innerHTML = `
-        ✅ Correcto.<br>
-        <strong>${preguntaActual.pais}</strong> → ${preguntaActual.capital}
-      `;
-    } else {
-      resultado.innerHTML = `
-        ✅ Correcto.<br>
-        <strong>${preguntaActual.capital}</strong> → ${preguntaActual.pais}
-      `;
-    }
-  } else {
-    fallos++;
-    botonSeleccionado.classList.add("incorrecta");
 
-    if (modoActual === "capitales") {
+    if (tipoJuego === "capitales") {
+
       resultado.innerHTML = `
-        ❌ Incorrecto.<br><br>
-        La capital de <strong>${preguntaActual.pais}</strong> es <strong>${preguntaActual.capital}</strong>.<br>
-        🌍 Continente: ${preguntaActual.continente}
+        ✅ Correcto.<br><br>
+
+        <strong>${preguntaActual.pais}</strong>
+        → ${preguntaActual.capital}
       `;
+
     } else {
+
       resultado.innerHTML = `
-        ❌ Incorrecto.<br><br>
-        La capital <strong>${preguntaActual.capital}</strong> pertenece a <strong>${preguntaActual.pais}</strong>.<br>
-        🌍 Continente: ${preguntaActual.continente}
+        ✅ Correcto.<br><br>
+
+        <strong>${preguntaActual.capital}</strong>
+        → ${preguntaActual.pais}
       `;
+
     }
 
-    mostrarMapaError(preguntaActual);
   }
 
+
+  // =========================
+  // RESPUESTA INCORRECTA
+  // =========================
+
+  else {
+
+    fallos++;
+
+    botonSeleccionado.classList.add("incorrecta");
+
+
+    if (tipoJuego === "capitales") {
+
+      resultado.innerHTML = `
+        ❌ Incorrecto.<br><br>
+
+        La capital de
+        <strong>${preguntaActual.pais}</strong>
+        es
+        <strong>${preguntaActual.capital}</strong>.<br><br>
+
+        🌍 ${preguntaActual.continente}
+      `;
+
+    } else {
+
+      resultado.innerHTML = `
+        ❌ Incorrecto.<br><br>
+
+        <strong>${preguntaActual.capital}</strong>
+        es la capital de
+        <strong>${preguntaActual.pais}</strong>.<br><br>
+
+        🌍 ${preguntaActual.continente}
+      `;
+
+    }
+
+
+    mostrarMapaError(preguntaActual);
+
+  }
+
+
   actualizarMarcador();
-  botonSiguiente.classList.remove("oculto");
+
+
+  // Cambiamos el texto si estamos en la última
+  // pregunta de un examen
+
+  if (
+    totalPreguntasExamen !== null &&
+    numeroPregunta === totalPreguntasExamen
+  ) {
+
+    btnSiguiente.textContent =
+      "Ver resultado →";
+
+  } else {
+
+    btnSiguiente.textContent =
+      "Siguiente pregunta →";
+
+  }
+
+
+  btnSiguiente.classList.remove("oculto");
+
 }
 
-// OBTENER RESPUESTA CORRECTA
-function obtenerRespuestaCorrecta() {
-  return modoActual === "capitales"
-    ? preguntaActual.capital
-    : preguntaActual.pais;
-}
 
+// ==========================================
+// SIGUIENTE PREGUNTA
+// ==========================================
+
+btnSiguiente.addEventListener(
+  "click",
+  generarPregunta
+);
+
+
+// ==========================================
 // MARCADOR
+// ==========================================
+
 function actualizarMarcador() {
+
   textoAciertos.textContent = aciertos;
   textoFallos.textContent = fallos;
+
 }
 
-// MAPA CUANDO FALLA
-function mostrarMapaError(paisInfo) {
-  mapaError.classList.remove("oculto");
-  mapaTitulo.textContent = `${paisInfo.pais} · ${paisInfo.continente}`;
-  mapaSvg.innerHTML = crearMapaSVG(paisInfo);
+
+// ==========================================
+// RESULTADO DEL EXAMEN
+// ==========================================
+
+function mostrarResultadoFinal() {
+
+  ocultarTodasLasPantallas();
+
+  finExamen.classList.remove("oculto");
+
+
+  const porcentaje =
+    Math.round(
+      (aciertos / totalPreguntasExamen) * 100
+    );
+
+
+  let mensaje = "";
+
+
+  if (porcentaje === 100) {
+
+    mensaje = "🏆 ¡Perfecto!";
+
+  } else if (porcentaje >= 80) {
+
+    mensaje = "👏 Muy buen resultado";
+
+  } else if (porcentaje >= 60) {
+
+    mensaje = "👍 Buen progreso";
+
+  } else {
+
+    mensaje = "📚 Conviene seguir practicando";
+
+  }
+
+
+  resultadoExamen.innerHTML = `
+
+    <div>
+      ${mensaje}
+    </div>
+
+    <div class="nota-grande">
+      ${porcentaje}%
+    </div>
+
+    <div class="detalle-examen">
+
+      <strong>${aciertos}</strong>
+      de
+      <strong>${totalPreguntasExamen}</strong>
+      respuestas correctas
+
+      <br><br>
+
+      ✅ ${aciertos}
+      &nbsp;&nbsp;
+      ❌ ${fallos}
+
+      <br><br>
+
+      ${
+        tipoJuego === "capitales"
+          ? "🏛️ Capitales"
+          : "🌍 Países"
+      }
+
+      ·
+
+      ${
+        continenteSeleccionado === "Todos"
+          ? "Todo el mundo"
+          : continenteSeleccionado
+      }
+
+    </div>
+
+  `;
+
 }
+
+
+// ==========================================
+// REPETIR EXAMEN
+// ==========================================
+
+btnRepetirExamen.addEventListener(
+  "click",
+  prepararPartida
+);
+
+
+// ==========================================
+// MAPA AL FALLAR
+// ==========================================
+
+function mostrarMapaError(paisInfo) {
+
+  mapaError.classList.remove("oculto");
+
+  mapaTitulo.textContent =
+    `${paisInfo.pais} · ${paisInfo.continente}`;
+
+  mapaSvg.innerHTML =
+    crearMapaSVG(paisInfo);
+
+}
+
 
 function ocultarMapa() {
+
   mapaError.classList.add("oculto");
+
   mapaTitulo.textContent = "";
+
   mapaSvg.innerHTML = "";
+
 }
 
+
+// ==========================================
+// CREAR MAPA SVG
+// ==========================================
+
 function crearMapaSVG(paisInfo) {
-  const paisesContinente = paises.filter(
-    (p) => p.continente === paisInfo.continente
-  );
 
-  const otrosPuntos = paisesContinente
-    .filter((p) => p.pais !== paisInfo.pais)
-    .map(
-      (p) => `<circle class="country-dot" cx="${p.x}" cy="${p.y}" r="4"></circle>`
-    )
-    .join("");
+  const paisesContinente =
+    paises.filter(
+      p =>
+        p.continente ===
+        paisInfo.continente
+    );
 
-  const labelX = paisInfo.x > 380 ? paisInfo.x - 12 : paisInfo.x + 14;
-  const textAnchor = paisInfo.x > 380 ? "end" : "start";
-  const labelY = paisInfo.y < 35 ? paisInfo.y + 22 : paisInfo.y - 14;
+
+  const otrosPuntos =
+    paisesContinente
+
+      .filter(
+        p =>
+          p.pais !==
+          paisInfo.pais
+      )
+
+      .map(
+        p => `
+          <circle
+            class="country-dot"
+            cx="${p.x}"
+            cy="${p.y}"
+            r="4">
+          </circle>
+        `
+      )
+
+      .join("");
+
+
+  const labelX =
+    paisInfo.x > 380
+      ? paisInfo.x - 14
+      : paisInfo.x + 14;
+
+
+  const textAnchor =
+    paisInfo.x > 380
+      ? "end"
+      : "start";
+
+
+  const labelY =
+    paisInfo.y < 35
+      ? paisInfo.y + 22
+      : paisInfo.y - 14;
+
 
   return `
-    <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa de ${paisInfo.continente}">
-      <rect class="map-bg" x="8" y="8" width="484" height="304" rx="18"></rect>
 
-      <text x="24" y="34" class="continent-title">${escaparHTML(paisInfo.continente)}</text>
+    <svg
+      viewBox="0 0 500 320"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Mapa de ${paisInfo.continente}"
+    >
 
-      ${mapasContinente[paisInfo.continente] || ""}
+      <rect
+        class="map-bg"
+        x="8"
+        y="8"
+        width="484"
+        height="304"
+        rx="18">
+      </rect>
+
+
+      <text
+        x="24"
+        y="34"
+        class="continent-title"
+      >
+        ${escaparHTML(paisInfo.continente)}
+      </text>
+
+
+      ${
+        mapasContinente[
+          paisInfo.continente
+        ] || ""
+      }
+
 
       ${otrosPuntos}
 
-      <circle class="target-ring" cx="${paisInfo.x}" cy="${paisInfo.y}" r="16"></circle>
-      <circle class="target-dot" cx="${paisInfo.x}" cy="${paisInfo.y}" r="7"></circle>
+
+      <circle
+        class="target-ring"
+        cx="${paisInfo.x}"
+        cy="${paisInfo.y}"
+        r="16">
+      </circle>
+
+
+      <circle
+        class="target-dot"
+        cx="${paisInfo.x}"
+        cy="${paisInfo.y}"
+        r="7">
+      </circle>
+
 
       <text
         x="${labelX}"
@@ -319,27 +905,76 @@ function crearMapaSVG(paisInfo) {
       >
         ${escaparHTML(paisInfo.pais)}
       </text>
+
     </svg>
+
   `;
+
 }
 
-// UTILIDADES
+
+// ==========================================
+// OCULTAR PANTALLAS
+// ==========================================
+
+function ocultarTodasLasPantallas() {
+
+  inicio.classList.add("oculto");
+  configuracion.classList.add("oculto");
+  juego.classList.add("oculto");
+  finExamen.classList.add("oculto");
+
+}
+
+
+// ==========================================
+// MEZCLAR ARRAY
+// ==========================================
+
 function mezclar(array) {
+
   const copia = [...array];
 
-  for (let i = copia.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copia[i], copia[j]] = [copia[j], copia[i]];
+  for (
+    let i = copia.length - 1;
+    i > 0;
+    i--
+  ) {
+
+    const j =
+      Math.floor(
+        Math.random() *
+        (i + 1)
+      );
+
+    [
+      copia[i],
+      copia[j]
+    ] =
+    [
+      copia[j],
+      copia[i]
+    ];
+
   }
 
   return copia;
+
 }
 
+
+// ==========================================
+// EVITAR PROBLEMAS CON TEXTO EN SVG
+// ==========================================
+
 function escaparHTML(texto) {
+
   return texto
+
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+
 }
