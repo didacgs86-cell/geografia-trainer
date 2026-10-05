@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>GeoTrainer</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
   <main class="container">
 
     <header>
@@ -15,7 +18,13 @@
       <p>Aprende países, capitales y geografía jugando.</p>
     </header>
 
+
+    <!-- =========================
+         PANTALLA PRINCIPAL
+    ========================== -->
+
     <section id="inicio">
+
       <h2>¿Qué quieres practicar?</h2>
 
       <button id="btn-capitales">
@@ -25,32 +34,164 @@
       <button id="btn-paises">
         🌍 Países
       </button>
+
     </section>
+
+
+    <!-- =========================
+         CONFIGURACIÓN
+    ========================== -->
+
+    <section id="configuracion" class="oculto">
+
+      <button id="volver-inicio" class="btn-volver">
+        ← Volver
+      </button>
+
+      <h2 id="titulo-configuracion">
+        Configurar partida
+      </h2>
+
+
+      <div class="bloque-config">
+
+        <label for="continente">
+          🌎 Continente
+        </label>
+
+        <select id="continente">
+
+          <option value="Todos">
+            Todo el mundo
+          </option>
+
+          <option value="Europa">
+            Europa
+          </option>
+
+          <option value="Asia">
+            Asia
+          </option>
+
+          <option value="África">
+            África
+          </option>
+
+          <option value="América">
+            América
+          </option>
+
+          <option value="Oceanía">
+            Oceanía
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="bloque-config">
+
+        <label for="modo-juego">
+          🎯 Modo
+        </label>
+
+        <select id="modo-juego">
+
+          <option value="entrenamiento">
+            Entrenamiento libre
+          </option>
+
+          <option value="examen10">
+            Examen · 10 preguntas
+          </option>
+
+          <option value="examen20">
+            Examen · 20 preguntas
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <button id="btn-empezar">
+        Empezar →
+      </button>
+
+    </section>
+
+
+    <!-- =========================
+         JUEGO
+    ========================== -->
 
     <section id="juego" class="oculto">
 
+      <button id="volver-menu" class="btn-volver">
+        ← Volver al menú
+      </button>
+
+
+      <div class="info-partida">
+
+        <span id="tipo-partida">
+          Capitales
+        </span>
+
+        <span id="continente-partida">
+          Todo el mundo
+        </span>
+
+      </div>
+
+
       <div class="marcador">
-        <span id="numero-pregunta">Pregunta 1</span>
+
+        <span id="numero-pregunta">
+          Pregunta 1
+        </span>
+
         <span>
           ✅ <span id="aciertos">0</span>
+          &nbsp;
           ❌ <span id="fallos">0</span>
         </span>
+
       </div>
 
-      <h2 id="pregunta">Pregunta</h2>
 
-      <div id="respuestas"></div>
+      <h2 id="pregunta">
+        Pregunta
+      </h2>
 
-      <div id="resultado"></div>
+
+      <div id="respuestas">
+      </div>
+
+
+      <div id="resultado">
+      </div>
+
+
+      <!-- MAPA QUE APARECE SI FALLAS -->
 
       <div id="mapa-error" class="oculto">
-        <h3>🗺️ Ubicación</h3>
+
+        <h3>
+          🗺️ ¿Dónde está?
+        </h3>
+
         <p id="mapa-titulo"></p>
+
         <div id="mapa-svg"></div>
+
         <p class="mapa-ayuda">
-          El punto rojo marca el país preguntado dentro de su continente.
+          El país preguntado está señalado en rojo.
         </p>
+
       </div>
+
 
       <button id="siguiente" class="oculto">
         Siguiente pregunta →
@@ -58,8 +199,35 @@
 
     </section>
 
+
+    <!-- =========================
+         RESULTADO DEL EXAMEN
+    ========================== -->
+
+    <section id="fin-examen" class="oculto">
+
+      <h2>
+        🏁 Examen terminado
+      </h2>
+
+      <div id="resultado-examen">
+      </div>
+
+      <button id="repetir-examen">
+        🔄 Repetir examen
+      </button>
+
+      <button id="volver-fin" class="btn-secundario">
+        ← Volver al menú
+      </button>
+
+    </section>
+
+
   </main>
 
+
   <script src="script.js"></script>
+
 </body>
 </html>
