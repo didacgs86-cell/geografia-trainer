@@ -15,14 +15,15 @@ const inicio = document.getElementById("inicio");
 const configuracion = document.getElementById("configuracion");
 const juego = document.getElementById("juego");
 const finExamen = document.getElementById("fin-examen");
-
+const espanaMenu = document.getElementById("espana-menu");
 const btnCapitales = document.getElementById("btn-capitales");
 const btnPaises = document.getElementById("btn-paises");
-
+const btnEspana = document.getElementById("btn-espana");
 const btnVolverInicio = document.getElementById("volver-inicio");
 const btnVolverMenu = document.getElementById("volver-menu");
 const btnVolverFin = document.getElementById("volver-fin");
-
+const btnVolverEspanaInicio =
+  document.getElementById("volver-espana-inicio");
 const btnEmpezar = document.getElementById("btn-empezar");
 const btnSiguiente = document.getElementById("siguiente");
 const btnRepetirExamen = document.getElementById("repetir-examen");
@@ -103,7 +104,13 @@ btnCapitales.addEventListener("click", () => {
 btnPaises.addEventListener("click", () => {
   abrirConfiguracion("paises");
 });
+btnEspana.addEventListener("click", () => {
 
+  ocultarTodasLasPantallas();
+
+  espanaMenu.classList.remove("oculto");
+
+});
 
 function abrirConfiguracion(tipo) {
 
@@ -127,7 +134,10 @@ function abrirConfiguracion(tipo) {
 btnVolverInicio.addEventListener("click", volverAlMenu);
 btnVolverMenu.addEventListener("click", volverAlMenu);
 btnVolverFin.addEventListener("click", volverAlMenu);
-
+btnVolverEspanaInicio.addEventListener(
+  "click",
+  volverAlMenu
+);
 
 function volverAlMenu() {
 
@@ -1366,7 +1376,7 @@ function ocultarTodasLasPantallas() {
   juego.classList.add("oculto");
 
   finExamen.classList.add("oculto");
-
+espanaMenu.classList.add("oculto");
 }
 
 
