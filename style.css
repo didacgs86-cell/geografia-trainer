@@ -674,3 +674,7 @@ body {
   }
 
 }
+/* Ocultar mapa al fallar */
+#mapa-error {
+  display: none !important;
+}
