@@ -1,138 +1,11 @@
 // ==========================================
-// BASE DE DATOS
+// GEOTRAINER - MOTOR DEL JUEGO
+// Usa la base de datos GEO_DATA de countries.js
 // ==========================================
 
-const paises = [
-
-  // EUROPA
-  { pais: "España", capital: "Madrid", continente: "Europa", x: 90, y: 225 },
-  { pais: "Francia", capital: "París", continente: "Europa", x: 125, y: 190 },
-  { pais: "Italia", capital: "Roma", continente: "Europa", x: 180, y: 210 },
-  { pais: "Portugal", capital: "Lisboa", continente: "Europa", x: 75, y: 210 },
-  { pais: "Alemania", capital: "Berlín", continente: "Europa", x: 170, y: 160 },
-  { pais: "Reino Unido", capital: "Londres", continente: "Europa", x: 110, y: 110 },
-  { pais: "Irlanda", capital: "Dublín", continente: "Europa", x: 80, y: 110 },
-  { pais: "Bélgica", capital: "Bruselas", continente: "Europa", x: 145, y: 155 },
-  { pais: "Países Bajos", capital: "Ámsterdam", continente: "Europa", x: 150, y: 140 },
-  { pais: "Suiza", capital: "Berna", continente: "Europa", x: 155, y: 190 },
-  { pais: "Austria", capital: "Viena", continente: "Europa", x: 190, y: 180 },
-  { pais: "Polonia", capital: "Varsovia", continente: "Europa", x: 220, y: 145 },
-  { pais: "Grecia", capital: "Atenas", continente: "Europa", x: 250, y: 245 },
-  { pais: "Noruega", capital: "Oslo", continente: "Europa", x: 180, y: 70 },
-  { pais: "Suecia", capital: "Estocolmo", continente: "Europa", x: 220, y: 85 },
-  { pais: "Finlandia", capital: "Helsinki", continente: "Europa", x: 270, y: 75 },
-  { pais: "Dinamarca", capital: "Copenhague", continente: "Europa", x: 180, y: 120 },
-  { pais: "Islandia", capital: "Reikiavik", continente: "Europa", x: 35, y: 55 },
-  { pais: "Croacia", capital: "Zagreb", continente: "Europa", x: 210, y: 200 },
-  { pais: "Serbia", capital: "Belgrado", continente: "Europa", x: 230, y: 205 },
-
-  // ASIA
-  { pais: "Japón", capital: "Tokio", continente: "Asia", x: 430, y: 120 },
-  { pais: "China", capital: "Pekín", continente: "Asia", x: 340, y: 150 },
-  { pais: "India", capital: "Nueva Delhi", continente: "Asia", x: 260, y: 210 },
-  { pais: "Corea del Sur", capital: "Seúl", continente: "Asia", x: 400, y: 140 },
-  { pais: "Tailandia", capital: "Bangkok", continente: "Asia", x: 330, y: 220 },
-  { pais: "Vietnam", capital: "Hanói", continente: "Asia", x: 350, y: 215 },
-  { pais: "Indonesia", capital: "Yakarta", continente: "Asia", x: 390, y: 270 },
-  { pais: "Kazajistán", capital: "Astaná", continente: "Asia", x: 240, y: 110 },
-  { pais: "Uzbekistán", capital: "Taskent", continente: "Asia", x: 230, y: 145 },
-  { pais: "Kirguistán", capital: "Biskek", continente: "Asia", x: 260, y: 145 },
-  { pais: "Tayikistán", capital: "Dusambé", continente: "Asia", x: 255, y: 165 },
-  { pais: "Turkmenistán", capital: "Asjabad", continente: "Asia", x: 205, y: 155 },
-  { pais: "Mongolia", capital: "Ulán Bator", continente: "Asia", x: 330, y: 95 },
-  { pais: "Nepal", capital: "Katmandú", continente: "Asia", x: 290, y: 185 },
-  { pais: "Filipinas", capital: "Manila", continente: "Asia", x: 405, y: 215 },
-
-  // ÁFRICA
-  { pais: "Egipto", capital: "El Cairo", continente: "África", x: 250, y: 75 },
-  { pais: "Marruecos", capital: "Rabat", continente: "África", x: 95, y: 85 },
-  { pais: "Argelia", capital: "Argel", continente: "África", x: 135, y: 95 },
-  { pais: "Etiopía", capital: "Adís Abeba", continente: "África", x: 290, y: 170 },
-  { pais: "Kenia", capital: "Nairobi", continente: "África", x: 300, y: 210 },
-  { pais: "Senegal", capital: "Dakar", continente: "África", x: 85, y: 150 },
-  { pais: "Ghana", capital: "Acra", continente: "África", x: 130, y: 190 },
-  { pais: "Nigeria", capital: "Abuya", continente: "África", x: 165, y: 190 },
-  { pais: "Angola", capital: "Luanda", continente: "África", x: 220, y: 255 },
-
-  // AMÉRICA
-  { pais: "Estados Unidos", capital: "Washington D. C.", continente: "América", x: 150, y: 90 },
-  { pais: "Canadá", capital: "Ottawa", continente: "América", x: 120, y: 50 },
-  { pais: "México", capital: "Ciudad de México", continente: "América", x: 110, y: 150 },
-  { pais: "Argentina", capital: "Buenos Aires", continente: "América", x: 320, y: 275 },
-  { pais: "Chile", capital: "Santiago", continente: "América", x: 255, y: 250 },
-  { pais: "Perú", capital: "Lima", continente: "América", x: 255, y: 200 },
-  { pais: "Colombia", capital: "Bogotá", continente: "América", x: 205, y: 175 },
-  { pais: "Brasil", capital: "Brasilia", continente: "América", x: 290, y: 200 },
-  { pais: "Uruguay", capital: "Montevideo", continente: "América", x: 325, y: 240 },
-  { pais: "Paraguay", capital: "Asunción", continente: "América", x: 300, y: 220 },
-
-  // OCEANÍA
-  { pais: "Australia", capital: "Canberra", continente: "Oceanía", x: 240, y: 170 },
-  { pais: "Nueva Zelanda", capital: "Wellington", continente: "Oceanía", x: 380, y: 230 }
-
-];
-
-
-// ==========================================
-// FORMAS ESQUEMÁTICAS DE LOS CONTINENTES
-// ==========================================
-
-const mapasContinente = {
-
-  Europa: `
-    <path class="continent-shape" d="
-    M55 225
-    L60 175 L90 125 L125 95 L175 70
-    L250 72 L315 100 L340 145
-    L330 185 L295 220 L235 248
-    L155 255 L100 245 Z" />
-  `,
-
-  Asia: `
-    <path class="continent-shape" d="
-    M70 165
-    L95 110 L145 90 L220 75
-    L310 70 L390 90 L445 125
-    L452 170 L430 200 L390 215
-    L360 245 L310 255 L250 235
-    L205 190 L165 195 L120 178 Z" />
-  `,
-
-  África: `
-    <path class="continent-shape" d="
-    M110 55
-    L180 45 L250 60 L300 105
-    L315 155 L302 225 L255 285
-    L195 300 L150 270 L122 225
-    L108 160 L120 105 Z" />
-  `,
-
-  América: `
-    <path class="continent-shape" d="
-    M95 30
-    L145 28 L198 45 L220 75
-    L205 110 L180 140 L178 168
-    L208 172 L248 165 L285 182
-    L310 218 L320 255 L310 292
-    L285 300 L258 275 L245 235
-    L222 200 L190 180 L155 145
-    L125 105 L102 70 Z" />
-  `,
-
-  Oceanía: `
-    <path class="continent-shape" d="
-    M165 170
-    L195 145 L245 138 L285 152
-    L302 182 L290 212 L255 225
-    L210 220 L175 205 L160 185 Z" />
-
-    <path class="continent-shape" d="
-    M365 215
-    L385 205 L398 225
-    L388 248 L370 238 Z" />
-  `
-};
-
+if (typeof GEO_DATA === "undefined") {
+  throw new Error("No se ha cargado countries.js antes de script.js");
+}
 
 // ==========================================
 // ELEMENTOS HTML
@@ -154,6 +27,7 @@ const btnEmpezar = document.getElementById("btn-empezar");
 const btnSiguiente = document.getElementById("siguiente");
 const btnRepetirExamen = document.getElementById("repetir-examen");
 
+const selectorContenido = document.getElementById("contenido");
 const selectorContinente = document.getElementById("continente");
 const selectorModoJuego = document.getElementById("modo-juego");
 
@@ -176,18 +50,17 @@ const mapaSvg = document.getElementById("mapa-svg");
 
 const resultadoExamen = document.getElementById("resultado-examen");
 
-
 // ==========================================
-// VARIABLES DEL JUEGO
+// ESTADO DEL JUEGO
 // ==========================================
 
 let tipoJuego = "capitales";
-
-let continenteSeleccionado = "Todos";
+let contenidoSeleccionado = "estados";
+let regionSeleccionada = "Todos";
 let modoSeleccionado = "entrenamiento";
 
 let listaPreguntas = [];
-
+let colaPreguntas = [];
 let preguntaActual = null;
 
 let numeroPregunta = 0;
@@ -195,8 +68,28 @@ let aciertos = 0;
 let fallos = 0;
 
 let totalPreguntasExamen = null;
-
 let yaRespondida = false;
+
+
+// ==========================================
+// COORDENADAS EXTRA PARA ALGUNOS LUGARES
+// ==========================================
+
+const COORDENADAS_EXTRA = {
+  AD: { lat: 42.5063, lon: 1.5218 },
+  VA: { lat: 41.9029, lon: 12.4534 },
+  CW: { lat: 12.1696, lon: -68.99 },
+  AX: { lat: 60.1785, lon: 19.9156 },
+  TC: { lat: 21.694, lon: -71.7979 },
+  VG: { lat: 18.4207, lon: -64.64 },
+  VI: { lat: 18.3358, lon: -64.8963 },
+  ME: { lat: 42.7087, lon: 19.3744 },
+  MM: { lat: 21.9162, lon: 95.956 },
+  PS: { lat: 31.9522, lon: 35.2332 },
+  BL: { lat: 17.9, lon: -62.8333 },
+  MF: { lat: 18.0708, lon: -63.0501 },
+  SX: { lat: 18.0425, lon: -63.0548 }
+};
 
 
 // ==========================================
@@ -217,25 +110,18 @@ function abrirConfiguracion(tipo) {
   tipoJuego = tipo;
 
   ocultarTodasLasPantallas();
+
   configuracion.classList.remove("oculto");
 
-  if (tipoJuego === "capitales") {
-
-    tituloConfiguracion.textContent =
-      "🏛️ Practicar capitales";
-
-  } else {
-
-    tituloConfiguracion.textContent =
-      "🌍 Practicar países";
-
-  }
-
+  tituloConfiguracion.textContent =
+    tipoJuego === "capitales"
+      ? "🏛️ Practicar capitales"
+      : "🌍 Practicar países";
 }
 
 
 // ==========================================
-// BOTONES VOLVER
+// VOLVER
 // ==========================================
 
 btnVolverInicio.addEventListener("click", volverAlMenu);
@@ -248,7 +134,6 @@ function volverAlMenu() {
   ocultarTodasLasPantallas();
 
   inicio.classList.remove("oculto");
-
 }
 
 
@@ -258,7 +143,10 @@ function volverAlMenu() {
 
 btnEmpezar.addEventListener("click", () => {
 
-  continenteSeleccionado = selectorContinente.value;
+  contenidoSeleccionado = selectorContenido.value;
+
+  regionSeleccionada = selectorContinente.value;
+
   modoSeleccionado = selectorModoJuego.value;
 
   prepararPartida();
@@ -276,34 +164,73 @@ function prepararPartida() {
 
   ocultarMapa();
 
-  // Filtramos los países según el continente
 
-  if (continenteSeleccionado === "Todos") {
+  // FILTRAR BASE DE DATOS
 
-    listaPreguntas = [...paises];
+  listaPreguntas = GEO_DATA
+    .filter(esEntradaDelContenido)
+    .filter(esEntradaDeLaRegion)
+    .filter(esAptaParaCapitales);
 
-  } else {
 
-    listaPreguntas = paises.filter(
-      p => p.continente === continenteSeleccionado
+  if (listaPreguntas.length === 0) {
+
+    alert(
+      "No hay preguntas disponibles con esa combinación. " +
+      "Prueba otra región o tipo de contenido."
     );
 
+    return;
   }
 
 
-  // Número de preguntas según el modo
+  // CONFIGURAR EXAMEN
+
+  let preguntasSolicitadas = null;
 
   if (modoSeleccionado === "examen10") {
+    preguntasSolicitadas = 10;
+  }
 
-    totalPreguntasExamen = 10;
+  if (modoSeleccionado === "examen20") {
+    preguntasSolicitadas = 20;
+  }
 
-  } else if (modoSeleccionado === "examen20") {
 
-    totalPreguntasExamen = 20;
+  if (preguntasSolicitadas !== null) {
 
-  } else {
+    totalPreguntasExamen =
+      Math.min(
+        preguntasSolicitadas,
+        listaPreguntas.length
+      );
+
+
+    if (
+      totalPreguntasExamen <
+      preguntasSolicitadas
+    ) {
+
+      alert(
+        `Esta selección tiene ${listaPreguntas.length} lugares disponibles. ` +
+        `El examen será de ${totalPreguntasExamen} preguntas sin repetir.`
+      );
+
+    }
+
+
+    colaPreguntas =
+      mezclar([...listaPreguntas])
+        .slice(0, totalPreguntasExamen);
+
+  }
+
+  else {
 
     totalPreguntasExamen = null;
+
+    colaPreguntas =
+      mezclar([...listaPreguntas]);
 
   }
 
@@ -320,15 +247,111 @@ function prepararPartida() {
 
 
   continentePartida.textContent =
-    continenteSeleccionado === "Todos"
-      ? "🌎 Todo el mundo"
-      : `🌎 ${continenteSeleccionado}`;
+
+    regionSeleccionada === "Todos"
+
+      ? `🌎 Todo el mundo · ${etiquetaContenido()}`
+
+      : `🌎 ${regionSeleccionada} · ${etiquetaContenido()}`;
 
 
   actualizarMarcador();
 
   generarPregunta();
+}
 
+
+// ==========================================
+// FILTROS
+// ==========================================
+
+function esEntradaDelContenido(p) {
+
+  if (contenidoSeleccionado === "estados") {
+
+    return p.categoria === "estado";
+
+  }
+
+
+  if (contenidoSeleccionado === "territorios") {
+
+    return p.categoria === "territorio";
+
+  }
+
+
+  // "todos" incluye:
+  // estados + territorios + casos especiales
+
+  return true;
+}
+
+
+function esEntradaDeLaRegion(p) {
+
+  if (regionSeleccionada === "Todos") {
+
+    return true;
+
+  }
+
+  return obtenerRegion(p) === regionSeleccionada;
+}
+
+
+function esAptaParaCapitales(p) {
+
+  return (
+    p.quizCapital === true &&
+    Boolean(p.capital)
+  );
+}
+
+
+// ==========================================
+// NORMALIZAR REGIONES
+// ==========================================
+
+function obtenerRegion(p) {
+
+  // México es Norteamérica
+
+  if (p.iso2 === "MX") {
+
+    return "Norteamérica";
+
+  }
+
+
+  // Para América usamos subregiones
+
+  if (p.continente === "América") {
+
+    return p.subregion;
+
+  }
+
+
+  return p.continente;
+}
+
+
+function etiquetaContenido() {
+
+  if (contenidoSeleccionado === "estados") {
+
+    return "Países soberanos";
+
+  }
+
+  if (contenidoSeleccionado === "territorios") {
+
+    return "Territorios";
+
+  }
+
+  return "Países + territorios";
 }
 
 
@@ -338,7 +361,8 @@ function prepararPartida() {
 
 function generarPregunta() {
 
-  // Si el examen ha terminado
+
+  // FIN DEL EXAMEN
 
   if (
     totalPreguntasExamen !== null &&
@@ -346,14 +370,12 @@ function generarPregunta() {
   ) {
 
     mostrarResultadoFinal();
-    return;
 
+    return;
   }
 
 
   yaRespondida = false;
-
-  numeroPregunta++;
 
   resultado.innerHTML = "";
 
@@ -364,61 +386,80 @@ function generarPregunta() {
   ocultarMapa();
 
 
+  // SI SE ACABAN LAS PREGUNTAS
+  // EN ENTRENAMIENTO, VOLVEMOS A BARAJAR
+
+  if (colaPreguntas.length === 0) {
+
+    colaPreguntas =
+      mezclar([...listaPreguntas]);
+
+  }
+
+
   preguntaActual =
-    listaPreguntas[
-      Math.floor(Math.random() * listaPreguntas.length)
-    ];
+    colaPreguntas.shift();
 
 
-  // Texto de la pregunta
+  numeroPregunta++;
+
+
+  // TEXTO DE PREGUNTA
 
   if (tipoJuego === "capitales") {
 
     textoPregunta.textContent =
       `¿Cuál es la capital de ${preguntaActual.pais}?`;
 
-  } else {
+  }
+
+  else {
 
     textoPregunta.textContent =
-      `¿A qué país pertenece la capital ${preguntaActual.capital}?`;
+      `¿A qué país o territorio pertenece ${preguntaActual.capital}?`;
 
   }
 
 
-  // Número de pregunta
+  // NÚMERO DE PREGUNTA
 
-  if (totalPreguntasExamen !== null) {
+  textoNumeroPregunta.textContent =
 
-    textoNumeroPregunta.textContent =
-      `Pregunta ${numeroPregunta}/${totalPreguntasExamen}`;
+    totalPreguntasExamen !== null
 
-  } else {
+      ? `Pregunta ${numeroPregunta}/${totalPreguntasExamen}`
 
-    textoNumeroPregunta.textContent =
-      `Pregunta ${numeroPregunta}`;
-
-  }
+      : `Pregunta ${numeroPregunta}`;
 
 
-  const respuestas = generarRespuestas();
+  const respuestas =
+    generarRespuestas();
 
 
   respuestas.forEach(respuesta => {
 
-    const boton = document.createElement("button");
+    const boton =
+      document.createElement("button");
 
-    boton.textContent = respuesta;
+    boton.textContent =
+      respuesta;
 
-    boton.addEventListener("click", () => {
 
-      comprobarRespuesta(
-        respuesta,
-        boton
-      );
+    boton.addEventListener(
+      "click",
+      () => {
 
-    });
+        comprobarRespuesta(
+          respuesta,
+          boton
+        );
 
-    contenedorRespuestas.appendChild(boton);
+      }
+    );
+
+
+    contenedorRespuestas
+      .appendChild(boton);
 
   });
 
@@ -426,52 +467,95 @@ function generarPregunta() {
 
 
 // ==========================================
-// GENERAR LAS 4 OPCIONES
+// GENERAR 4 OPCIONES
 // ==========================================
 
 function generarRespuestas() {
 
-  const correcta = obtenerRespuestaCorrecta();
-
-  const respuestas = [correcta];
-
-
-  // Intentamos que los distractores sean del mismo
-  // continente que estamos estudiando.
-
-  let posiblesDistractores = [...listaPreguntas];
+  const correcta =
+    obtenerRespuestaCorrecta();
 
 
-  // Si hay muy pocos países, usamos también
-  // países del resto del mundo.
+  const respuestas = [
+    correcta
+  ];
 
-  if (posiblesDistractores.length < 4) {
 
-    posiblesDistractores = [...paises];
+  // Primero intentamos usar opciones
+  // de la misma región seleccionada
+
+  let candidatas =
+    mezclar([...listaPreguntas]);
+
+
+  const valoresEnSeleccion =
+    new Set(
+      candidatas
+        .map(valorRespuesta)
+        .filter(Boolean)
+    );
+
+
+  // Si hay menos de 4 posibles,
+  // ampliamos al mismo tipo de contenido
+  // pero de todo el mundo
+
+  if (valoresEnSeleccion.size < 4) {
+
+    const ampliacion = GEO_DATA
+      .filter(esEntradaDelContenido)
+      .filter(esAptaParaCapitales);
+
+
+    candidatas =
+      mezclar([
+        ...candidatas,
+        ...ampliacion
+      ]);
 
   }
 
 
-  while (respuestas.length < 4) {
+  // Último respaldo
 
-    const paisAleatorio =
-      posiblesDistractores[
-        Math.floor(
-          Math.random() *
-          posiblesDistractores.length
+  if (
+    new Set(
+      candidatas
+        .map(valorRespuesta)
+        .filter(Boolean)
+    ).size < 4
+  ) {
+
+    candidatas =
+      mezclar([
+        ...candidatas,
+        ...GEO_DATA.filter(
+          esAptaParaCapitales
         )
-      ];
+      ]);
 
+  }
+
+
+  for (const candidata of candidatas) {
 
     const opcion =
-      tipoJuego === "capitales"
-        ? paisAleatorio.capital
-        : paisAleatorio.pais;
+      valorRespuesta(candidata);
 
 
-    if (!respuestas.includes(opcion)) {
+    if (
+      opcion &&
+      !respuestas.includes(opcion)
+    ) {
 
       respuestas.push(opcion);
+
+    }
+
+
+    if (respuestas.length === 4) {
+
+      break;
 
     }
 
@@ -479,24 +563,28 @@ function generarRespuestas() {
 
 
   return mezclar(respuestas);
-
 }
 
 
 // ==========================================
-// RESPUESTA CORRECTA
+// RESPUESTA
 // ==========================================
+
+function valorRespuesta(p) {
+
+  return tipoJuego === "capitales"
+
+    ? p.capital
+
+    : p.pais;
+}
+
 
 function obtenerRespuestaCorrecta() {
 
-  if (tipoJuego === "capitales") {
-
-    return preguntaActual.capital;
-
-  }
-
-  return preguntaActual.pais;
-
+  return valorRespuesta(
+    preguntaActual
+  );
 }
 
 
@@ -511,6 +599,7 @@ function comprobarRespuesta(
 
   if (yaRespondida) return;
 
+
   yaRespondida = true;
 
 
@@ -519,99 +608,123 @@ function comprobarRespuesta(
 
 
   const botones =
-    contenedorRespuestas.querySelectorAll("button");
+    contenedorRespuestas
+      .querySelectorAll("button");
 
 
-  // Bloquear respuestas
+  // BLOQUEAR BOTONES
 
   botones.forEach(boton => {
 
     boton.disabled = true;
 
 
-    // Señalamos la correcta
+    if (
+      boton.textContent === correcta
+    ) {
 
-    if (boton.textContent === correcta) {
-
-      boton.classList.add("correcta");
+      boton.classList.add(
+        "correcta"
+      );
 
     }
 
   });
 
 
-  // =========================
-  // RESPUESTA CORRECTA
-  // =========================
+  // ==========================
+  // CORRECTA
+  // ==========================
 
-  if (respuestaSeleccionada === correcta) {
+  if (
+    respuestaSeleccionada ===
+    correcta
+  ) {
 
     aciertos++;
 
 
-    if (tipoJuego === "capitales") {
+    resultado.innerHTML = `
 
-      resultado.innerHTML = `
-        ✅ Correcto.<br><br>
+      ✅ Correcto.
 
-        <strong>${preguntaActual.pais}</strong>
-        → ${preguntaActual.capital}
-      `;
+      <br><br>
 
-    } else {
+      <strong>
+        ${escaparHTML(
+          preguntaActual.pais
+        )}
+      </strong>
 
-      resultado.innerHTML = `
-        ✅ Correcto.<br><br>
+      →
 
-        <strong>${preguntaActual.capital}</strong>
-        → ${preguntaActual.pais}
-      `;
+      ${escaparHTML(
+        preguntaActual.capital
+      )}
 
-    }
+      ${crearDetalleEstatus(
+        preguntaActual
+      )}
+
+    `;
 
   }
 
 
-  // =========================
-  // RESPUESTA INCORRECTA
-  // =========================
+  // ==========================
+  // INCORRECTA
+  // ==========================
 
   else {
 
     fallos++;
 
-    botonSeleccionado.classList.add("incorrecta");
+
+    botonSeleccionado
+      .classList.add(
+        "incorrecta"
+      );
 
 
-    if (tipoJuego === "capitales") {
+    resultado.innerHTML = `
 
-      resultado.innerHTML = `
-        ❌ Incorrecto.<br><br>
+      ❌ Incorrecto.
 
-        La capital de
-        <strong>${preguntaActual.pais}</strong>
-        es
-        <strong>${preguntaActual.capital}</strong>.<br><br>
+      <br><br>
 
-        🌍 ${preguntaActual.continente}
-      `;
+      <strong>
+        ${escaparHTML(
+          preguntaActual.pais
+        )}
+      </strong>
 
-    } else {
+      →
 
-      resultado.innerHTML = `
-        ❌ Incorrecto.<br><br>
+      <strong>
+        ${escaparHTML(
+          preguntaActual.capital
+        )}
+      </strong>
 
-        <strong>${preguntaActual.capital}</strong>
-        es la capital de
-        <strong>${preguntaActual.pais}</strong>.<br><br>
+      <br><br>
 
-        🌍 ${preguntaActual.continente}
-      `;
+      🌍
+      ${escaparHTML(
+        obtenerRegion(
+          preguntaActual
+        )
+      )}
 
-    }
+      ${crearDetalleEstatus(
+        preguntaActual
+      )}
+
+    `;
 
 
-    mostrarMapaError(preguntaActual);
+    mostrarMapaError(
+      preguntaActual
+    );
 
   }
 
@@ -619,18 +732,18 @@ function comprobarRespuesta(
   actualizarMarcador();
 
 
-  // Cambiamos el texto si estamos en la última
-  // pregunta de un examen
-
   if (
     totalPreguntasExamen !== null &&
-    numeroPregunta === totalPreguntasExamen
+    numeroPregunta ===
+      totalPreguntasExamen
   ) {
 
     btnSiguiente.textContent =
       "Ver resultado →";
 
-  } else {
+  }
+
+  else {
 
     btnSiguiente.textContent =
       "Siguiente pregunta →";
@@ -638,13 +751,68 @@ function comprobarRespuesta(
   }
 
 
-  btnSiguiente.classList.remove("oculto");
+  btnSiguiente
+    .classList
+    .remove("oculto");
 
 }
 
 
 // ==========================================
-// SIGUIENTE PREGUNTA
+// DETALLE DE TERRITORIOS
+// ==========================================
+
+function crearDetalleEstatus(p) {
+
+  if (
+    p.categoria === "territorio" &&
+    p.parent
+  ) {
+
+    return `
+
+      <br>
+
+      <span style="font-weight:normal;">
+
+        Territorio vinculado a
+        ${escaparHTML(p.parent)}
+
+      </span>
+
+    `;
+
+  }
+
+
+  if (
+    p.categoria === "especial" &&
+    p.estatus
+  ) {
+
+    return `
+
+      <br>
+
+      <span style="font-weight:normal;">
+
+        ${escaparHTML(
+          p.estatus
+        )}
+
+      </span>
+
+    `;
+
+  }
+
+
+  return "";
+}
+
+
+// ==========================================
+// SIGUIENTE
 // ==========================================
 
 btnSiguiente.addEventListener(
@@ -659,47 +827,57 @@ btnSiguiente.addEventListener(
 
 function actualizarMarcador() {
 
-  textoAciertos.textContent = aciertos;
-  textoFallos.textContent = fallos;
+  textoAciertos.textContent =
+    aciertos;
 
+  textoFallos.textContent =
+    fallos;
 }
 
 
 // ==========================================
-// RESULTADO DEL EXAMEN
+// RESULTADO FINAL
 // ==========================================
 
 function mostrarResultadoFinal() {
 
   ocultarTodasLasPantallas();
 
-  finExamen.classList.remove("oculto");
+  finExamen.classList
+    .remove("oculto");
 
 
   const porcentaje =
     Math.round(
-      (aciertos / totalPreguntasExamen) * 100
+      (
+        aciertos /
+        totalPreguntasExamen
+      ) * 100
     );
 
 
-  let mensaje = "";
+  let mensaje =
+    "📚 Sigue practicando";
 
 
   if (porcentaje === 100) {
 
-    mensaje = "🏆 ¡Perfecto!";
+    mensaje =
+      "🏆 ¡Perfecto!";
 
-  } else if (porcentaje >= 80) {
+  }
 
-    mensaje = "👏 Muy buen resultado";
+  else if (porcentaje >= 80) {
 
-  } else if (porcentaje >= 60) {
+    mensaje =
+      "👏 Muy buen resultado";
 
-    mensaje = "👍 Buen progreso";
+  }
 
-  } else {
+  else if (porcentaje >= 60) {
 
-    mensaje = "📚 Conviene seguir practicando";
+    mensaje =
+      "👍 Buen progreso";
 
   }
 
@@ -710,38 +888,67 @@ function mostrarResultadoFinal() {
       ${mensaje}
     </div>
 
+
     <div class="nota-grande">
+
       ${porcentaje}%
+
     </div>
+
 
     <div class="detalle-examen">
 
-      <strong>${aciertos}</strong>
+      <strong>
+        ${aciertos}
+      </strong>
+
       de
-      <strong>${totalPreguntasExamen}</strong>
+
+      <strong>
+        ${totalPreguntasExamen}
+      </strong>
+
       respuestas correctas
 
+
       <br><br>
+
 
       ✅ ${aciertos}
+
       &nbsp;&nbsp;
+
       ❌ ${fallos}
 
+
       <br><br>
+
 
       ${
         tipoJuego === "capitales"
+
           ? "🏛️ Capitales"
+
           : "🌍 Países"
       }
 
       ·
 
       ${
-        continenteSeleccionado === "Todos"
+        regionSeleccionada === "Todos"
+
           ? "Todo el mundo"
-          : continenteSeleccionado
+
+          : escaparHTML(
+              regionSeleccionada
+            )
       }
+
+      ·
+
+      ${escaparHTML(
+        etiquetaContenido()
+      )}
 
     </div>
 
@@ -754,157 +961,390 @@ function mostrarResultadoFinal() {
 // REPETIR EXAMEN
 // ==========================================
 
-btnRepetirExamen.addEventListener(
-  "click",
-  prepararPartida
-);
+btnRepetirExamen
+  .addEventListener(
+    "click",
+    prepararPartida
+  );
 
 
 // ==========================================
 // MAPA AL FALLAR
 // ==========================================
 
-function mostrarMapaError(paisInfo) {
+function mostrarMapaError(
+  paisInfo
+) {
 
-  mapaError.classList.remove("oculto");
+  mapaError.classList
+    .remove("oculto");
+
 
   mapaTitulo.textContent =
-    `${paisInfo.pais} · ${paisInfo.continente}`;
+
+    `${paisInfo.pais} · ` +
+    `${obtenerRegion(paisInfo)}`;
+
 
   mapaSvg.innerHTML =
-    crearMapaSVG(paisInfo);
+    crearMapaSVG(
+      paisInfo
+    );
 
 }
 
 
 function ocultarMapa() {
 
-  mapaError.classList.add("oculto");
+  mapaError.classList
+    .add("oculto");
 
   mapaTitulo.textContent = "";
 
   mapaSvg.innerHTML = "";
+}
+
+
+// ==========================================
+// COORDENADAS
+// ==========================================
+
+function coordenadasDe(p) {
+
+  if (
+    Number.isFinite(p.lat) &&
+    Number.isFinite(p.lon)
+  ) {
+
+    return {
+
+      lat: p.lat,
+
+      lon: p.lon
+
+    };
+
+  }
+
+
+  return (
+    COORDENADAS_EXTRA[
+      p.iso2
+    ] || null
+  );
+}
+
+
+// ==========================================
+// PROYECCIÓN PARA EL MAPA
+// ==========================================
+
+function proyectarMapa(
+  lat,
+  lon
+) {
+
+  return {
+
+    x:
+      ((lon + 180) / 360)
+      * 720,
+
+    y:
+      ((90 - lat) / 180)
+      * 360
+
+  };
 
 }
 
 
 // ==========================================
-// CREAR MAPA SVG
+// CREAR MAPA
 // ==========================================
 
-function crearMapaSVG(paisInfo) {
+function crearMapaSVG(
+  paisInfo
+) {
 
-  const paisesContinente =
-    paises.filter(
-      p =>
-        p.continente ===
-        paisInfo.continente
+  const coords =
+    coordenadasDe(
+      paisInfo
     );
 
 
-  const otrosPuntos =
-    paisesContinente
+  if (!coords) {
 
-      .filter(
-        p =>
-          p.pais !==
-          paisInfo.pais
-      )
+    return `
 
-      .map(
-        p => `
-          <circle
-            class="country-dot"
-            cx="${p.x}"
-            cy="${p.y}"
-            r="4">
-          </circle>
-        `
-      )
+      <div
+        style="
+          padding:24px;
+          text-align:center;
+        "
+      >
 
-      .join("");
+        No hay coordenadas
+        disponibles para este lugar.
+
+      </div>
+
+    `;
+
+  }
+
+
+  const punto =
+    proyectarMapa(
+      coords.lat,
+      coords.lon
+    );
 
 
   const labelX =
-    paisInfo.x > 380
-      ? paisInfo.x - 14
-      : paisInfo.x + 14;
+
+    punto.x > 560
+
+      ? punto.x - 14
+
+      : punto.x + 14;
 
 
-  const textAnchor =
-    paisInfo.x > 380
+  const anchor =
+
+    punto.x > 560
+
       ? "end"
+
       : "start";
 
 
   const labelY =
-    paisInfo.y < 35
-      ? paisInfo.y + 22
-      : paisInfo.y - 14;
+
+    punto.y < 45
+
+      ? punto.y + 25
+
+      : punto.y - 14;
 
 
   return `
 
     <svg
-      viewBox="0 0 500 320"
-      xmlns="http://www.w3.org/2000/svg"
+
+      viewBox="0 0 720 360"
+
+      xmlns=
+      "http://www.w3.org/2000/svg"
+
       role="img"
-      aria-label="Mapa de ${paisInfo.continente}"
+
+      aria-label=
+      "Mapa de ubicación de ${escaparHTML(
+        paisInfo.pais
+      )}"
+
     >
 
+
       <rect
+
         class="map-bg"
-        x="8"
-        y="8"
-        width="484"
-        height="304"
+
+        x="5"
+
+        y="5"
+
+        width="710"
+
+        height="350"
+
         rx="18">
+
       </rect>
 
 
+      <!-- NORTEAMÉRICA -->
+
+      <path
+        class="continent-shape"
+
+        d="
+        M55 70
+        L90 40
+        L165 32
+        L235 55
+        L278 92
+        L250 125
+        L205 145
+        L175 165
+        L125 145
+        L88 118
+        Z">
+      </path>
+
+
+      <!-- GROENLANDIA -->
+
+      <path
+        class="continent-shape"
+
+        d="
+        M250 25
+        L292 20
+        L315 45
+        L298 76
+        L265 67
+        Z">
+      </path>
+
+
+      <!-- SUDAMÉRICA -->
+
+      <path
+        class="continent-shape"
+
+        d="
+        M230 166
+        L278 154
+        L320 180
+        L330 220
+        L310 275
+        L282 330
+        L255 292
+        L245 240
+        Z">
+      </path>
+
+
+      <!-- EUROPA -->
+
+      <path
+        class="continent-shape"
+
+        d="
+        M335 82
+        L365 65
+        L410 70
+        L432 92
+        L412 115
+        L370 120
+        L340 105
+        Z">
+      </path>
+
+
+      <!-- ÁFRICA -->
+
+      <path
+        class="continent-shape"
+
+        d="
+        M350 124
+        L410 120
+        L455 148
+        L445 210
+        L410 275
+        L372 245
+        L350 185
+        Z">
+      </path>
+
+
+      <!-- ASIA -->
+
+      <path
+        class="continent-shape"
+
+        d="
+        M410 72
+        L485 48
+        L575 55
+        L655 88
+        L670 125
+        L620 160
+        L550 178
+        L500 160
+        L448 125
+        Z">
+      </path>
+
+
+      <!-- AUSTRALIA -->
+
+      <path
+        class="continent-shape"
+
+        d="
+        M575 245
+        L620 225
+        L675 245
+        L665 292
+        L612 307
+        L575 280
+        Z">
+      </path>
+
+
       <text
-        x="24"
-        y="34"
-        class="continent-title"
-      >
-        ${escaparHTML(paisInfo.continente)}
+
+        x="22"
+
+        y="32"
+
+        class="continent-title">
+
+        ${escaparHTML(
+          obtenerRegion(
+            paisInfo
+          )
+        )}
+
       </text>
 
 
-      ${
-        mapasContinente[
-          paisInfo.continente
-        ] || ""
-      }
-
-
-      ${otrosPuntos}
-
-
       <circle
+
         class="target-ring"
-        cx="${paisInfo.x}"
-        cy="${paisInfo.y}"
-        r="16">
+
+        cx="${punto.x}"
+
+        cy="${punto.y}"
+
+        r="14">
+
       </circle>
 
 
       <circle
+
         class="target-dot"
-        cx="${paisInfo.x}"
-        cy="${paisInfo.y}"
+
+        cx="${punto.x}"
+
+        cy="${punto.y}"
+
         r="7">
+
       </circle>
 
 
       <text
+
         x="${labelX}"
+
         y="${labelY}"
-        text-anchor="${textAnchor}"
-        class="target-label"
-      >
-        ${escaparHTML(paisInfo.pais)}
+
+        text-anchor="${anchor}"
+
+        class="target-label">
+
+        ${escaparHTML(
+          paisInfo.pais
+        )}
+
       </text>
+
 
     </svg>
 
@@ -920,61 +1360,91 @@ function crearMapaSVG(paisInfo) {
 function ocultarTodasLasPantallas() {
 
   inicio.classList.add("oculto");
+
   configuracion.classList.add("oculto");
+
   juego.classList.add("oculto");
+
   finExamen.classList.add("oculto");
 
 }
 
 
 // ==========================================
-// MEZCLAR ARRAY
+// MEZCLAR
 // ==========================================
 
 function mezclar(array) {
 
-  const copia = [...array];
+  const copia = [
+    ...array
+  ];
+
 
   for (
-    let i = copia.length - 1;
+    let i =
+      copia.length - 1;
+
     i > 0;
+
     i--
   ) {
 
     const j =
       Math.floor(
-        Math.random() *
-        (i + 1)
+        Math.random()
+        * (i + 1)
       );
+
 
     [
       copia[i],
       copia[j]
-    ] =
-    [
+    ] = [
+
       copia[j],
       copia[i]
+
     ];
 
   }
 
-  return copia;
 
+  return copia;
 }
 
 
 // ==========================================
-// EVITAR PROBLEMAS CON TEXTO EN SVG
+// ESCAPAR TEXTO
 // ==========================================
 
 function escaparHTML(texto) {
 
-  return texto
+  return String(texto)
 
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
