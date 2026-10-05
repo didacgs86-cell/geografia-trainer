@@ -13,6 +13,17 @@ if (typeof GEO_DATA === "undefined") {
 
 const inicio = document.getElementById("inicio");
 const configuracion = document.getElementById("configuracion");
+const sabiasQueMenu =
+  document.getElementById("sabiasque-menu");
+
+const sabiasQueDetalle =
+  document.getElementById("sabiasque-detalle");
+
+const listaSabiasQue =
+  document.getElementById("lista-sabiasque");
+
+const contenidoSabiasQue =
+  document.getElementById("contenido-sabiasque");
 const juego = document.getElementById("juego");
 const finExamen = document.getElementById("fin-examen");
 const espanaMenu = document.getElementById("espana-menu");
@@ -20,6 +31,14 @@ const espanaConfig = document.getElementById("espana-config");
 const btnCapitales = document.getElementById("btn-capitales");
 const btnPaises = document.getElementById("btn-paises");
 const btnEspana = document.getElementById("btn-espana");
+const btnSabiasQue =
+  document.getElementById("btn-sabiasque");
+
+const btnVolverSabiasQueInicio =
+  document.getElementById("volver-sabiasque-inicio");
+
+const btnVolverSabiasQueLista =
+  document.getElementById("volver-sabiasque-lista");
 const btnEspanaCapitales =
   document.getElementById("btn-espana-capitales");
 const btnEspanaComunidades =
@@ -140,6 +159,33 @@ btnEspana.addEventListener("click", () => {
   espanaMenu.classList.remove("oculto");
 
 });
+btnSabiasQue.addEventListener("click", () => {
+
+  ocultarTodasLasPantallas();
+
+  sabiasQueMenu.classList.remove("oculto");
+
+  mostrarListaSabiasQue();
+
+});
+
+
+btnVolverSabiasQueInicio.addEventListener(
+  "click",
+  volverAlMenu
+);
+
+
+btnVolverSabiasQueLista.addEventListener(
+  "click",
+  () => {
+
+    ocultarTodasLasPantallas();
+
+    sabiasQueMenu.classList.remove("oculto");
+
+  }
+);
 btnEspanaCapitales.addEventListener("click", () => {
   abrirConfiguracionEspana(
     "capitales",
@@ -1486,6 +1532,8 @@ function ocultarTodasLasPantallas() {
   finExamen.classList.add("oculto");
 espanaMenu.classList.add("oculto");
   espanaConfig.classList.add("oculto");
+  sabiasQueMenu.classList.add("oculto");
+sabiasQueDetalle.classList.add("oculto");
 }
 // ==========================================
 // JUEGO DE ESPAÑA
@@ -2027,7 +2075,184 @@ function textoExplicacionEspana() {
     ${preguntaActual.comunidad}
   `;
 }
+// ==========================================
+// ¿SABÍAS QUE?
+// ==========================================
 
+function mostrarListaSabiasQue() {
+
+  listaSabiasQue.innerHTML = "";
+
+
+  SABIAS_QUE.forEach(publicacion => {
+
+    const boton =
+      document.createElement("button");
+
+    boton.className = "boton-portada";
+
+
+    boton.innerHTML = `
+
+      <span class="boton-icono">
+        ${escaparHTML(publicacion.bandera)}
+      </span>
+
+      <span class="boton-texto">
+
+        <strong>
+          ${escaparHTML(publicacion.pais)}
+        </strong>
+
+        <small>
+          ${escaparHTML(publicacion.titulo)}
+        </small>
+
+      </span>
+
+      <span class="boton-flecha">
+        ›
+      </span>
+
+    `;
+
+
+    boton.addEventListener(
+      "click",
+      () => {
+
+        mostrarDetalleSabiasQue(
+          publicacion
+        );
+
+      }
+    );
+
+
+    listaSabiasQue.appendChild(
+      boton
+    );
+
+  });
+
+}
+
+
+// ==========================================
+// MOSTRAR ARTÍCULO
+// ==========================================
+
+function mostrarDetalleSabiasQue(
+  publicacion
+) {
+
+  ocultarTodasLasPantallas();
+
+  sabiasQueDetalle.classList.remove(
+    "oculto"
+  );
+
+
+  const parrafos =
+    String(publicacion.contenido)
+
+      .trim()
+
+      .split(/\n\s*\n/)
+
+      .map(
+        parrafo => `
+          <p>
+            ${escaparHTML(parrafo.trim())}
+          </p>
+        `
+      )
+
+      .join("");
+
+
+  contenidoSabiasQue.innerHTML = `
+
+    <div
+      style="
+        text-align:center;
+        margin-bottom:30px;
+      "
+    >
+
+      <div
+        style="
+          font-size:55px;
+          margin-bottom:10px;
+        "
+      >
+        ${escaparHTML(publicacion.bandera)}
+      </div>
+
+
+      <h2
+        style="
+          margin-bottom:8px;
+        "
+      >
+        ${escaparHTML(publicacion.pais)}
+      </h2>
+
+
+      <h3
+        style="
+          margin-top:0;
+          color:#475569;
+        "
+      >
+        ${escaparHTML(publicacion.titulo)}
+      </h3>
+
+
+      <div
+        style="
+          font-size:12px;
+          color:#94a3b8;
+          margin-top:10px;
+        "
+      >
+        ${escaparHTML(publicacion.fecha)}
+      </div>
+
+    </div>
+
+
+    <div
+      style="
+        font-size:16px;
+        line-height:1.8;
+        color:#334155;
+      "
+    >
+
+      ${parrafos}
+
+    </div>
+
+
+    <div
+      style="
+        margin-top:35px;
+        padding-top:15px;
+        border-top:1px solid #e2e8f0;
+        font-size:11px;
+        color:#94a3b8;
+        text-align:center;
+      "
+    >
+
+      Publicado por Didac G.
+
+    </div>
+
+  `;
+
+}
 // ==========================================
 // MEZCLAR
 // ==========================================
