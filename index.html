@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>GeoTrainer</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="container">
+
+    <header>
+      <h1>🌍 GeoTrainer</h1>
+      <p>Aprende países, capitales y geografía jugando.</p>
+    </header>
+
+    <section id="inicio">
+
+      <h2>¿Qué quieres practicar?</h2>
+
+      <button id="btn-capitales">
+        🏛️ Capitales
+      </button>
+
+      <button id="btn-paises" disabled>
+        🌍 Países
+        <span>Próximamente</span>
+      </button>
+
+    </section>
+
+
+    <section id="juego" class="oculto">
+
+      <div class="marcador">
+        <span id="numero-pregunta">Pregunta 1</span>
+
+        <span>
+          ✅ <span id="aciertos">0</span>
+          ❌ <span id="fallos">0</span>
+        </span>
+      </div>
+
+      <h2 id="pregunta">
+        ¿Cuál es la capital de...?
+      </h2>
+
+      <div id="respuestas">
+      </div>
+
+      <div id="resultado"></div>
+
+      <button id="siguiente" class="oculto">
+        Siguiente pregunta →
+      </button>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
