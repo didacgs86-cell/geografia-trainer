@@ -1584,7 +1584,8 @@ if (modoEspana === "comunidades") {
 
   const tiposComunidades = [
     "provincia-comunidad",
-    "comunidad-provincia"
+    "comunidad-provincia",
+    "ciudad-autonoma"
   ];
 
   tipoPregunta =
@@ -1601,7 +1602,8 @@ if (modoEspana === "mixto") {
   const tipos = [
     "capitales",
     "provincia-comunidad",
-    "comunidad-provincia"
+    "comunidad-provincia",
+    "ciudad-autonoma"
   ];
 
   tipoPregunta =
@@ -1615,43 +1617,73 @@ if (modoEspana === "mixto") {
 
 }
 
-const provincia =
-  colaPreguntasEspana.shift();
+if (tipoPregunta === "ciudad-autonoma") {
+
+  const ciudad =
+    ESPANA_CIUDADES_AUTONOMAS[
+      Math.floor(
+        Math.random() * ESPANA_CIUDADES_AUTONOMAS.length
+      )
+    ];
+
+  preguntaActual = {
+    ciudad: ciudad.ciudad,
+    capital: ciudad.capital,
+    tipo: ciudad.tipo,
+    tipoPregunta: "ciudad-autonoma"
+  };
+
+} else {
+
+  const provincia =
+    colaPreguntasEspana.shift();
 
   preguntaActual = {
     ...provincia,
     tipoPregunta: tipoPregunta
   };
 
-
-  // CAPITAL DE PROVINCIA
-
-  if (tipoPregunta === "capitales") {
-
-    textoPregunta.textContent =
-      `¿Cuál es la capital de la provincia de ${provincia.provincia}?`;
-
-  }
+}
 
 
-  // PROVINCIA → COMUNIDAD
+ // CAPITAL DE PROVINCIA
 
-  if (tipoPregunta === "provincia-comunidad") {
+if (tipoPregunta === "capitales") {
 
-    textoPregunta.textContent =
-      `¿A qué comunidad autónoma pertenece ${provincia.provincia}?`;
+  textoPregunta.textContent =
+    `¿Cuál es la capital de la provincia de ${preguntaActual.provincia}?`;
 
-  }
+}
 
 
-  // COMUNIDAD → PROVINCIA
+// PROVINCIA → COMUNIDAD
 
-  if (tipoPregunta === "comunidad-provincia") {
+if (tipoPregunta === "provincia-comunidad") {
 
-    textoPregunta.textContent =
-      `¿Cuál de estas provincias pertenece a ${provincia.comunidad}?`;
+  textoPregunta.textContent =
+    `¿A qué comunidad autónoma pertenece ${preguntaActual.provincia}?`;
 
-  }
+}
+
+
+// COMUNIDAD → PROVINCIA
+
+if (tipoPregunta === "comunidad-provincia") {
+
+  textoPregunta.textContent =
+    `¿Cuál de estas provincias pertenece a ${preguntaActual.comunidad}?`;
+
+}
+
+
+// CIUDADES AUTÓNOMAS
+
+if (tipoPregunta === "ciudad-autonoma") {
+
+  textoPregunta.textContent =
+    `¿Cuál de estas es una ciudad autónoma de España?`;
+
+}
 
 
 if (totalPreguntasEspana !== null) {
@@ -1746,7 +1778,18 @@ function generarRespuestasEspana(pregunta) {
         );
 
   }
+// CIUDAD AUTÓNOMA
 
+if (pregunta.tipoPregunta === "ciudad-autonoma") {
+
+  correcta = pregunta.ciudad;
+
+  candidatas =
+    ESPANA_PROVINCIAS.map(
+      p => p.provincia
+    );
+
+}
 
   const respuestas = [correcta];
 
@@ -1821,7 +1864,14 @@ function comprobarRespuestaEspana(
       preguntaActual.provincia;
 
   }
+if (
+  preguntaActual.tipoPregunta === "ciudad-autonoma"
+) {
 
+  correcta =
+    preguntaActual.ciudad;
+
+}
 
   const botones =
     contenedorRespuestas.querySelectorAll("button");
@@ -1957,6 +2007,18 @@ function mostrarResultadoFinalEspana() {
   `;
 }
 function textoExplicacionEspana() {
+
+  if (
+    preguntaActual.tipoPregunta === "ciudad-autonoma"
+  ) {
+
+    return `
+      <strong>${preguntaActual.ciudad}</strong>
+      <br>
+      Ciudad autónoma de España
+    `;
+
+  }
 
   return `
     <strong>${preguntaActual.provincia}</strong>
