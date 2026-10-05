@@ -364,3 +364,313 @@ select:focus {
     font-size: 40px;
   }
 }
+/* =========================================
+   NUEVA PORTADA GEOTRAINER
+========================================= */
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(59, 130, 246, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(14, 165, 233, 0.08),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #07111f 0%,
+      #0f1c2e 50%,
+      #111827 100%
+    );
+
+  color: #e5e7eb;
+}
+
+
+/* CONTENEDOR GENERAL */
+
+.container {
+  max-width: 850px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  padding: 55px 20px 22px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* CABECERA */
+
+.hero {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+
+.hero-etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  color: #60a5fa;
+
+  margin-bottom: 18px;
+}
+
+
+.hero-icono {
+  font-size: 52px;
+
+  margin-bottom: 8px;
+
+  filter: drop-shadow(
+    0 5px 15px rgba(0,0,0,0.25)
+  );
+}
+
+
+.hero h1 {
+  margin: 0;
+
+  font-size: 48px;
+  font-weight: 750;
+
+  letter-spacing: -1.5px;
+
+  color: #f8fafc;
+}
+
+
+.hero-subtitulo {
+  margin: 10px 0 0;
+
+  font-size: 20px;
+  font-weight: 500;
+
+  color: #cbd5e1;
+}
+
+
+.hero-descripcion {
+  margin: 8px auto 0;
+
+  max-width: 520px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: #7f8ea3;
+}
+
+
+/* TARJETA PRINCIPAL */
+
+#inicio.inicio-portada {
+  background: rgba(15, 23, 42, 0.82);
+
+  border: 1px solid rgba(148, 163, 184, 0.16);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,0.35);
+
+  backdrop-filter: blur(16px);
+
+  border-radius: 22px;
+
+  padding: 30px;
+}
+
+
+.inicio-titulo {
+  text-align: left;
+
+  margin-bottom: 19px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+
+  color: #94a3b8;
+}
+
+
+/* BOTONES DE PORTADA */
+
+.inicio-opciones {
+  display: grid;
+  gap: 13px;
+}
+
+
+.boton-portada {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  margin: 0;
+
+  padding: 19px 20px;
+
+  text-align: left;
+
+  border-radius: 14px;
+
+  border: 1px solid #26364d;
+
+  background: #111d2f;
+
+  color: white;
+}
+
+
+.boton-portada:hover {
+  background: #17263b;
+
+  border-color: #3b82f6;
+
+  transform: translateY(-1px);
+}
+
+
+.boton-icono {
+  width: 48px;
+
+  font-size: 28px;
+}
+
+
+.boton-texto {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.boton-texto strong {
+  font-size: 18px;
+  color: #f8fafc;
+}
+
+
+.boton-texto small {
+  font-size: 13px;
+  font-weight: 400;
+
+  color: #8090a6;
+}
+
+
+.boton-flecha {
+  margin-left: 15px;
+
+  font-size: 28px;
+  font-weight: 300;
+
+  color: #64748b;
+}
+
+
+/* INFORMACIÓN INFERIOR */
+
+.portada-info {
+  display: flex;
+
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  color: #64748b;
+}
+
+
+/* RESTO DE PANTALLAS */
+
+#configuracion,
+#juego,
+#fin-examen {
+  color: #1f2937;
+}
+
+
+/* FIRMA */
+
+.autor {
+  margin-top: auto;
+
+  padding-top: 38px;
+
+  text-align: center;
+
+  font-size: 10px;
+
+  letter-spacing: 0.4px;
+
+  color: #526175;
+}
+
+
+.autor-subtitulo {
+  margin-top: 3px;
+
+  font-size: 9px;
+
+  color: #3e4c60;
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+
+  .container {
+    padding-top: 38px;
+  }
+
+  .hero-icono {
+    font-size: 45px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero-subtitulo {
+    font-size: 18px;
+  }
+
+  #inicio.inicio-portada {
+    padding: 20px;
+  }
+
+  .boton-portada {
+    padding: 17px;
+  }
+
+  .boton-texto strong {
+    font-size: 17px;
+  }
+
+}
