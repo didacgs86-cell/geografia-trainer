@@ -195,6 +195,20 @@ btnVolverSabiasQueLista.addEventListener(
 
   }
 );
+btnVolverSabiasQuePais.addEventListener(
+  "click",
+  () => {
+
+    if (publicacionSabiasQueActual) {
+
+      mostrarDetalleSabiasQue(
+        publicacionSabiasQueActual
+      );
+
+    }
+
+  }
+);
 btnEspanaCapitales.addEventListener("click", () => {
   abrirConfiguracionEspana(
     "capitales",
