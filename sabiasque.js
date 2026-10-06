@@ -49,7 +49,7 @@ const SABIAS_QUE = [
         contenido: `
           La bandera de Kirguistán simboliza sobre todo su identidad nómada y su historia:
           
-          El rojo representa valor y fortaleza; también está asociado al héroe épico Manas, el sol amarillo tiene 40 rayos, que representan tradicionalmente las 40 tribus kirguisas unificadas por Manas, n el centro del sol aparece el tүндүк (tündük), la estructura circular del techo de una yurta, símbolo del hogar, la familia y la unidad del pueblo kirguís.
+          El rojo representa valor y fortaleza; también está asociado al héroe épico Manas, el sol amarillo tiene 40 rayos, que representan tradicionalmente las 40 tribus kirguisas unificadas por Manas, en el centro del sol aparece el tүндүк (tündük), la estructura circular del techo de una yurta, símbolo del hogar, la familia y la unidad del pueblo kirguís.
           
           Hoy día solo el 5% de la población es nomada. 
           
