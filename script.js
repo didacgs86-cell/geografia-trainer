@@ -2258,7 +2258,7 @@ function mostrarDetalleSabiasQue(
 
     </div>
 
-
+<div id="secciones-pais"></div>
     <div
       style="
         margin-top:35px;
