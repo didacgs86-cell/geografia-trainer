@@ -2275,7 +2275,65 @@ publicacionSabiasQueActual = publicacion;
     </div>
 
   `;
+  const contenedorSecciones =
+    document.getElementById("secciones-pais");
 
+
+  if (
+    Array.isArray(publicacion.secciones) &&
+    publicacion.secciones.length > 0
+  ) {
+
+    publicacion.secciones.forEach(seccion => {
+
+      const boton =
+        document.createElement("button");
+
+      boton.className = "boton-portada";
+
+      boton.innerHTML = `
+
+        <span class="boton-icono">
+          ${escaparHTML(seccion.icono)}
+        </span>
+
+        <span class="boton-texto">
+
+          <strong>
+            ${escaparHTML(seccion.titulo)}
+          </strong>
+
+          <small>
+            Abrir apartado
+          </small>
+
+        </span>
+
+        <span class="boton-flecha">
+          ›
+        </span>
+
+      `;
+
+      boton.addEventListener(
+        "click",
+        () => {
+
+          mostrarSeccionSabiasQue(
+            publicacion,
+            seccion
+          );
+
+        }
+      );
+
+      contenedorSecciones.appendChild(
+        boton
+      );
+
+    });
+
+  }
 }
 function mostrarSeccionSabiasQue(publicacion, seccion) {
 
