@@ -1543,6 +1543,7 @@ espanaMenu.classList.add("oculto");
   espanaConfig.classList.add("oculto");
   sabiasQueMenu.classList.add("oculto");
 sabiasQueDetalle.classList.add("oculto");
+  sabiasQueSeccion.classList.add("oculto");
 }
 // ==========================================
 // JUEGO DE ESPAÑA
