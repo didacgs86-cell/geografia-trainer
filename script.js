@@ -24,6 +24,14 @@ const listaSabiasQue =
 
 const contenidoSabiasQue =
   document.getElementById("contenido-sabiasque");
+const sabiasQueSeccion =
+  document.getElementById("sabiasque-seccion");
+
+const contenidoSabiasQueSeccion =
+  document.getElementById("contenido-sabiasque-seccion");
+
+const btnVolverSabiasQuePais =
+  document.getElementById("volver-sabiasque-pais");
 const juego = document.getElementById("juego");
 const finExamen = document.getElementById("fin-examen");
 const espanaMenu = document.getElementById("espana-menu");
