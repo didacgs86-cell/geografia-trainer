@@ -2169,7 +2169,7 @@ function mostrarListaSabiasQue() {
 function mostrarDetalleSabiasQue(
   publicacion
 ) {
-
+publicacionSabiasQueActual = publicacion;
   ocultarTodasLasPantallas();
 
   sabiasQueDetalle.classList.remove(
