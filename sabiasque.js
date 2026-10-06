@@ -24,9 +24,57 @@ const SABIAS_QUE = [
 
       Esta relación con la montaña sigue siendo una parte fundamental
       de la identidad cultural del país.
-       ESTO ES UNA PRUEBA DE DIDAC GONZALEZ, NO ES DEFINITIVO
-    `
+
+      ESTO ES UNA PRUEBA DE DIDAC GONZALEZ, NO ES DEFINITIVO
+    `,
+
+    secciones: [
+
+      {
+        id: "historia",
+        icono: "📜",
+        titulo: "Historia",
+
+        contenido: `
+          Aquí podrás escribir toda la información que quieras
+          sobre la historia de Kirguistán.
+        `
+      },
+
+      {
+        id: "curiosidades",
+        icono: "💡",
+        titulo: "Curiosidades",
+
+        contenido: `
+          Aquí podrás escribir todas las curiosidades
+          que quieras sobre Kirguistán.
+        `
+      },
+
+      {
+        id: "gastronomia",
+        icono: "🍽️",
+        titulo: "Gastronomía",
+
+        contenido: `
+          Aquí podrás escribir toda la información que quieras
+          sobre la gastronomía de Kirguistán.
+        `
+      },
+
+      {
+        id: "geografia",
+        icono: "🗺️",
+        titulo: "Geografía",
+
+        contenido: `
+          Aquí podrás escribir toda la información que quieras
+          sobre la geografía de Kirguistán.
+        `
+      }
+
+    ]
   }
 
 ];
- 
