@@ -2277,6 +2277,63 @@ function mostrarDetalleSabiasQue(
   `;
 
 }
+function mostrarSeccionSabiasQue(publicacion, seccion) {
+
+  ocultarTodasLasPantallas();
+
+  sabiasQueSeccion.classList.remove("oculto");
+
+  btnVolverSabiasQuePais.textContent =
+    `← Volver a ${publicacion.pais}`;
+
+
+  const parrafos =
+    String(seccion.contenido)
+      .trim()
+      .split(/\n\s*\n/)
+      .map(
+        parrafo => `
+          <p>
+            ${escaparHTML(parrafo.trim())}
+          </p>
+        `
+      )
+      .join("");
+
+
+  contenidoSabiasQueSeccion.innerHTML = `
+
+    <div style="text-align:center; margin-bottom:30px;">
+
+      <div style="font-size:48px; margin-bottom:10px;">
+        ${escaparHTML(seccion.icono)}
+      </div>
+
+      <h2>
+        ${escaparHTML(seccion.titulo)}
+      </h2>
+
+      <div style="color:#64748b; font-size:14px;">
+        ${escaparHTML(publicacion.bandera)}
+        ${escaparHTML(publicacion.pais)}
+      </div>
+
+    </div>
+
+
+    <div
+      style="
+        font-size:16px;
+        line-height:1.8;
+        color:#334155;
+      "
+    >
+      ${parrafos}
+    </div>
+
+  `;
+
+}
 // ==========================================
 // MEZCLAR
 // ==========================================
