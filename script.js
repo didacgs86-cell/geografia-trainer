@@ -119,6 +119,7 @@ let colaPreguntasEspana = [];
 let listaPreguntas = [];
 let colaPreguntas = [];
 let preguntaActual = null;
+let publicacionSabiasQueActual = null;
 
 let numeroPregunta = 0;
 let aciertos = 0;
