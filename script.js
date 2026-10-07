@@ -36,8 +36,15 @@ const juego = document.getElementById("juego");
 const finExamen = document.getElementById("fin-examen");
 const espanaMenu = document.getElementById("espana-menu");
 const espanaConfig = document.getElementById("espana-config");
+const banderasMenu = document.getElementById("banderas-menu");
+
 const btnCapitales = document.getElementById("btn-capitales");
 const btnPaises = document.getElementById("btn-paises");
+const btnBanderas = document.getElementById("btn-banderas");
+const btnBanderaPais = document.getElementById("btn-bandera-pais");
+const btnPaisBandera = document.getElementById("btn-pais-bandera");
+const btnVolverBanderasInicio =
+  document.getElementById("volver-banderas-inicio");
 const btnEspana = document.getElementById("btn-espana");
 const btnSabiasQue =
   document.getElementById("btn-sabiasque");
@@ -161,6 +168,28 @@ btnCapitales.addEventListener("click", () => {
 btnPaises.addEventListener("click", () => {
   abrirConfiguracion("paises");
 });
+
+btnBanderas.addEventListener("click", () => {
+
+  ocultarTodasLasPantallas();
+
+  banderasMenu.classList.remove("oculto");
+
+});
+
+btnVolverBanderasInicio.addEventListener(
+  "click",
+  volverAlMenu
+);
+
+btnBanderaPais.addEventListener("click", () => {
+  abrirConfiguracion("bandera-pais");
+});
+
+btnPaisBandera.addEventListener("click", () => {
+  abrirConfiguracion("pais-bandera");
+});
+
 btnEspana.addEventListener("click", () => {
 
   ocultarTodasLasPantallas();
@@ -270,17 +299,22 @@ btnEspanaExamen20.addEventListener("click", () => {
   iniciarJuegoEspana("examen", 20);
 });
 function abrirConfiguracion(tipo) {
-modoEspana = null;
+  modoEspana = null;
   tipoJuego = tipo;
 
   ocultarTodasLasPantallas();
 
   configuracion.classList.remove("oculto");
 
+  const titulos = {
+    capitales: "🏛️ Practicar capitales",
+    paises: "🌍 Practicar países",
+    "bandera-pais": "🚩 Bandera → País",
+    "pais-bandera": "🚩 País → Bandera"
+  };
+
   tituloConfiguracion.textContent =
-    tipoJuego === "capitales"
-      ? "🏛️ Practicar capitales"
-      : "🌍 Practicar países";
+    titulos[tipoJuego] || "Configurar partida";
 }
 
 
@@ -288,7 +322,20 @@ modoEspana = null;
 // VOLVER
 // ==========================================
 
-btnVolverInicio.addEventListener("click", volverAlMenu);
+btnVolverInicio.addEventListener("click", () => {
+
+  if (esJuegoBanderas()) {
+
+    ocultarTodasLasPantallas();
+
+    banderasMenu.classList.remove("oculto");
+
+    return;
+  }
+
+  volverAlMenu();
+
+});
 btnVolverMenu.addEventListener("click", volverAlMenu);
 btnVolverFin.addEventListener("click", volverAlMenu);
 btnVolverEspanaInicio.addEventListener(
@@ -337,7 +384,7 @@ function prepararPartida() {
   listaPreguntas = GEO_DATA
     .filter(esEntradaDelContenido)
     .filter(esEntradaDeLaRegion)
-    .filter(esAptaParaCapitales);
+    .filter(esAptaParaJuego);
 
 
   if (listaPreguntas.length === 0) {
@@ -408,9 +455,7 @@ function prepararPartida() {
 
 
   tipoPartida.textContent =
-    tipoJuego === "capitales"
-      ? "🏛️ Capitales"
-      : "🌍 Países";
+    etiquetaTipoJuego();
 
 
   continentePartida.textContent =
@@ -476,6 +521,36 @@ function esAptaParaCapitales(p) {
 }
 
 
+function esJuegoBanderas() {
+
+  return (
+    tipoJuego === "bandera-pais" ||
+    tipoJuego === "pais-bandera"
+  );
+}
+
+
+function tieneBandera(p) {
+
+  return (
+    typeof p.iso2 === "string" &&
+    /^[A-Z]{2}$/.test(p.iso2)
+  );
+}
+
+
+function esAptaParaJuego(p) {
+
+  if (esJuegoBanderas()) {
+
+    return tieneBandera(p);
+
+  }
+
+  return esAptaParaCapitales(p);
+}
+
+
 // ==========================================
 // NORMALIZAR REGIONES
 // ==========================================
@@ -519,6 +594,47 @@ function etiquetaContenido() {
   }
 
   return "Países + territorios";
+}
+
+
+function etiquetaTipoJuego() {
+
+  if (tipoJuego === "capitales") {
+    return "🏛️ Capitales";
+  }
+
+  if (tipoJuego === "paises") {
+    return "🌍 Países";
+  }
+
+  if (tipoJuego === "bandera-pais") {
+    return "🚩 Bandera → País";
+  }
+
+  if (tipoJuego === "pais-bandera") {
+    return "🚩 País → Bandera";
+  }
+
+  return "GeoTrainer";
+}
+
+
+function banderaDe(p) {
+
+  if (!tieneBandera(p)) {
+    return "";
+  }
+
+  return p.iso2
+    .toUpperCase()
+    .split("")
+    .map(
+      letra =>
+        String.fromCodePoint(
+          127397 + letra.charCodeAt(0)
+        )
+    )
+    .join("");
 }
 
 
@@ -580,10 +696,33 @@ function generarPregunta() {
 
   }
 
-  else {
+  else if (tipoJuego === "paises") {
 
     textoPregunta.textContent =
       `¿A qué país o territorio pertenece ${preguntaActual.capital}?`;
+
+  }
+
+  else if (tipoJuego === "bandera-pais") {
+
+    textoPregunta.innerHTML = `
+
+      <span class="pregunta-bandera">
+        ${banderaDe(preguntaActual)}
+      </span>
+
+      <span class="pregunta-bandera-texto">
+        ¿De qué país o territorio es esta bandera?
+      </span>
+
+    `;
+
+  }
+
+  else {
+
+    textoPregunta.textContent =
+      `¿Cuál es la bandera de ${preguntaActual.pais}?`;
 
   }
 
@@ -610,6 +749,10 @@ function generarPregunta() {
 
     boton.textContent =
       respuesta;
+
+    if (tipoJuego === "pais-bandera") {
+      boton.classList.add("respuesta-bandera");
+    }
 
 
     boton.addEventListener(
@@ -671,7 +814,7 @@ function generarRespuestas() {
 
     const ampliacion = GEO_DATA
       .filter(esEntradaDelContenido)
-      .filter(esAptaParaCapitales);
+      .filter(esAptaParaJuego);
 
 
     candidatas =
@@ -697,7 +840,7 @@ function generarRespuestas() {
       mezclar([
         ...candidatas,
         ...GEO_DATA.filter(
-          esAptaParaCapitales
+          esAptaParaJuego
         )
       ]);
 
@@ -739,11 +882,18 @@ function generarRespuestas() {
 
 function valorRespuesta(p) {
 
-  return tipoJuego === "capitales"
+  if (tipoJuego === "capitales") {
+    return p.capital;
+  }
 
-    ? p.capital
+  if (
+    tipoJuego === "paises" ||
+    tipoJuego === "bandera-pais"
+  ) {
+    return p.pais;
+  }
 
-    : p.pais;
+  return banderaDe(p);
 }
 
 
@@ -752,6 +902,46 @@ function obtenerRespuestaCorrecta() {
   return valorRespuesta(
     preguntaActual
   );
+}
+
+
+function crearResumenPregunta(p) {
+
+  if (esJuegoBanderas()) {
+
+    return `
+
+      <span class="resultado-bandera">
+        ${banderaDe(p)}
+      </span>
+
+      <br>
+
+      <strong>
+        ${escaparHTML(p.pais)}
+      </strong>
+
+      ${crearDetalleEstatus(p)}
+
+    `;
+
+  }
+
+  return `
+
+    <strong>
+      ${escaparHTML(p.pais)}
+    </strong>
+
+    →
+
+    <strong>
+      ${escaparHTML(p.capital)}
+    </strong>
+
+    ${crearDetalleEstatus(p)}
+
+  `;
 }
 
 
@@ -817,19 +1007,7 @@ function comprobarRespuesta(
 
       <br><br>
 
-      <strong>
-        ${escaparHTML(
-          preguntaActual.pais
-        )}
-      </strong>
-
-      →
-
-      ${escaparHTML(
-        preguntaActual.capital
-      )}
-
-      ${crearDetalleEstatus(
+      ${crearResumenPregunta(
         preguntaActual
       )}
 
@@ -859,19 +1037,9 @@ function comprobarRespuesta(
 
       <br><br>
 
-      <strong>
-        ${escaparHTML(
-          preguntaActual.pais
-        )}
-      </strong>
-
-      →
-
-      <strong>
-        ${escaparHTML(
-          preguntaActual.capital
-        )}
-      </strong>
+      ${crearResumenPregunta(
+        preguntaActual
+      )}
 
       <br><br>
 
@@ -880,10 +1048,6 @@ function comprobarRespuesta(
         obtenerRegion(
           preguntaActual
         )
-      )}
-
-      ${crearDetalleEstatus(
-        preguntaActual
       )}
 
     `;
@@ -1100,13 +1264,9 @@ function mostrarResultadoFinal() {
       <br><br>
 
 
-      ${
-        tipoJuego === "capitales"
-
-          ? "🏛️ Capitales"
-
-          : "🌍 Países"
-      }
+      ${escaparHTML(
+        etiquetaTipoJuego()
+      )}
 
       ·
 
@@ -1553,6 +1713,7 @@ function ocultarTodasLasPantallas() {
   juego.classList.add("oculto");
 
   finExamen.classList.add("oculto");
+  banderasMenu.classList.add("oculto");
 espanaMenu.classList.add("oculto");
   espanaConfig.classList.add("oculto");
   sabiasQueMenu.classList.add("oculto");
