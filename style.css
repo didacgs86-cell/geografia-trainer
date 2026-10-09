@@ -709,3 +709,59 @@ body {
   margin: 0 auto;
   max-width: 520px;
 }
+
+/* =========================================
+   BANDERAS
+========================================= */
+
+#banderas-menu {
+  color: #1f2937;
+}
+
+.banderas-opciones {
+  display: grid;
+  gap: 13px;
+}
+
+.pregunta-bandera {
+  display: block;
+  font-size: 92px;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.pregunta-bandera-texto {
+  display: block;
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+#respuestas button.respuesta-bandera {
+  min-height: 96px;
+  font-size: 50px;
+  line-height: 1;
+}
+
+.resultado-bandera {
+  display: inline-block;
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+
+  .pregunta-bandera {
+    font-size: 76px;
+  }
+
+  .pregunta-bandera-texto {
+    font-size: 21px;
+  }
+
+  #respuestas button.respuesta-bandera {
+    min-height: 82px;
+    font-size: 44px;
+  }
+
+}
