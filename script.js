@@ -112,6 +112,7 @@ const mapaTitulo = document.getElementById("mapa-titulo");
 const mapaSvg = document.getElementById("mapa-svg");
 
 const resultadoExamen = document.getElementById("resultado-examen");
+const revisionExamenFinal = document.getElementById("revision-examen-final");
 const textoTemporizador = document.getElementById("temporizador");
 
 // ==========================================
@@ -730,6 +731,21 @@ function crearRelacionCorrectaEspana(pregunta) {
 
 
 function crearRevisionExamen(snapshot) {
+
+  if (
+    !snapshot ||
+    !Array.isArray(snapshot.resultados) ||
+    snapshot.resultados.length === 0
+  ) {
+    return `
+      <div class="revision-examen">
+        <h3>📚 Revisión del examen</h3>
+        <p class="revision-intro">
+          No se han podido recuperar las respuestas de este examen.
+        </p>
+      </div>
+    `;
+  }
 
   const tarjetas = snapshot.resultados.map(
     (item, indice) => {
@@ -2340,9 +2356,12 @@ function mostrarResultadoFinal() {
 
     </div>
 
-    ${crearRevisionExamen(snapshot)}
-
   `;
+
+  if (revisionExamenFinal) {
+    revisionExamenFinal.innerHTML =
+      crearRevisionExamen(snapshot);
+  }
 
   actualizarBotonesFinExamen(snapshot);
 }
@@ -2768,6 +2787,11 @@ function ocultarTodasLasPantallas() {
   juego.classList.add("oculto");
 
   finExamen.classList.add("oculto");
+
+  if (revisionExamenFinal) {
+    revisionExamenFinal.innerHTML = "";
+  }
+
   banderasMenu.classList.add("oculto");
 espanaMenu.classList.add("oculto");
   espanaConfig.classList.add("oculto");
@@ -3414,9 +3438,12 @@ function mostrarResultadoFinalEspana() {
       ⏱ ${TIEMPO_POR_PREGUNTA} s por pregunta
 
     </div>
-
-    ${crearRevisionExamen(snapshot)}
   `;
+
+  if (revisionExamenFinal) {
+    revisionExamenFinal.innerHTML =
+      crearRevisionExamen(snapshot);
+  }
 
   actualizarBotonesFinExamen(snapshot);
 }
