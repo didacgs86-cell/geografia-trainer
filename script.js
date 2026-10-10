@@ -110,6 +110,7 @@ const mapaTitulo = document.getElementById("mapa-titulo");
 const mapaSvg = document.getElementById("mapa-svg");
 
 const resultadoExamen = document.getElementById("resultado-examen");
+const textoTemporizador = document.getElementById("temporizador");
 
 // ==========================================
 // ESTADO DEL JUEGO
@@ -135,6 +136,232 @@ let fallos = 0;
 
 let totalPreguntasExamen = null;
 let yaRespondida = false;
+
+const TIEMPO_POR_PREGUNTA = 10;
+let tiempoRestante = TIEMPO_POR_PREGUNTA;
+let temporizadorId = null;
+let avanceAutomaticoId = null;
+
+
+// ==========================================
+// TEMPORIZADOR DE EXAMEN
+// ==========================================
+
+function esExamenActivo() {
+
+  if (modoEspana !== null) {
+    return totalPreguntasEspana !== null;
+  }
+
+  return totalPreguntasExamen !== null;
+}
+
+
+function detenerIntervaloTemporizador() {
+
+  if (temporizadorId !== null) {
+    clearInterval(temporizadorId);
+    temporizadorId = null;
+  }
+}
+
+
+function cancelarAvanceAutomatico() {
+
+  if (avanceAutomaticoId !== null) {
+    clearTimeout(avanceAutomaticoId);
+    avanceAutomaticoId = null;
+  }
+}
+
+
+function cancelarTemporizadores() {
+
+  detenerIntervaloTemporizador();
+  cancelarAvanceAutomatico();
+
+  if (textoTemporizador) {
+    textoTemporizador.classList.add("oculto");
+    textoTemporizador.classList.remove("urgente");
+  }
+}
+
+
+function actualizarTemporizadorVisual() {
+
+  if (!textoTemporizador) return;
+
+  textoTemporizador.textContent =
+    `⏱ ${tiempoRestante} s`;
+
+  textoTemporizador.classList.toggle(
+    "urgente",
+    tiempoRestante <= 3
+  );
+}
+
+
+function iniciarTemporizadorPregunta() {
+
+  detenerIntervaloTemporizador();
+  cancelarAvanceAutomatico();
+
+  if (!textoTemporizador) return;
+
+  if (!esExamenActivo()) {
+    textoTemporizador.classList.add("oculto");
+    textoTemporizador.classList.remove("urgente");
+    return;
+  }
+
+  tiempoRestante = TIEMPO_POR_PREGUNTA;
+
+  textoTemporizador.classList.remove("oculto");
+  actualizarTemporizadorVisual();
+
+  temporizadorId = setInterval(() => {
+
+    tiempoRestante--;
+    actualizarTemporizadorVisual();
+
+    if (tiempoRestante <= 0) {
+
+      detenerIntervaloTemporizador();
+      gestionarTiempoAgotado();
+
+    }
+
+  }, 1000);
+}
+
+
+function prepararAvanceTrasTiempoAgotado() {
+
+  avanceAutomaticoId = setTimeout(() => {
+
+    avanceAutomaticoId = null;
+
+    if (modoEspana !== null) {
+      generarPreguntaEspana();
+    } else {
+      generarPregunta();
+    }
+
+  }, 1500);
+}
+
+
+function gestionarTiempoAgotado() {
+
+  if (yaRespondida || !esExamenActivo()) return;
+
+  if (modoEspana !== null) {
+    gestionarTiempoAgotadoEspana();
+  } else {
+    gestionarTiempoAgotadoMundo();
+  }
+}
+
+
+function gestionarTiempoAgotadoMundo() {
+
+  yaRespondida = true;
+  fallos++;
+
+  const correcta =
+    obtenerRespuestaCorrecta();
+
+  const botones =
+    contenedorRespuestas.querySelectorAll("button");
+
+  botones.forEach(boton => {
+
+    boton.disabled = true;
+
+    if (boton.textContent === correcta) {
+      boton.classList.add("correcta");
+    }
+
+  });
+
+  resultado.innerHTML = `
+
+    ⏱ Tiempo agotado.
+
+    <br><br>
+
+    ${crearResumenPregunta(
+      preguntaActual
+    )}
+
+  `;
+
+  actualizarMarcador();
+
+  btnSiguiente.textContent =
+    numeroPregunta === totalPreguntasExamen
+      ? "Ver resultado →"
+      : "Siguiente pregunta →";
+
+  btnSiguiente.classList.remove("oculto");
+
+  prepararAvanceTrasTiempoAgotado();
+}
+
+
+function gestionarTiempoAgotadoEspana() {
+
+  yaRespondida = true;
+  fallos++;
+
+  let correcta;
+
+  if (preguntaActual.tipoPregunta === "capitales") {
+    correcta = preguntaActual.capital;
+  }
+
+  if (preguntaActual.tipoPregunta === "provincia-comunidad") {
+    correcta = preguntaActual.comunidad;
+  }
+
+  if (preguntaActual.tipoPregunta === "comunidad-provincia") {
+    correcta = preguntaActual.provincia;
+  }
+
+  if (preguntaActual.tipoPregunta === "ciudad-autonoma") {
+    correcta = preguntaActual.ciudad;
+  }
+
+  const botones =
+    contenedorRespuestas.querySelectorAll("button");
+
+  botones.forEach(boton => {
+
+    boton.disabled = true;
+
+    if (boton.textContent === correcta) {
+      boton.classList.add("correcta");
+    }
+
+  });
+
+  resultado.innerHTML = `
+    ⏱ Tiempo agotado.
+    <br><br>
+    ${textoExplicacionEspana()}
+  `;
+
+  actualizarMarcador();
+
+  btnSiguiente.textContent =
+    numeroPregunta === totalPreguntasEspana
+      ? "Ver resultado →"
+      : "Siguiente pregunta →";
+
+  btnSiguiente.classList.remove("oculto");
+
+  prepararAvanceTrasTiempoAgotado();
+}
 
 
 // ==========================================
@@ -893,6 +1120,9 @@ function generarPregunta() {
 
   });
 
+
+  iniciarTemporizadorPregunta();
+
 }
 
 
@@ -1076,6 +1306,9 @@ function comprobarRespuesta(
 
   if (yaRespondida) return;
 
+
+  detenerIntervaloTemporizador();
+  cancelarAvanceAutomatico();
 
   yaRespondida = true;
 
@@ -1268,6 +1501,8 @@ function crearDetalleEstatus(p) {
 
 btnSiguiente.addEventListener("click", () => {
 
+  cancelarAvanceAutomatico();
+
   if (modoEspana !== null) {
 
     generarPreguntaEspana();
@@ -1405,6 +1640,10 @@ function mostrarResultadoFinal() {
       ${escaparHTML(
         etiquetaContenido()
       )}
+
+      <br><br>
+
+      ⏱ ${TIEMPO_POR_PREGUNTA} s por pregunta
 
     </div>
 
@@ -1826,6 +2065,8 @@ function crearMapaSVG(
 
 function ocultarTodasLasPantallas() {
 
+  cancelarTemporizadores();
+
   inicio.classList.add("oculto");
 
   configuracion.classList.add("oculto");
@@ -2193,6 +2434,9 @@ if (totalPreguntasEspana !== null) {
 
   });
 
+
+  iniciarTemporizadorPregunta();
+
 }
 
 
@@ -2299,6 +2543,9 @@ function comprobarRespuestaEspana(
 ) {
 
   if (yaRespondida) return;
+
+  detenerIntervaloTemporizador();
+  cancelarAvanceAutomatico();
 
   yaRespondida = true;
 
@@ -2476,6 +2723,10 @@ function mostrarResultadoFinalEspana() {
       <br><br>
 
       🇪🇸 España · ${nombreModo}
+
+      <br><br>
+
+      ⏱ ${TIEMPO_POR_PREGUNTA} s por pregunta
 
     </div>
   `;
