@@ -115,6 +115,18 @@ const resultadoExamen = document.getElementById("resultado-examen");
 const revisionExamenFinal = document.getElementById("revision-examen-final");
 const textoTemporizador = document.getElementById("temporizador");
 
+const pausaEntrenamiento =
+  document.getElementById("pausa-entrenamiento");
+
+const textoPausaEntrenamiento =
+  document.getElementById("texto-pausa-entrenamiento");
+
+const btnContinuarEntrenamiento =
+  document.getElementById("continuar-entrenamiento");
+
+const btnSalirEntrenamiento =
+  document.getElementById("salir-entrenamiento");
+
 // ==========================================
 // ESTADO DEL JUEGO
 // ==========================================
@@ -2201,12 +2213,89 @@ function crearDetalleEstatus(p) {
 
 
 // ==========================================
+// PAUSA CADA 15 PREGUNTAS EN ENTRENAMIENTO
+// ==========================================
+
+function esEntrenamientoActivo() {
+
+  if (modoEspana !== null) {
+    return totalPreguntasEspana === null;
+  }
+
+  return totalPreguntasExamen === null;
+}
+
+
+function tocaPausaEntrenamiento() {
+
+  return (
+    esEntrenamientoActivo() &&
+    numeroPregunta > 0 &&
+    numeroPregunta % 15 === 0
+  );
+}
+
+
+function mostrarPausaEntrenamiento() {
+
+  if (!pausaEntrenamiento) return;
+
+  textoPausaEntrenamiento.textContent =
+    `Llevas ${numeroPregunta} preguntas. ¿Quieres seguir practicando?`;
+
+  pausaEntrenamiento.classList.remove("oculto");
+
+  btnContinuarEntrenamiento.focus();
+}
+
+
+function ocultarPausaEntrenamiento() {
+
+  if (!pausaEntrenamiento) return;
+
+  pausaEntrenamiento.classList.add("oculto");
+}
+
+
+btnContinuarEntrenamiento.addEventListener(
+  "click",
+  () => {
+
+    ocultarPausaEntrenamiento();
+
+    if (modoEspana !== null) {
+      generarPreguntaEspana();
+    } else {
+      generarPregunta();
+    }
+
+  }
+);
+
+
+btnSalirEntrenamiento.addEventListener(
+  "click",
+  () => {
+
+    ocultarPausaEntrenamiento();
+    volverAlMenu();
+
+  }
+);
+
+
+// ==========================================
 // SIGUIENTE
 // ==========================================
 
 btnSiguiente.addEventListener("click", () => {
 
   cancelarAvanceAutomatico();
+
+  if (tocaPausaEntrenamiento()) {
+    mostrarPausaEntrenamiento();
+    return;
+  }
 
   if (modoEspana !== null) {
 
@@ -2791,6 +2880,8 @@ function ocultarTodasLasPantallas() {
   if (revisionExamenFinal) {
     revisionExamenFinal.innerHTML = "";
   }
+
+  ocultarPausaEntrenamiento();
 
   banderasMenu.classList.add("oculto");
 espanaMenu.classList.add("oculto");
