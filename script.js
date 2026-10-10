@@ -146,6 +146,11 @@ let preguntaActual = null;
 let publicacionSabiasQueActual = null;
 
 let numeroPregunta = 0;
+
+// Control específico del modo Entrenamiento.
+// Cuenta preguntas CONTESTADAS, no solo mostradas.
+let preguntasContestadasEntrenamiento = 0;
+let pausaEntrenamientoPendiente = false;
 let aciertos = 0;
 let fallos = 0;
 
@@ -1299,6 +1304,8 @@ btnEmpezar.addEventListener("click", () => {
 function prepararPartida(evitarExamenAnterior = false) {
 
   numeroPregunta = 0;
+  preguntasContestadasEntrenamiento = 0;
+  pausaEntrenamientoPendiente = false;
   aciertos = 0;
   fallos = 0;
 
@@ -2132,6 +2139,8 @@ function comprobarRespuesta(
 
   actualizarMarcador();
 
+  registrarPreguntaContestadaEntrenamiento();
+
 
   if (
     totalPreguntasExamen !== null &&
@@ -2226,22 +2235,68 @@ function esEntrenamientoActivo() {
 }
 
 
-function tocaPausaEntrenamiento() {
+function registrarPreguntaContestadaEntrenamiento() {
 
-  return (
-    esEntrenamientoActivo() &&
-    numeroPregunta > 0 &&
-    numeroPregunta % 15 === 0
-  );
+  if (!esEntrenamientoActivo()) {
+    return;
+  }
+
+  preguntasContestadasEntrenamiento++;
+
+  if (
+    preguntasContestadasEntrenamiento > 0 &&
+    preguntasContestadasEntrenamiento % 15 === 0
+  ) {
+
+    pausaEntrenamientoPendiente = true;
+
+    btnSiguiente.textContent =
+      "Continuar práctica →";
+
+  }
+
 }
 
 
 function mostrarPausaEntrenamiento() {
 
-  if (!pausaEntrenamiento) return;
+  const numero =
+    preguntasContestadasEntrenamiento;
+
+  // Fallback de seguridad por si el HTML del aviso
+  // no estuviera cargado por caché o por una versión antigua.
+  if (
+    !pausaEntrenamiento ||
+    !textoPausaEntrenamiento ||
+    !btnContinuarEntrenamiento ||
+    !btnSalirEntrenamiento
+  ) {
+
+    const seguir = window.confirm(
+      `Llevas ${numero} preguntas. ¿Quieres seguir practicando?`
+    );
+
+    pausaEntrenamientoPendiente = false;
+
+    if (seguir) {
+
+      if (modoEspana !== null) {
+        generarPreguntaEspana();
+      } else {
+        generarPregunta();
+      }
+
+    } else {
+
+      volverAlMenu();
+
+    }
+
+    return;
+  }
 
   textoPausaEntrenamiento.textContent =
-    `Llevas ${numeroPregunta} preguntas. ¿Quieres seguir practicando?`;
+    `Llevas ${numero} preguntas. ¿Quieres seguir practicando?`;
 
   pausaEntrenamiento.classList.remove("oculto");
 
@@ -2257,31 +2312,41 @@ function ocultarPausaEntrenamiento() {
 }
 
 
-btnContinuarEntrenamiento.addEventListener(
-  "click",
-  () => {
+if (btnContinuarEntrenamiento) {
 
-    ocultarPausaEntrenamiento();
+  btnContinuarEntrenamiento.addEventListener(
+    "click",
+    () => {
 
-    if (modoEspana !== null) {
-      generarPreguntaEspana();
-    } else {
-      generarPregunta();
+      pausaEntrenamientoPendiente = false;
+      ocultarPausaEntrenamiento();
+
+      if (modoEspana !== null) {
+        generarPreguntaEspana();
+      } else {
+        generarPregunta();
+      }
+
     }
+  );
 
-  }
-);
+}
 
 
-btnSalirEntrenamiento.addEventListener(
-  "click",
-  () => {
+if (btnSalirEntrenamiento) {
 
-    ocultarPausaEntrenamiento();
-    volverAlMenu();
+  btnSalirEntrenamiento.addEventListener(
+    "click",
+    () => {
 
-  }
-);
+      pausaEntrenamientoPendiente = false;
+      ocultarPausaEntrenamiento();
+      volverAlMenu();
+
+    }
+  );
+
+}
 
 
 // ==========================================
@@ -2292,7 +2357,7 @@ btnSiguiente.addEventListener("click", () => {
 
   cancelarAvanceAutomatico();
 
-  if (tocaPausaEntrenamiento()) {
+  if (pausaEntrenamientoPendiente) {
     mostrarPausaEntrenamiento();
     return;
   }
@@ -3053,6 +3118,8 @@ function iniciarJuegoEspana(
   }
 
   numeroPregunta = 0;
+  preguntasContestadasEntrenamiento = 0;
+  pausaEntrenamientoPendiente = false;
   aciertos = 0;
   fallos = 0;
   yaRespondida = false;
@@ -3447,6 +3514,9 @@ if (
   );
 
   actualizarMarcador();
+
+  registrarPreguntaContestadaEntrenamiento();
+
 if (
   totalPreguntasEspana !== null &&
   numeroPregunta === totalPreguntasEspana
