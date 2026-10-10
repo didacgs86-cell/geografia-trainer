@@ -337,6 +337,120 @@ select:focus {
   background: #475569;
 }
 
+
+/* REVISIÓN DE RESPUESTAS AL TERMINAR */
+
+.revision-examen {
+  margin-top: 32px;
+  text-align: left;
+}
+
+.revision-examen h3 {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 22px;
+  color: #1f2937;
+}
+
+.revision-intro {
+  max-width: 620px;
+  margin: 0 auto 20px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+.revision-lista {
+  display: grid;
+  gap: 12px;
+}
+
+.revision-item {
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left-width: 5px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.revision-item.acierto {
+  border-left-color: #22c55e;
+}
+
+.revision-item.fallo {
+  border-left-color: #ef4444;
+  background: #fffafa;
+}
+
+.revision-cabecera {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #64748b;
+}
+
+.revision-correcta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 36px;
+  font-size: 17px;
+  color: #1f2937;
+}
+
+.revision-flecha {
+  color: #94a3b8;
+  font-weight: bold;
+}
+
+.revision-bandera {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.revision-bandera-mini {
+  display: inline-block;
+  font-size: 24px;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.revision-tu-respuesta {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid #fee2e2;
+  font-size: 14px;
+  color: #991b1b;
+}
+
+.acciones-fin-examen {
+  display: grid;
+  gap: 2px;
+}
+
+#nuevo-examen {
+  background: #0f766e;
+}
+
+#nuevo-examen:hover {
+  background: #115e59;
+}
+
+.btn-repasar-fallos {
+  background: #7c3aed;
+}
+
+.btn-repasar-fallos:hover {
+  background: #6d28d9;
+}
+
 /* MÓVIL */
 
 @media (max-width: 600px) {
@@ -372,6 +486,16 @@ select:focus {
 
   .nota-grande {
     font-size: 40px;
+  }
+
+  .revision-cabecera {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .revision-correcta {
+    font-size: 16px;
   }
 }
 /* =========================================

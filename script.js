@@ -87,6 +87,8 @@ const btnVolverEspanaInicio =
 const btnEmpezar = document.getElementById("btn-empezar");
 const btnSiguiente = document.getElementById("siguiente");
 const btnRepetirExamen = document.getElementById("repetir-examen");
+const btnNuevoExamen = document.getElementById("nuevo-examen");
+const btnRepasarFallos = document.getElementById("repasar-fallos");
 
 const selectorContenido = document.getElementById("contenido");
 const selectorContinente = document.getElementById("continente");
@@ -141,6 +143,15 @@ const TIEMPO_POR_PREGUNTA = 10;
 let tiempoRestante = TIEMPO_POR_PREGUNTA;
 let temporizadorId = null;
 let avanceAutomaticoId = null;
+
+// Estado adicional de los exámenes para poder revisar,
+// repetir exactamente el mismo examen y generar uno nuevo.
+let planExamenActual = [];
+let historialExamen = [];
+let examenFinalizadoActual = null;
+let ultimoExamenCompleto = null;
+let esRepasoFallosActivo = false;
+let cantidadExamenEspanaConfigurada = null;
 
 
 // ==========================================
@@ -271,6 +282,12 @@ function gestionarTiempoAgotadoMundo() {
   const correcta =
     obtenerRespuestaCorrecta();
 
+  registrarResultadoExamen(
+    correcta,
+    null,
+    true
+  );
+
   const botones =
     contenedorRespuestas.querySelectorAll("button");
 
@@ -332,6 +349,12 @@ function gestionarTiempoAgotadoEspana() {
     correcta = preguntaActual.ciudad;
   }
 
+  registrarResultadoExamen(
+    correcta,
+    null,
+    true
+  );
+
   const botones =
     contenedorRespuestas.querySelectorAll("button");
 
@@ -361,6 +384,655 @@ function gestionarTiempoAgotadoEspana() {
   btnSiguiente.classList.remove("oculto");
 
   prepararAvanceTrasTiempoAgotado();
+}
+
+
+
+// ==========================================
+// MEMORIA Y REVISIÓN DE EXÁMENES
+// ==========================================
+
+function clonarPregunta(pregunta) {
+  return { ...pregunta };
+}
+
+
+function crearPlanExamenDesdePreguntas(preguntas) {
+
+  return preguntas.map(pregunta => ({
+    pregunta: clonarPregunta(pregunta),
+    respuestas: null
+  }));
+}
+
+
+function clonarPlanExamen(plan) {
+
+  return plan.map(item => ({
+    pregunta: clonarPregunta(item.pregunta),
+    respuestas:
+      Array.isArray(item.respuestas)
+        ? [...item.respuestas]
+        : null
+  }));
+}
+
+
+function reiniciarRegistroExamen(plan, esRepaso = false) {
+
+  planExamenActual = clonarPlanExamen(plan);
+  historialExamen = [];
+  examenFinalizadoActual = null;
+  esRepasoFallosActivo = esRepaso;
+}
+
+
+function limpiarRegistroExamen() {
+
+  planExamenActual = [];
+  historialExamen = [];
+  examenFinalizadoActual = null;
+  esRepasoFallosActivo = false;
+}
+
+
+function obtenerRespuestasPlanActual(generador) {
+
+  if (!esExamenActivo()) {
+    return generador();
+  }
+
+  const indice = numeroPregunta - 1;
+  const item = planExamenActual[indice];
+
+  if (
+    item &&
+    Array.isArray(item.respuestas) &&
+    item.respuestas.length > 0
+  ) {
+    return [...item.respuestas];
+  }
+
+  const respuestas = generador();
+
+  if (item) {
+    item.respuestas = [...respuestas];
+  }
+
+  return respuestas;
+}
+
+
+function registrarResultadoExamen(
+  correcta,
+  seleccionada,
+  tiempoAgotado = false
+) {
+
+  if (!esExamenActivo()) return;
+
+  const indice = numeroPregunta - 1;
+  const itemPlan = planExamenActual[indice];
+
+  historialExamen[indice] = {
+    pregunta: clonarPregunta(preguntaActual),
+    respuestas:
+      itemPlan && Array.isArray(itemPlan.respuestas)
+        ? [...itemPlan.respuestas]
+        : [],
+    correcta,
+    seleccionada,
+    acertada:
+      !tiempoAgotado &&
+      seleccionada === correcta,
+    tiempoAgotado
+  };
+}
+
+
+function clonarResultadosExamen(resultados) {
+
+  return resultados
+    .filter(Boolean)
+    .map(item => ({
+      pregunta: clonarPregunta(item.pregunta),
+      respuestas: [...item.respuestas],
+      correcta: item.correcta,
+      seleccionada: item.seleccionada,
+      acertada: item.acertada,
+      tiempoAgotado: item.tiempoAgotado
+    }));
+}
+
+
+function guardarExamenFinalizado() {
+
+  const snapshot = {
+    esEspana: modoEspana !== null,
+    tipoJuego,
+    modoEspana,
+    tipoPracticaEspana,
+    contenidoSeleccionado,
+    regionSeleccionada,
+    modoSeleccionado,
+    cantidadExamenEspanaConfigurada,
+    esRepaso: esRepasoFallosActivo,
+    plan: clonarPlanExamen(planExamenActual),
+    resultados: clonarResultadosExamen(historialExamen)
+  };
+
+  examenFinalizadoActual = snapshot;
+
+  if (!esRepasoFallosActivo) {
+    ultimoExamenCompleto = {
+      ...snapshot,
+      plan: clonarPlanExamen(snapshot.plan),
+      resultados:
+        clonarResultadosExamen(snapshot.resultados)
+    };
+  }
+
+  return snapshot;
+}
+
+
+function obtenerClavesUltimoExamenMundo() {
+
+  if (
+    !ultimoExamenCompleto ||
+    ultimoExamenCompleto.esEspana ||
+    ultimoExamenCompleto.tipoJuego !== tipoJuego ||
+    ultimoExamenCompleto.contenidoSeleccionado !== contenidoSeleccionado ||
+    ultimoExamenCompleto.regionSeleccionada !== regionSeleccionada
+  ) {
+    return new Set();
+  }
+
+  return new Set(
+    ultimoExamenCompleto.plan.map(
+      item => clavePreguntaMundo(item.pregunta)
+    )
+  );
+}
+
+
+function seleccionarPreguntasMundoExamen(
+  cantidad,
+  evitarExamenAnterior = false
+) {
+
+  const barajadas = crearColaPreguntasMundo();
+
+  if (!evitarExamenAnterior) {
+    return barajadas.slice(0, cantidad);
+  }
+
+  const anteriores = obtenerClavesUltimoExamenMundo();
+
+  if (anteriores.size === 0) {
+    return barajadas.slice(0, cantidad);
+  }
+
+  const nuevas = barajadas.filter(
+    p => !anteriores.has(clavePreguntaMundo(p))
+  );
+
+  const repetibles = barajadas.filter(
+    p => anteriores.has(clavePreguntaMundo(p))
+  );
+
+  // Si el banco permite un examen totalmente distinto,
+  // no se repite ninguna pregunta del examen anterior.
+  // Si no hay suficientes, se minimiza el solapamiento.
+  return [
+    ...nuevas,
+    ...repetibles
+  ].slice(0, cantidad);
+}
+
+
+function obtenerClavesUltimoExamenEspana() {
+
+  if (
+    !ultimoExamenCompleto ||
+    !ultimoExamenCompleto.esEspana ||
+    ultimoExamenCompleto.modoEspana !== modoEspana
+  ) {
+    return new Set();
+  }
+
+  return new Set(
+    ultimoExamenCompleto.plan.map(
+      item => clavePreguntaEspana(item.pregunta)
+    )
+  );
+}
+
+
+function seleccionarPreguntasEspanaExamen(
+  cantidad,
+  evitarExamenAnterior = false
+) {
+
+  const barajadas = crearColaPreguntasEspana();
+
+  if (!evitarExamenAnterior) {
+    return barajadas.slice(0, cantidad);
+  }
+
+  const anteriores = obtenerClavesUltimoExamenEspana();
+
+  if (anteriores.size === 0) {
+    return barajadas.slice(0, cantidad);
+  }
+
+  const nuevas = barajadas.filter(
+    p => !anteriores.has(clavePreguntaEspana(p))
+  );
+
+  const repetibles = barajadas.filter(
+    p => anteriores.has(clavePreguntaEspana(p))
+  );
+
+  return [
+    ...nuevas,
+    ...repetibles
+  ].slice(0, cantidad);
+}
+
+
+function formatearRespuestaRevisionMundo(valor, tipo) {
+
+  if (valor === null || valor === undefined) {
+    return "Sin respuesta";
+  }
+
+  if (tipo === "pais-bandera") {
+    return `<span class="revision-bandera-mini">${escaparHTML(valor)}</span>`;
+  }
+
+  return `<strong>${escaparHTML(valor)}</strong>`;
+}
+
+
+function crearRelacionCorrectaMundo(pregunta, tipo) {
+
+  const bandera = banderaDe(pregunta);
+  const banderaHtml = bandera
+    ? `<span class="revision-bandera-mini">${escaparHTML(bandera)}</span>`
+    : "";
+
+  if (tipo === "capitales") {
+    return `
+      ${banderaHtml}
+      <strong>${escaparHTML(pregunta.pais)}</strong>
+      <span class="revision-flecha">→</span>
+      <strong>${escaparHTML(pregunta.capital)}</strong>
+    `;
+  }
+
+  if (tipo === "paises") {
+    return `
+      <strong>${escaparHTML(pregunta.capital)}</strong>
+      <span class="revision-flecha">→</span>
+      ${banderaHtml}
+      <strong>${escaparHTML(pregunta.pais)}</strong>
+    `;
+  }
+
+  if (tipo === "bandera-pais") {
+    return `
+      <span class="revision-bandera">${escaparHTML(bandera)}</span>
+      <strong>${escaparHTML(pregunta.pais)}</strong>
+    `;
+  }
+
+  return `
+    <strong>${escaparHTML(pregunta.pais)}</strong>
+    <span class="revision-flecha">→</span>
+    <span class="revision-bandera">${escaparHTML(bandera)}</span>
+  `;
+}
+
+
+function crearRelacionCorrectaEspana(pregunta) {
+
+  if (pregunta.tipoPregunta === "capitales") {
+    return `
+      <strong>${escaparHTML(pregunta.provincia)}</strong>
+      <span class="revision-flecha">→</span>
+      <strong>${escaparHTML(pregunta.capital)}</strong>
+    `;
+  }
+
+  if (pregunta.tipoPregunta === "provincia-comunidad") {
+    return `
+      <strong>${escaparHTML(pregunta.provincia)}</strong>
+      <span class="revision-flecha">→</span>
+      <strong>${escaparHTML(pregunta.comunidad)}</strong>
+    `;
+  }
+
+  if (pregunta.tipoPregunta === "comunidad-provincia") {
+    return `
+      <strong>${escaparHTML(pregunta.comunidad)}</strong>
+      <span class="revision-flecha">→</span>
+      <strong>${escaparHTML(pregunta.provincia)}</strong>
+    `;
+  }
+
+  return `
+    <strong>${escaparHTML(pregunta.ciudad)}</strong>
+    <span class="revision-flecha">→</span>
+    <strong>Ciudad autónoma</strong>
+  `;
+}
+
+
+function crearRevisionExamen(snapshot) {
+
+  const tarjetas = snapshot.resultados.map(
+    (item, indice) => {
+
+      const clase = item.acertada
+        ? "acierto"
+        : "fallo";
+
+      const estado = item.acertada
+        ? "✅ Correcta"
+        : item.tiempoAgotado
+          ? "⏱ Tiempo agotado"
+          : "❌ Incorrecta";
+
+      const relacion = snapshot.esEspana
+        ? crearRelacionCorrectaEspana(item.pregunta)
+        : crearRelacionCorrectaMundo(
+            item.pregunta,
+            snapshot.tipoJuego
+          );
+
+      let respuestaUsuario = "";
+
+      if (!item.acertada) {
+
+        if (item.tiempoAgotado) {
+          respuestaUsuario = `
+            <div class="revision-tu-respuesta">
+              Tu respuesta: <strong>sin respuesta</strong>
+            </div>
+          `;
+        } else if (snapshot.esEspana) {
+          respuestaUsuario = `
+            <div class="revision-tu-respuesta">
+              Tu respuesta:
+              <strong>${escaparHTML(item.seleccionada)}</strong>
+            </div>
+          `;
+        } else {
+          respuestaUsuario = `
+            <div class="revision-tu-respuesta">
+              Tu respuesta:
+              ${formatearRespuestaRevisionMundo(
+                item.seleccionada,
+                snapshot.tipoJuego
+              )}
+            </div>
+          `;
+        }
+      }
+
+      return `
+        <div class="revision-item ${clase}">
+
+          <div class="revision-cabecera">
+            <span>Pregunta ${indice + 1}</span>
+            <span>${estado}</span>
+          </div>
+
+          <div class="revision-correcta">
+            ${relacion}
+          </div>
+
+          ${respuestaUsuario}
+
+        </div>
+      `;
+    }
+  ).join("");
+
+  return `
+    <div class="revision-examen">
+
+      <h3>📚 Revisión del examen</h3>
+
+      <p class="revision-intro">
+        Estas son todas las respuestas correctas.
+        Las preguntas falladas aparecen destacadas para que puedas repasarlas.
+      </p>
+
+      <div class="revision-lista">
+        ${tarjetas}
+      </div>
+
+    </div>
+  `;
+}
+
+
+function actualizarBotonesFinExamen(snapshot) {
+
+  btnRepetirExamen.textContent = snapshot.esRepaso
+    ? "↻ Repetir este repaso"
+    : "↻ Repetir este examen";
+
+  const fallosSnapshot = snapshot.resultados.filter(
+    item => !item.acertada
+  );
+
+  if (fallosSnapshot.length > 0) {
+    btnRepasarFallos.textContent =
+      `🎯 Repasar solo mis fallos (${fallosSnapshot.length})`;
+    btnRepasarFallos.classList.remove("oculto");
+  } else {
+    btnRepasarFallos.classList.add("oculto");
+  }
+}
+
+
+function resetearContadoresExamen() {
+
+  numeroPregunta = 0;
+  aciertos = 0;
+  fallos = 0;
+  yaRespondida = false;
+  preguntaActual = null;
+  ocultarMapa();
+}
+
+
+function iniciarExamenMundoDesdePlan(
+  snapshot,
+  plan,
+  esRepaso = false
+) {
+
+  modoEspana = null;
+  tipoJuego = snapshot.tipoJuego;
+  contenidoSeleccionado = snapshot.contenidoSeleccionado;
+  regionSeleccionada = snapshot.regionSeleccionada;
+  modoSeleccionado = snapshot.modoSeleccionado;
+
+  resetearContadoresExamen();
+
+  listaPreguntas = prepararListaPreguntasMundo(
+    GEO_DATA
+      .filter(esEntradaDelContenido)
+      .filter(esEntradaDeLaRegion)
+      .filter(esAptaParaJuego)
+  );
+
+  totalPreguntasExamen = plan.length;
+  colaPreguntas = plan.map(
+    item => clonarPregunta(item.pregunta)
+  );
+
+  reiniciarRegistroExamen(plan, esRepaso);
+
+  ocultarTodasLasPantallas();
+  juego.classList.remove("oculto");
+
+  tipoPartida.textContent = etiquetaTipoJuego();
+
+  continentePartida.textContent =
+    regionSeleccionada === "Todos"
+      ? `🌎 Todo el mundo · ${etiquetaContenido()}`
+      : `🌎 ${regionSeleccionada} · ${etiquetaContenido()}`;
+
+  actualizarMarcador();
+  generarPregunta();
+}
+
+
+function nombreModoEspanaActual() {
+
+  if (modoEspana === "capitales") {
+    return "Capitales de provincia";
+  }
+
+  if (modoEspana === "comunidades") {
+    return "Comunidades autónomas";
+  }
+
+  if (modoEspana === "provincia-comunidad") {
+    return "Provincia → Comunidad";
+  }
+
+  if (modoEspana === "comunidad-provincia") {
+    return "Comunidad → Provincia";
+  }
+
+  return "Modo mixto";
+}
+
+
+function mostrarCabeceraJuegoEspana() {
+
+  tipoPartida.textContent = "🇪🇸 España";
+  continentePartida.textContent = nombreModoEspanaActual();
+}
+
+
+function iniciarExamenEspanaDesdePlan(
+  snapshot,
+  plan,
+  esRepaso = false
+) {
+
+  modoEspana = snapshot.modoEspana;
+  tipoPracticaEspana = "examen";
+  cantidadExamenEspanaConfigurada =
+    snapshot.cantidadExamenEspanaConfigurada || plan.length;
+
+  resetearContadoresExamen();
+
+  listaPreguntasEspana = crearBancoPreguntasEspana();
+  totalPreguntasEspana = plan.length;
+  colaPreguntasEspana = plan.map(
+    item => clonarPregunta(item.pregunta)
+  );
+
+  reiniciarRegistroExamen(plan, esRepaso);
+
+  ocultarTodasLasPantallas();
+  juego.classList.remove("oculto");
+
+  mostrarCabeceraJuegoEspana();
+  actualizarMarcador();
+  generarPreguntaEspana();
+}
+
+
+function repetirExamenFinalizado() {
+
+  if (!examenFinalizadoActual) return;
+
+  const snapshot = examenFinalizadoActual;
+  const plan = clonarPlanExamen(snapshot.plan);
+
+  if (snapshot.esEspana) {
+    iniciarExamenEspanaDesdePlan(
+      snapshot,
+      plan,
+      snapshot.esRepaso
+    );
+  } else {
+    iniciarExamenMundoDesdePlan(
+      snapshot,
+      plan,
+      snapshot.esRepaso
+    );
+  }
+}
+
+
+function iniciarNuevoExamen() {
+
+  if (!examenFinalizadoActual) return;
+
+  const snapshot = examenFinalizadoActual;
+
+  if (snapshot.esEspana) {
+
+    modoEspana = snapshot.modoEspana;
+
+    iniciarJuegoEspana(
+      "examen",
+      snapshot.cantidadExamenEspanaConfigurada || 10,
+      true
+    );
+
+  } else {
+
+    tipoJuego = snapshot.tipoJuego;
+    contenidoSeleccionado = snapshot.contenidoSeleccionado;
+    regionSeleccionada = snapshot.regionSeleccionada;
+    modoSeleccionado = snapshot.modoSeleccionado;
+
+    prepararPartida(true);
+  }
+}
+
+
+function repasarFallosExamen() {
+
+  if (!examenFinalizadoActual) return;
+
+  const snapshot = examenFinalizadoActual;
+
+  const resultadosFallados = snapshot.resultados.filter(
+    item => !item.acertada
+  );
+
+  if (resultadosFallados.length === 0) return;
+
+  const planFallos = resultadosFallados.map(item => ({
+    pregunta: clonarPregunta(item.pregunta),
+    respuestas: [...item.respuestas]
+  }));
+
+  if (snapshot.esEspana) {
+    iniciarExamenEspanaDesdePlan(
+      snapshot,
+      planFallos,
+      true
+    );
+  } else {
+    iniciarExamenMundoDesdePlan(
+      snapshot,
+      planFallos,
+      true
+    );
+  }
 }
 
 
@@ -596,7 +1268,7 @@ btnEmpezar.addEventListener("click", () => {
 });
 
 
-function prepararPartida() {
+function prepararPartida(evitarExamenAnterior = false) {
 
   numeroPregunta = 0;
   aciertos = 0;
@@ -666,8 +1338,15 @@ function prepararPartida() {
 
 
     colaPreguntas =
-      crearColaPreguntasMundo()
-        .slice(0, totalPreguntasExamen);
+      seleccionarPreguntasMundoExamen(
+        totalPreguntasExamen,
+        evitarExamenAnterior
+      );
+
+    reiniciarRegistroExamen(
+      crearPlanExamenDesdePreguntas(colaPreguntas),
+      false
+    );
 
   }
 
@@ -677,6 +1356,8 @@ function prepararPartida() {
 
     colaPreguntas =
       crearColaPreguntasMundo();
+
+    limpiarRegistroExamen();
 
   }
 
@@ -1086,7 +1767,9 @@ function generarPregunta() {
 
 
   const respuestas =
-    generarRespuestas();
+    obtenerRespuestasPlanActual(
+      () => generarRespuestas()
+    );
 
 
   respuestas.forEach(respuesta => {
@@ -1413,6 +2096,12 @@ function comprobarRespuesta(
   }
 
 
+  registrarResultadoExamen(
+    correcta,
+    respuestaSeleccionada,
+    false
+  );
+
   actualizarMarcador();
 
 
@@ -1577,6 +2266,10 @@ function mostrarResultadoFinal() {
   }
 
 
+  const snapshot =
+    guardarExamenFinalizado();
+
+
   resultadoExamen.innerHTML = `
 
     <div>
@@ -1647,31 +2340,32 @@ function mostrarResultadoFinal() {
 
     </div>
 
+    ${crearRevisionExamen(snapshot)}
+
   `;
 
+  actualizarBotonesFinExamen(snapshot);
 }
 
 
 // ==========================================
-// REPETIR EXAMEN
+// ACCIONES AL TERMINAR EL EXAMEN
 // ==========================================
 
-btnRepetirExamen.addEventListener("click", () => {
+btnRepetirExamen.addEventListener(
+  "click",
+  repetirExamenFinalizado
+);
 
-  if (modoEspana !== null) {
+btnNuevoExamen.addEventListener(
+  "click",
+  iniciarNuevoExamen
+);
 
-    iniciarJuegoEspana(
-      tipoPracticaEspana,
-      totalPreguntasEspana
-    );
-
-  } else {
-
-    prepararPartida();
-
-  }
-
-});
+btnRepasarFallos.addEventListener(
+  "click",
+  repasarFallosExamen
+);
 
 
 // ==========================================
@@ -2226,10 +2920,22 @@ function crearColaPreguntasEspana() {
 }
 
 
-function iniciarJuegoEspana(tipoPractica, cantidadPreguntas) {
+function iniciarJuegoEspana(
+  tipoPractica,
+  cantidadPreguntas,
+  evitarExamenAnterior = false
+) {
 
   tipoPracticaEspana = tipoPractica;
   totalPreguntasEspana = cantidadPreguntas;
+
+  if (
+    tipoPractica === "examen" &&
+    cantidadPreguntas !== null
+  ) {
+    cantidadExamenEspanaConfigurada =
+      cantidadPreguntas;
+  }
 
   numeroPregunta = 0;
   aciertos = 0;
@@ -2265,13 +2971,24 @@ function iniciarJuegoEspana(tipoPractica, cantidadPreguntas) {
     }
 
     colaPreguntasEspana =
-      crearColaPreguntasEspana()
-        .slice(0, totalPreguntasEspana);
+      seleccionarPreguntasEspanaExamen(
+        totalPreguntasEspana,
+        evitarExamenAnterior
+      );
+
+    reiniciarRegistroExamen(
+      crearPlanExamenDesdePreguntas(
+        colaPreguntasEspana
+      ),
+      false
+    );
 
   } else {
 
     colaPreguntasEspana =
       crearColaPreguntasEspana();
+
+    limpiarRegistroExamen();
 
   }
 
@@ -2279,31 +2996,7 @@ function iniciarJuegoEspana(tipoPractica, cantidadPreguntas) {
 
   juego.classList.remove("oculto");
 
-  tipoPartida.textContent =
-    "🇪🇸 España";
-
-  if (modoEspana === "capitales") {
-    continentePartida.textContent =
-      "Capitales de provincia";
-  }
-if (modoEspana === "comunidades") {
-  continentePartida.textContent =
-    "Comunidades autónomas";
-}
-  if (modoEspana === "provincia-comunidad") {
-    continentePartida.textContent =
-      "Provincia → Comunidad";
-  }
-
-  if (modoEspana === "comunidad-provincia") {
-    continentePartida.textContent =
-      "Comunidad → Provincia";
-  }
-
-  if (modoEspana === "mixto") {
-    continentePartida.textContent =
-      "Modo mixto";
-  }
+  mostrarCabeceraJuegoEspana();
 
   actualizarMarcador();
 
@@ -2411,7 +3104,9 @@ if (totalPreguntasEspana !== null) {
 
 
   const respuestas =
-    generarRespuestasEspana(preguntaActual);
+    obtenerRespuestasPlanActual(
+      () => generarRespuestasEspana(preguntaActual)
+    );
 
 
   respuestas.forEach(respuesta => {
@@ -2630,6 +3325,12 @@ if (
   }
 
 
+  registrarResultadoExamen(
+    correcta,
+    respuestaSeleccionada,
+    false
+  );
+
   actualizarMarcador();
 if (
   totalPreguntasEspana !== null &&
@@ -2677,27 +3378,11 @@ function mostrarResultadoFinalEspana() {
     mensaje = "👍 Buen progreso";
   }
 
-  let nombreModo = "";
+  const nombreModo =
+    nombreModoEspanaActual();
 
-  if (modoEspana === "capitales") {
-    nombreModo = "Capitales de provincia";
-  }
-
-  if (modoEspana === "comunidades") {
-    nombreModo = "Comunidades autónomas";
-  }
-
-  if (modoEspana === "provincia-comunidad") {
-    nombreModo = "Provincia → Comunidad";
-  }
-
-  if (modoEspana === "comunidad-provincia") {
-    nombreModo = "Comunidad → Provincia";
-  }
-
-  if (modoEspana === "mixto") {
-    nombreModo = "Modo mixto";
-  }
+  const snapshot =
+    guardarExamenFinalizado();
 
   resultadoExamen.innerHTML = `
 
@@ -2729,7 +3414,11 @@ function mostrarResultadoFinalEspana() {
       ⏱ ${TIEMPO_POR_PREGUNTA} s por pregunta
 
     </div>
+
+    ${crearRevisionExamen(snapshot)}
   `;
+
+  actualizarBotonesFinExamen(snapshot);
 }
 function textoExplicacionEspana() {
 
