@@ -2012,7 +2012,9 @@ document
   )
   .addEventListener(
     "click",
-    mostrarMapasOrografiaMenu
+    () => {
+      mostrarMapasOrografiaMenu();
+    }
   );
 
 
