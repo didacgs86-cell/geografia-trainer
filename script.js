@@ -1270,11 +1270,7 @@ btnMontanas.addEventListener(
 btnRios.addEventListener(
   "click",
   () => {
-    mostrarContenidoDesarrollo(
-      "Ríos",
-      "🌊",
-      "Aquí construiremos la práctica de grandes ríos, cuencas y localización."
-    );
+    abrirRiosMenu();
   }
 );
 
@@ -3173,6 +3169,10 @@ espanaMenu.classList.add("oculto");
   sabiasQueMenu.classList.add("oculto");
 sabiasQueDetalle.classList.add("oculto");
   sabiasQueSeccion.classList.add("oculto");
+
+  if (typeof ocultarPantallasRios === "function") {
+    ocultarPantallasRios();
+  }
 }
 // ==========================================
 // JUEGO DE ESPAÑA

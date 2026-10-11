@@ -303,6 +303,294 @@
 
 
 <!-- =========================
+     RÍOS DE EUROPA
+========================== -->
+
+<section id="rios-menu" class="oculto">
+
+  <button id="volver-rios-orografia" class="btn-volver">
+    ← Volver a Mapas y orografía
+  </button>
+
+  <div class="espana-cabecera rios-cabecera">
+    <div class="espana-bandera">🌊</div>
+
+    <h2>Ríos de Europa</h2>
+
+    <p>
+      Aprende los grandes ríos europeos relacionándolos con países,
+      ciudades y desembocaduras.
+    </p>
+  </div>
+
+  <div class="rios-opciones">
+
+    <button class="boton-portada rios-modo" data-rios-modo="rio-paises">
+      <span class="boton-icono">🌊</span>
+      <span class="boton-texto">
+        <strong>Río → Países</strong>
+        <small>¿Por qué países pasa o qué fronteras recorre?</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada rios-modo" data-rios-modo="pais-rio">
+      <span class="boton-icono">🌍</span>
+      <span class="boton-texto">
+        <strong>País → Río</strong>
+        <small>Identifica un gran río relacionado con cada país.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada rios-modo" data-rios-modo="ciudad-rio">
+      <span class="boton-icono">🏙️</span>
+      <span class="boton-texto">
+        <strong>Ciudad → Río</strong>
+        <small>París, Londres, Budapest, Roma… ¿qué río pasa por cada una?</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada rios-modo" data-rios-modo="desembocadura">
+      <span class="boton-icono">🌅</span>
+      <span class="boton-texto">
+        <strong>Desembocaduras</strong>
+        <small>Relaciona cada río con el mar, océano o río donde termina.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada rios-modo" data-rios-modo="adivina">
+      <span class="boton-icono">🧩</span>
+      <span class="boton-texto">
+        <strong>Adivina el río</strong>
+        <small>Usa tres pistas geográficas para identificarlo.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="btn-rios-mapa" class="boton-portada rios-mapa-proximo">
+      <span class="boton-icono">🗺️</span>
+      <span class="boton-texto">
+        <strong>Mapa de ríos</strong>
+        <small>Localización interactiva sobre el mapa de Europa · Próximamente.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+  <div class="rios-nota">
+    Base inicial: 25 grandes ríos europeos.
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CONFIGURACIÓN RÍOS
+========================== -->
+
+<section id="rios-config" class="oculto">
+
+  <button id="volver-rios-menu" class="btn-volver">
+    ← Volver a Ríos
+  </button>
+
+  <div class="espana-cabecera">
+    <div id="rios-config-icono" class="espana-bandera">🌊</div>
+
+    <h2 id="rios-config-titulo">
+      Ríos de Europa
+    </h2>
+
+    <p id="rios-config-descripcion">
+      Elige cómo quieres practicar.
+    </p>
+  </div>
+
+  <div class="espana-opciones">
+
+    <button id="rios-entrenamiento" class="boton-portada">
+      <span class="boton-icono">♾️</span>
+      <span class="boton-texto">
+        <strong>Entrenamiento libre</strong>
+        <small>Practica sin límite. Te avisaremos cada 15 preguntas.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="rios-examen10" class="boton-portada">
+      <span class="boton-icono">📝</span>
+      <span class="boton-texto">
+        <strong>Examen · 10 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Sin preguntas repetidas.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="rios-examen20" class="boton-portada">
+      <span class="boton-icono">🎯</span>
+      <span class="boton-texto">
+        <strong>Examen · 20 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Revisión completa al terminar.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     JUEGO RÍOS
+========================== -->
+
+<section id="rios-juego" class="oculto">
+
+  <button id="volver-rios-desde-juego" class="btn-volver">
+    ← Volver a Ríos
+  </button>
+
+  <div class="info-partida">
+    <span id="rios-tipo-partida">Ríos de Europa</span>
+    <span id="rios-numero-pregunta">Pregunta 1</span>
+    <span id="rios-temporizador" class="temporizador oculto">⏱ 10 s</span>
+  </div>
+
+  <div class="marcador">
+    <span>✅ <span id="rios-aciertos">0</span></span>
+    <span>❌ <span id="rios-fallos">0</span></span>
+  </div>
+
+  <h2 id="rios-pregunta">
+    Pregunta
+  </h2>
+
+  <div id="rios-pistas" class="rios-pistas oculto"></div>
+
+  <div id="rios-respuestas">
+  </div>
+
+  <div id="rios-resultado" class="oculto">
+  </div>
+
+  <button id="rios-siguiente" class="oculto">
+    Siguiente pregunta →
+  </button>
+
+</section>
+
+
+<!-- =========================
+     PAUSA RÍOS
+========================== -->
+
+<div
+  id="rios-pausa"
+  class="modal-entrenamiento oculto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="rios-pausa-titulo"
+>
+
+  <div class="modal-entrenamiento-contenido">
+
+    <div class="modal-entrenamiento-icono">🌊</div>
+
+    <h2 id="rios-pausa-titulo">
+      ¡Buen ritmo!
+    </h2>
+
+    <p id="rios-pausa-texto">
+      Llevas 15 preguntas. ¿Quieres seguir practicando?
+    </p>
+
+    <button id="rios-continuar">
+      Seguir practicando →
+    </button>
+
+    <button id="rios-salir" class="btn-secundario">
+      ← Volver a Ríos
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     RESULTADO RÍOS
+========================== -->
+
+<section id="rios-fin" class="oculto">
+
+  <button id="volver-rios-fin" class="btn-volver">
+    ← Volver a Ríos
+  </button>
+
+  <h2>Resultado</h2>
+
+  <div id="rios-resultado-examen"></div>
+
+  <div id="rios-revision-examen"></div>
+
+  <div class="acciones-fin-examen">
+
+    <button id="rios-repetir-examen">
+      ↻ Repetir este examen
+    </button>
+
+    <button id="rios-nuevo-examen">
+      ✦ Nuevo examen
+    </button>
+
+    <button id="rios-repasar-fallos" class="btn-repasar-fallos oculto">
+      🎯 Repasar solo mis fallos
+    </button>
+
+    <button id="rios-volver-menu" class="btn-secundario">
+      ← Volver a Ríos
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     MAPA DE RÍOS - PRÓXIMAMENTE
+========================== -->
+
+<section id="rios-mapa-proximamente" class="oculto">
+
+  <button id="volver-rios-mapa" class="btn-volver">
+    ← Volver a Ríos
+  </button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">🗺️</div>
+
+    <h2>Mapa de ríos</h2>
+
+    <p>
+      Aquí construiremos el modo interactivo para localizar
+      los grandes ríos directamente sobre un mapa de Europa.
+    </p>
+  </div>
+
+  <div class="mensaje-desarrollo">
+    <strong>Próximamente</strong>
+    <span>Esta será la parte visual del entrenamiento de ríos.</span>
+  </div>
+
+</section>
+
+
+
+<!-- =========================
      CONTENIDO EN DESARROLLO
 ========================== -->
 
@@ -880,7 +1168,8 @@
 
 <script src="countries.js"></script>
 <script src="espana.js"></script>
-  <script src="sabiasque.js"></script>
+<script src="sabiasque.js"></script>
+<script src="rios.js"></script>
 <script src="script.js"></script>
 
 </body>
