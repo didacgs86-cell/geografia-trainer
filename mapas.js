@@ -350,26 +350,38 @@ function crearSvgEuropaMapas() {
       MAPA_EUROPA.microestados
     )
       .map(
-        ([iso, punto]) => `
-          <g
-            class="mapas-microestado"
-            data-iso="${iso}"
-          >
-            <circle
-              class="mapas-micro-visible"
-              cx="${punto.x}"
-              cy="${punto.y}"
-              r="4.5"
-            ></circle>
+        ([iso, punto]) => {
 
-            <circle
-              class="mapas-micro-hit"
-              cx="${punto.x}"
-              cy="${punto.y}"
-              r="15"
-            ></circle>
-          </g>
-        `
+          const esObjetivoActual =
+            mapasModoActual === "paises" &&
+            mapasObjetivoActual &&
+            mapasObjetivoActual.iso === iso;
+
+          return `
+            <g
+              class="mapas-microestado ${
+                esObjetivoActual
+                  ? "mapas-micro-objetivo"
+                  : ""
+              }"
+              data-iso="${iso}"
+            >
+              <circle
+                class="mapas-micro-visible"
+                cx="${punto.x}"
+                cy="${punto.y}"
+                r="4"
+              ></circle>
+
+              <circle
+                class="mapas-micro-hit"
+                cx="${punto.x}"
+                cy="${punto.y}"
+                r="14"
+              ></circle>
+            </g>
+          `;
+        }
       )
       .join("");
 
@@ -757,7 +769,9 @@ function mostrarPreguntaMapas() {
       `Localiza ${mapasObjetivoActual.pais}`;
 
     mapasAyuda.textContent =
-      "Toca el país correcto. Los microestados aparecen marcados con un pequeño punto.";
+      MAPA_EUROPA.microestados[mapasObjetivoActual.iso]
+        ? "Toca el punto discreto que representa este microestado."
+        : "Toca directamente el país correcto sobre el mapa.";
 
   } else {
 

@@ -1698,3 +1698,138 @@ body {
 .mapas-capa-inactiva .mapas-microestado {
   display: none;
 }
+
+
+/* =========================================
+   MAPA DE EUROPA · REFINADO CARTOGRÁFICO
+========================================= */
+
+.mapas-lienzo {
+  border: 1px solid #aeb9c6;
+  border-radius: 10px;
+  background: #edf2f6;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.07);
+}
+
+.mapas-mar {
+  fill: #edf2f6;
+}
+
+.mapas-pais {
+  fill: #fbfcfd;
+  stroke: #526170;
+  stroke-width: 1.05;
+  vector-effect: non-scaling-stroke;
+  transition:
+    fill 0.12s ease,
+    stroke 0.12s ease;
+}
+
+.mapas-pais:hover {
+  fill: #e8edf2;
+  stroke: #1f3b57;
+}
+
+.mapas-leyenda {
+  padding: 7px 11px 8px;
+  background: #f8fafc;
+  border-top: 1px solid #d9e0e7;
+  color: #7a8795;
+  font-size: 10px;
+  letter-spacing: 0.01em;
+}
+
+/* Los microestados NO aparecen como puntos aleatorios.
+   Solo se hace visible el microestado que se está preguntando. */
+
+.mapas-micro-visible {
+  opacity: 0;
+  fill: #24384c;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+}
+
+.mapas-micro-objetivo .mapas-micro-visible {
+  opacity: 1;
+  fill: #24384c;
+  stroke: #ffffff;
+  stroke-width: 1.8;
+}
+
+.mapas-micro-hit {
+  fill: transparent;
+  stroke: transparent;
+}
+
+/* Capitales: puntos sobrios, todos visibles solo en el modo Capitales */
+
+.mapas-capital-visible {
+  fill: #263b50;
+  stroke: #ffffff;
+  stroke-width: 1.4;
+}
+
+.mapas-capital:hover .mapas-capital-visible {
+  fill: #0f2740;
+}
+
+/* Feedback menos chillón */
+
+.mapas-correcto.mapas-pais {
+  fill: #b7d8c3 !important;
+  stroke: #2f6b46 !important;
+  stroke-width: 2;
+}
+
+.mapas-incorrecto.mapas-pais {
+  fill: #e9b8b8 !important;
+  stroke: #914343 !important;
+  stroke-width: 2;
+}
+
+.mapas-correcto .mapas-micro-visible {
+  opacity: 1 !important;
+  fill: #4f8a64 !important;
+  stroke: #ffffff !important;
+}
+
+.mapas-incorrecto .mapas-micro-visible {
+  opacity: 1 !important;
+  fill: #b76060 !important;
+  stroke: #ffffff !important;
+}
+
+.mapas-capital-correcta .mapas-capital-visible {
+  fill: #4f8a64 !important;
+  stroke: #ffffff !important;
+}
+
+.mapas-capital-incorrecta .mapas-capital-visible {
+  fill: #b76060 !important;
+  stroke: #ffffff !important;
+}
+
+/* Cabecera de la pregunta algo más contenida y adulta */
+
+#mapas-pregunta {
+  color: #17212b;
+  font-size: 29px;
+  font-weight: 750;
+  letter-spacing: -0.015em;
+}
+
+.mapas-ayuda {
+  color: #667381;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+
+  .mapas-lienzo {
+    border-radius: 8px;
+  }
+
+  #mapas-pregunta {
+    font-size: 23px;
+  }
+}
