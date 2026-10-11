@@ -1024,3 +1024,221 @@ body {
     font-size: 34px;
   }
 }
+
+
+/* =========================================
+   PORTADA VISUAL GEOTRAINER
+   Inspirada en el mockup aprobado
+========================================= */
+
+body {
+  background:
+    radial-gradient(circle at top, #eaf7ff 0%, #f7fbff 38%, #eef3f8 100%);
+}
+
+.container {
+  max-width: 980px;
+  padding-top: 28px;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.hero-portada {
+  margin: 0 0 22px;
+}
+
+.home-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 28px;
+  box-shadow:
+    0 22px 55px rgba(15, 39, 71, 0.17),
+    0 2px 8px rgba(15, 39, 71, 0.08);
+}
+
+#inicio.inicio-portada {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+#inicio .inicio-opciones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+#inicio .boton-portada {
+  position: relative;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  margin: 0;
+  padding: 28px 24px;
+
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 24px;
+
+  color: #0f2747;
+  text-align: center;
+
+  box-shadow:
+    0 12px 30px rgba(15, 39, 71, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+#inicio .boton-portada:nth-child(1) {
+  background:
+    linear-gradient(145deg, rgba(222, 241, 255, 0.98), rgba(242, 249, 255, 0.98));
+}
+
+#inicio .boton-portada:nth-child(2) {
+  background:
+    linear-gradient(145deg, rgba(255, 245, 226, 0.98), rgba(255, 251, 243, 0.98));
+}
+
+#inicio .boton-portada:nth-child(3) {
+  background:
+    linear-gradient(145deg, rgba(229, 247, 225, 0.98), rgba(246, 252, 242, 0.98));
+}
+
+#inicio .boton-portada:hover {
+  transform: translateY(-5px);
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow:
+    0 18px 38px rgba(15, 39, 71, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+#inicio .boton-icono {
+  width: auto;
+  font-size: 58px;
+  line-height: 1;
+}
+
+#inicio .boton-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+
+#inicio .boton-texto strong {
+  font-size: 24px;
+  color: #0b2a52;
+}
+
+#inicio .boton-texto small {
+  max-width: 220px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #405b78;
+}
+
+#inicio .boton-flecha {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  margin: 0;
+  transform: translateY(-50%);
+  font-size: 34px;
+  color: #295b8c;
+}
+
+.autor {
+  color: #64748b;
+}
+
+.autor-subtitulo {
+  color: #94a3b8;
+}
+
+/* Mantener las pantallas interiores más compactas */
+#geografia-menu,
+#historia-menu,
+#viajes-menu,
+#mapas-orografia-menu,
+#contenido-desarrollo,
+#banderas-menu,
+#espana-menu,
+#espana-config,
+#sabiasque-menu,
+#sabiasque-detalle,
+#sabiasque-seccion,
+#configuracion,
+#juego,
+#fin-examen {
+  max-width: 850px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 760px) {
+
+  .container {
+    padding: 16px 14px 20px;
+  }
+
+  .hero-portada {
+    margin-bottom: 16px;
+  }
+
+  .home-hero-image {
+    border-radius: 20px;
+  }
+
+  #inicio .inicio-opciones {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  #inicio .boton-portada {
+    min-height: 138px;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 20px 52px 20px 20px;
+    border-radius: 18px;
+  }
+
+  #inicio .boton-icono {
+    min-width: 56px;
+    font-size: 43px;
+  }
+
+  #inicio .boton-texto {
+    align-items: flex-start;
+  }
+
+  #inicio .boton-texto strong {
+    font-size: 21px;
+  }
+
+  #inicio .boton-texto small {
+    max-width: none;
+    font-size: 14px;
+  }
+
+  #inicio .boton-flecha {
+    right: 17px;
+    font-size: 30px;
+  }
+}

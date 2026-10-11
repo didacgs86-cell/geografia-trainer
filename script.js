@@ -12,6 +12,7 @@ if (typeof GEO_DATA === "undefined") {
 // ==========================================
 
 const inicio = document.getElementById("inicio");
+const heroPrincipal = document.getElementById("hero-principal");
 const configuracion = document.getElementById("configuracion");
 
 const geografiaMenu =
@@ -1158,6 +1159,10 @@ const COORDENADAS_EXTRA = {
 function mostrarInicioPrincipal() {
 
   ocultarTodasLasPantallas();
+
+  if (heroPrincipal) {
+    heroPrincipal.classList.remove("oculto");
+  }
 
   inicio.classList.remove("oculto");
 }
@@ -3137,6 +3142,10 @@ function crearMapaSVG(
 function ocultarTodasLasPantallas() {
 
   cancelarTemporizadores();
+
+  if (heroPrincipal) {
+    heroPrincipal.classList.add("oculto");
+  }
 
   inicio.classList.add("oculto");
 
