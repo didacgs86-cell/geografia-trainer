@@ -1,0 +1,1439 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+}
+
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+header h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+header p {
+  color: #6b7280;
+  font-size: 18px;
+}
+
+section {
+  background: white;
+  padding: 35px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+#inicio {
+  text-align: center;
+}
+
+#inicio h2,
+#configuracion h2,
+#fin-examen h2 {
+  margin-top: 0;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 18px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.oculto {
+  display: none;
+}
+
+/* BOTÓN VOLVER */
+
+.btn-volver {
+  width: auto;
+  padding: 10px 14px;
+  margin-top: 0;
+  margin-bottom: 25px;
+  background: #e5e7eb;
+  color: #374151;
+  font-size: 15px;
+}
+
+.btn-volver:hover {
+  background: #d1d5db;
+}
+
+/* CONFIGURACIÓN */
+
+.bloque-config {
+  margin-bottom: 25px;
+}
+
+.bloque-config label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+select {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  background: white;
+  font-size: 16px;
+  color: #1f2937;
+}
+
+select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+#btn-empezar {
+  margin-top: 10px;
+}
+
+/* INFORMACIÓN DE LA PARTIDA */
+
+.info-partida {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.info-partida span {
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* MARCADOR */
+
+.marcador {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  background: #f3f4f6;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.temporizador {
+  min-width: 72px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.temporizador.urgente {
+  color: #b91c1c;
+}
+
+/* PREGUNTA */
+
+#pregunta {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+/* RESPUESTAS */
+
+#respuestas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+#respuestas button {
+  background: #ffffff;
+  color: #1f2937;
+  border: 2px solid #e5e7eb;
+}
+
+#respuestas button:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+#respuestas button.correcta {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+#respuestas button.incorrecta {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+/* RESULTADO DE LA PREGUNTA */
+
+#resultado {
+  margin-top: 25px;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+  background: #f9fafb;
+}
+
+/* MAPA */
+
+#mapa-error {
+  margin-top: 22px;
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+
+#mapa-error h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+#mapa-titulo {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #334155;
+  font-weight: 600;
+}
+
+#mapa-svg svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+.mapa-ayuda {
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+/* ELEMENTOS DEL MAPA SVG */
+
+.map-bg {
+  fill: #eef6ff;
+}
+
+.continent-shape {
+  fill: #dbeafe;
+  stroke: #93c5fd;
+  stroke-width: 3;
+}
+
+.country-dot {
+  fill: #64748b;
+  opacity: 0.9;
+}
+
+.target-ring {
+  fill: none;
+  stroke: #f59e0b;
+  stroke-width: 5;
+}
+
+.target-dot {
+  fill: #ef4444;
+  stroke: white;
+  stroke-width: 4;
+}
+
+.target-label {
+  fill: #991b1b;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.continent-title {
+  fill: #1d4ed8;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* SIGUIENTE */
+
+#siguiente {
+  margin-top: 20px;
+  background: #111827;
+}
+
+#siguiente:hover {
+  background: #374151;
+}
+
+/* RESULTADO FINAL DEL EXAMEN */
+
+#resultado-examen {
+  text-align: center;
+  background: #f8fafc;
+  padding: 30px 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+.nota-grande {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #2563eb;
+}
+
+.detalle-examen {
+  font-size: 18px;
+  color: #475569;
+}
+
+.btn-secundario {
+  background: #64748b;
+}
+
+.btn-secundario:hover {
+  background: #475569;
+}
+
+
+/* REVISIÓN DE RESPUESTAS AL TERMINAR */
+
+.revision-examen {
+  margin-top: 32px;
+  text-align: left;
+}
+
+.revision-examen h3 {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 22px;
+  color: #1f2937;
+}
+
+.revision-intro {
+  max-width: 620px;
+  margin: 0 auto 20px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+.revision-lista {
+  display: grid;
+  gap: 12px;
+}
+
+.revision-item {
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left-width: 5px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.revision-item.acierto {
+  border-left-color: #22c55e;
+}
+
+.revision-item.fallo {
+  border-left-color: #ef4444;
+  background: #fffafa;
+}
+
+.revision-cabecera {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #64748b;
+}
+
+.revision-correcta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 36px;
+  font-size: 17px;
+  color: #1f2937;
+}
+
+.revision-flecha {
+  color: #94a3b8;
+  font-weight: bold;
+}
+
+.revision-bandera {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.revision-bandera-mini {
+  display: inline-block;
+  font-size: 24px;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.revision-tu-respuesta {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid #fee2e2;
+  font-size: 14px;
+  color: #991b1b;
+}
+
+.acciones-fin-examen {
+  display: grid;
+  gap: 2px;
+}
+
+#nuevo-examen {
+  background: #0f766e;
+}
+
+#nuevo-examen:hover {
+  background: #115e59;
+}
+
+.btn-repasar-fallos {
+  background: #7c3aed;
+}
+
+.btn-repasar-fallos:hover {
+  background: #6d28d9;
+}
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+
+  .container {
+    padding: 25px 14px;
+  }
+
+  header h1 {
+    font-size: 34px;
+  }
+
+  section {
+    padding: 25px 18px;
+  }
+
+  #respuestas {
+    grid-template-columns: 1fr;
+  }
+
+  #pregunta {
+    font-size: 24px;
+  }
+
+  .marcador {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .info-partida {
+    justify-content: flex-start;
+  }
+
+  .nota-grande {
+    font-size: 40px;
+  }
+
+  .revision-cabecera {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .revision-correcta {
+    font-size: 16px;
+  }
+}
+/* =========================================
+   NUEVA PORTADA GEOTRAINER
+========================================= */
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(59, 130, 246, 0.12),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(14, 165, 233, 0.08),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #07111f 0%,
+      #0f1c2e 50%,
+      #111827 100%
+    );
+
+  color: #e5e7eb;
+}
+
+
+/* CONTENEDOR GENERAL */
+
+.container {
+  max-width: 850px;
+  min-height: 100vh;
+
+  margin: 0 auto;
+
+  padding: 55px 20px 22px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* CABECERA */
+
+.hero {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+
+.hero-etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  color: #60a5fa;
+
+  margin-bottom: 18px;
+}
+
+
+.hero-icono {
+  font-size: 52px;
+
+  margin-bottom: 8px;
+
+  filter: drop-shadow(
+    0 5px 15px rgba(0,0,0,0.25)
+  );
+}
+
+
+.hero h1 {
+  margin: 0;
+
+  font-size: 48px;
+  font-weight: 750;
+
+  letter-spacing: -1.5px;
+
+  color: #f8fafc;
+}
+
+
+.hero-subtitulo {
+  margin: 10px 0 0;
+
+  font-size: 20px;
+  font-weight: 500;
+
+  color: #cbd5e1;
+}
+
+
+.hero-descripcion {
+  margin: 8px auto 0;
+
+  max-width: 520px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  color: #7f8ea3;
+}
+
+
+/* TARJETA PRINCIPAL */
+
+#inicio.inicio-portada {
+  background: rgba(15, 23, 42, 0.82);
+
+  border: 1px solid rgba(148, 163, 184, 0.16);
+
+  box-shadow:
+    0 25px 70px rgba(0,0,0,0.35);
+
+  backdrop-filter: blur(16px);
+
+  border-radius: 22px;
+
+  padding: 30px;
+}
+
+
+.inicio-titulo {
+  text-align: left;
+
+  margin-bottom: 19px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 0.5px;
+
+  color: #94a3b8;
+}
+
+
+/* BOTONES DE PORTADA */
+
+.inicio-opciones {
+  display: grid;
+  gap: 13px;
+}
+
+
+.boton-portada {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+
+  margin: 0;
+
+  padding: 19px 20px;
+
+  text-align: left;
+
+  border-radius: 14px;
+
+  border: 1px solid #26364d;
+
+  background: #111d2f;
+
+  color: white;
+}
+
+
+.boton-portada:hover {
+  background: #17263b;
+
+  border-color: #3b82f6;
+
+  transform: translateY(-1px);
+}
+
+
+.boton-icono {
+  width: 48px;
+
+  font-size: 28px;
+}
+
+
+.boton-texto {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+
+.boton-texto strong {
+  font-size: 18px;
+  color: #f8fafc;
+}
+
+
+.boton-texto small {
+  font-size: 13px;
+  font-weight: 400;
+
+  color: #8090a6;
+}
+
+
+.boton-flecha {
+  margin-left: 15px;
+
+  font-size: 28px;
+  font-weight: 300;
+
+  color: #64748b;
+}
+
+
+/* INFORMACIÓN INFERIOR */
+
+.portada-info {
+  display: flex;
+
+  justify-content: center;
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 24px;
+
+  font-size: 11px;
+
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
+
+  color: #64748b;
+}
+
+
+/* RESTO DE PANTALLAS */
+
+#configuracion,
+#juego,
+#fin-examen {
+  color: #1f2937;
+}
+
+
+/* FIRMA */
+
+.autor {
+  margin-top: auto;
+
+  padding-top: 38px;
+
+  text-align: center;
+
+  font-size: 10px;
+
+  letter-spacing: 0.4px;
+
+  color: #526175;
+}
+
+
+.autor-subtitulo {
+  margin-top: 3px;
+
+  font-size: 9px;
+
+  color: #3e4c60;
+}
+
+
+/* MÓVIL */
+
+@media (max-width: 600px) {
+
+  .container {
+    padding-top: 38px;
+  }
+
+  .hero-icono {
+    font-size: 45px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero-subtitulo {
+    font-size: 18px;
+  }
+
+  #inicio.inicio-portada {
+    padding: 20px;
+  }
+
+  .boton-portada {
+    padding: 17px;
+  }
+
+  .boton-texto strong {
+    font-size: 17px;
+  }
+
+}
+/* Ocultar mapa al fallar */
+#mapa-error {
+  display: none !important;
+}
+/* =========================================
+   PANTALLA ESPAÑA
+========================================= */
+
+#espana-menu {
+  color: #1f2937;
+}
+
+.espana-cabecera {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.espana-bandera {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.espana-cabecera h2 {
+  color: #111827;
+  font-size: 30px;
+  margin: 0 0 10px;
+}
+
+.espana-cabecera p {
+  color: #475569;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+/* =========================================
+   BANDERAS
+========================================= */
+
+#banderas-menu {
+  color: #1f2937;
+}
+
+.banderas-opciones {
+  display: grid;
+  gap: 13px;
+}
+
+.pregunta-bandera {
+  display: block;
+  font-size: 92px;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.pregunta-bandera-texto {
+  display: block;
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+#respuestas button.respuesta-bandera {
+  min-height: 96px;
+  font-size: 50px;
+  line-height: 1;
+}
+
+.resultado-bandera {
+  display: inline-block;
+  font-size: 48px;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+
+  .pregunta-bandera {
+    font-size: 76px;
+  }
+
+  .pregunta-bandera-texto {
+    font-size: 21px;
+  }
+
+  #respuestas button.respuesta-bandera {
+    min-height: 82px;
+    font-size: 44px;
+  }
+
+}
+
+
+/* =========================================
+   PAUSA DE ENTRENAMIENTO
+========================================= */
+
+.modal-entrenamiento {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, 0.58);
+}
+
+.modal-entrenamiento.oculto {
+  display: none;
+}
+
+.modal-entrenamiento-contenido {
+  width: min(100%, 460px);
+  padding: 30px 26px 24px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 55px rgba(15, 23, 42, 0.22);
+  text-align: center;
+}
+
+.modal-entrenamiento-icono {
+  margin-bottom: 8px;
+  font-size: 42px;
+}
+
+.modal-entrenamiento-contenido h2 {
+  margin: 0 0 12px;
+  color: #111827;
+  font-size: 26px;
+}
+
+.modal-entrenamiento-contenido p {
+  margin: 0 0 20px;
+  color: #475569;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+#continuar-entrenamiento {
+  margin-bottom: 4px;
+}
+
+#salir-entrenamiento {
+  margin-top: 4px;
+}
+
+
+/* =========================================
+   NAVEGACIÓN POR ÁREAS
+========================================= */
+
+#geografia-menu,
+#historia-menu,
+#viajes-menu,
+#mapas-orografia-menu,
+#contenido-desarrollo {
+  color: #1f2937;
+}
+
+.mensaje-desarrollo {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.mensaje-desarrollo strong {
+  font-size: 17px;
+  color: #334155;
+}
+
+.mensaje-desarrollo span {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+
+/* =========================================
+   MARCA GEOTRAINER
+========================================= */
+
+.marca-geotrainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 8px 0 10px;
+  font-weight: 800;
+  letter-spacing: -0.055em;
+  color: #0f2747;
+  line-height: 1;
+}
+
+.marca-globo {
+  width: 0.92em;
+  height: 0.92em;
+  display: inline-block;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 0.015em;
+  vertical-align: -0.06em;
+  filter: drop-shadow(0 2px 4px rgba(15, 39, 71, 0.16));
+}
+
+@media (max-width: 600px) {
+  .marca-geotrainer {
+    font-size: 34px;
+  }
+}
+
+
+/* =========================================
+   PORTADA VISUAL GEOTRAINER
+   Inspirada en el mockup aprobado
+========================================= */
+
+body {
+  background:
+    radial-gradient(circle at top, #eaf7ff 0%, #f7fbff 38%, #eef3f8 100%);
+}
+
+.container {
+  max-width: 980px;
+  padding-top: 28px;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.hero-portada {
+  margin: 0 0 22px;
+}
+
+.home-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 28px;
+  box-shadow:
+    0 22px 55px rgba(15, 39, 71, 0.17),
+    0 2px 8px rgba(15, 39, 71, 0.08);
+}
+
+#inicio.inicio-portada {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+#inicio .inicio-opciones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+#inicio .boton-portada {
+  position: relative;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  margin: 0;
+  padding: 28px 24px;
+
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 24px;
+
+  color: #0f2747;
+  text-align: center;
+
+  box-shadow:
+    0 12px 30px rgba(15, 39, 71, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+#inicio .boton-portada:nth-child(1) {
+  background:
+    linear-gradient(145deg, rgba(222, 241, 255, 0.98), rgba(242, 249, 255, 0.98));
+}
+
+#inicio .boton-portada:nth-child(2) {
+  background:
+    linear-gradient(145deg, rgba(255, 245, 226, 0.98), rgba(255, 251, 243, 0.98));
+}
+
+#inicio .boton-portada:nth-child(3) {
+  background:
+    linear-gradient(145deg, rgba(229, 247, 225, 0.98), rgba(246, 252, 242, 0.98));
+}
+
+#inicio .boton-portada:hover {
+  transform: translateY(-5px);
+  border-color: rgba(37, 99, 235, 0.28);
+  box-shadow:
+    0 18px 38px rgba(15, 39, 71, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+#inicio .boton-icono {
+  width: auto;
+  font-size: 58px;
+  line-height: 1;
+}
+
+#inicio .boton-texto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+}
+
+#inicio .boton-texto strong {
+  font-size: 24px;
+  color: #0b2a52;
+}
+
+#inicio .boton-texto small {
+  max-width: 220px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #405b78;
+}
+
+#inicio .boton-flecha {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  margin: 0;
+  transform: translateY(-50%);
+  font-size: 34px;
+  color: #295b8c;
+}
+
+.autor {
+  color: #64748b;
+}
+
+.autor-subtitulo {
+  color: #94a3b8;
+}
+
+/* Mantener las pantallas interiores más compactas */
+#geografia-menu,
+#historia-menu,
+#viajes-menu,
+#mapas-orografia-menu,
+#contenido-desarrollo,
+#banderas-menu,
+#espana-menu,
+#espana-config,
+#sabiasque-menu,
+#sabiasque-detalle,
+#sabiasque-seccion,
+#configuracion,
+#juego,
+#fin-examen {
+  max-width: 850px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 760px) {
+
+  .container {
+    padding: 16px 14px 20px;
+  }
+
+  .hero-portada {
+    margin-bottom: 16px;
+  }
+
+  .home-hero-image {
+    border-radius: 20px;
+  }
+
+  #inicio .inicio-opciones {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  #inicio .boton-portada {
+    min-height: 138px;
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    padding: 20px 52px 20px 20px;
+    border-radius: 18px;
+  }
+
+  #inicio .boton-icono {
+    min-width: 56px;
+    font-size: 43px;
+  }
+
+  #inicio .boton-texto {
+    align-items: flex-start;
+  }
+
+  #inicio .boton-texto strong {
+    font-size: 21px;
+  }
+
+  #inicio .boton-texto small {
+    max-width: none;
+    font-size: 14px;
+  }
+
+  #inicio .boton-flecha {
+    right: 17px;
+    font-size: 30px;
+  }
+}
+
+
+/* =========================================
+   RÍOS DE EUROPA
+========================================= */
+
+#rios-menu,
+#rios-config,
+#rios-juego,
+#rios-fin,
+#rios-mapa-proximamente {
+  max-width: 850px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rios-opciones {
+  display: grid;
+  gap: 4px;
+}
+
+.rios-nota {
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #475569;
+  text-align: center;
+  font-size: 13px;
+}
+
+.rios-mapa-proximo {
+  opacity: 0.92;
+}
+
+#rios-pregunta {
+  margin: 12px 0 24px;
+  text-align: center;
+  font-size: 28px;
+  line-height: 1.3;
+}
+
+#rios-respuestas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+#rios-respuestas button {
+  margin: 0;
+  background: #ffffff;
+  color: #1f2937;
+  border: 2px solid #e5e7eb;
+}
+
+#rios-respuestas button:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+#rios-respuestas button.correcta {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+#rios-respuestas button.incorrecta {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+}
+
+.rios-pistas {
+  display: grid;
+  gap: 10px;
+  margin: -6px 0 24px;
+}
+
+.rio-pista {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #eef6ff;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.rio-pista span {
+  flex: 0 0 auto;
+  width: 25px;
+  height: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#rios-resultado {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.rio-feedback-titulo {
+  margin-bottom: 14px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.rio-ficha {
+  display: grid;
+  gap: 9px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.rio-ficha-titulo {
+  margin-bottom: 2px;
+  color: #0f3e69;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+#rios-siguiente {
+  margin-top: 18px;
+  background: #111827;
+}
+
+#rios-siguiente:hover {
+  background: #374151;
+}
+
+#rios-resultado-examen {
+  text-align: center;
+  background: #f8fafc;
+  padding: 30px 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+.rio-revision-pregunta {
+  margin-bottom: 10px;
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+@media (max-width: 600px) {
+
+  #rios-respuestas {
+    grid-template-columns: 1fr;
+  }
+
+  #rios-pregunta {
+    font-size: 24px;
+  }
+
+  .rio-ficha {
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================
+   RÍOS - CONTRASTE DE TEXTO
+   Igual que el resto de pantallas del juego
+========================================= */
+
+#rios-menu,
+#rios-config,
+#rios-juego,
+#rios-fin,
+#rios-mapa-proximamente {
+  color: #1f2937;
+}
+
+#rios-pregunta {
+  color: #1f2937;
+  font-weight: 700;
+  opacity: 1;
+  text-shadow: none;
+}
