@@ -590,6 +590,296 @@
 
 
 
+
+<!-- =========================
+     MAPAS INTERACTIVOS
+========================== -->
+
+<section id="mapas-menu" class="oculto">
+
+  <button id="volver-mapas-orografia" class="btn-volver">
+    ← Volver a Mapas y orografía
+  </button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">🗺️</div>
+
+    <h2>Mapas</h2>
+
+    <p>
+      Aprende a localizar países y capitales directamente sobre el mapa.
+    </p>
+  </div>
+
+  <div class="inicio-opciones">
+
+    <button class="boton-portada mapas-modo" data-mapas-modo="paises">
+      <span class="boton-icono">🌍</span>
+      <span class="boton-texto">
+        <strong>Localizar países</strong>
+        <small>Toca directamente el país que se te pide.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada mapas-modo" data-mapas-modo="capitales">
+      <span class="boton-icono">📍</span>
+      <span class="boton-texto">
+        <strong>Localizar capitales</strong>
+        <small>Identifica la posición de cada capital sobre el mapa.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     MAPAS - CONTINENTE
+========================== -->
+
+<section id="mapas-continente" class="oculto">
+
+  <button id="volver-mapas-modo" class="btn-volver">
+    ← Volver a Mapas
+  </button>
+
+  <div class="espana-cabecera">
+    <div id="mapas-continente-icono" class="espana-bandera">🌍</div>
+
+    <h2 id="mapas-continente-titulo">
+      Elige continente
+    </h2>
+
+    <p>
+      Empezamos por Europa. Iremos incorporando el resto de continentes.
+    </p>
+  </div>
+
+  <div class="mapas-continentes-grid">
+
+    <button id="mapas-europa" class="boton-portada">
+      <span class="boton-icono">🇪🇺</span>
+      <span class="boton-texto">
+        <strong>Europa</strong>
+        <small>Disponible · 45 países y capitales.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada mapas-proximamente" disabled>
+      <span class="boton-icono">🌏</span>
+      <span class="boton-texto">
+        <strong>Asia</strong>
+        <small>Próximamente</small>
+      </span>
+    </button>
+
+    <button class="boton-portada mapas-proximamente" disabled>
+      <span class="boton-icono">🌍</span>
+      <span class="boton-texto">
+        <strong>África</strong>
+        <small>Próximamente</small>
+      </span>
+    </button>
+
+    <button class="boton-portada mapas-proximamente" disabled>
+      <span class="boton-icono">🌎</span>
+      <span class="boton-texto">
+        <strong>América</strong>
+        <small>Próximamente</small>
+      </span>
+    </button>
+
+    <button class="boton-portada mapas-proximamente" disabled>
+      <span class="boton-icono">🌊</span>
+      <span class="boton-texto">
+        <strong>Oceanía</strong>
+        <small>Próximamente</small>
+      </span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     MAPAS - CONFIGURACIÓN
+========================== -->
+
+<section id="mapas-config" class="oculto">
+
+  <button id="volver-mapas-continente" class="btn-volver">
+    ← Volver a continentes
+  </button>
+
+  <div class="espana-cabecera">
+    <div id="mapas-config-icono" class="espana-bandera">🗺️</div>
+
+    <h2 id="mapas-config-titulo">
+      Europa
+    </h2>
+
+    <p id="mapas-config-descripcion">
+      Elige cómo quieres practicar.
+    </p>
+  </div>
+
+  <div class="espana-opciones">
+
+    <button id="mapas-entrenamiento" class="boton-portada">
+      <span class="boton-icono">♾️</span>
+      <span class="boton-texto">
+        <strong>Entrenamiento libre</strong>
+        <small>Sin límite · aviso cada 15 preguntas.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="mapas-examen10" class="boton-portada">
+      <span class="boton-icono">📝</span>
+      <span class="boton-texto">
+        <strong>Examen · 10 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Sin repeticiones.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="mapas-examen20" class="boton-portada">
+      <span class="boton-icono">🎯</span>
+      <span class="boton-texto">
+        <strong>Examen · 20 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Revisión al terminar.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     MAPAS - JUEGO
+========================== -->
+
+<section id="mapas-juego" class="oculto">
+
+  <button id="volver-mapas-desde-juego" class="btn-volver">
+    ← Volver a Mapas
+  </button>
+
+  <div class="info-partida">
+    <span id="mapas-tipo-partida">Europa</span>
+    <span id="mapas-numero-pregunta">Pregunta 1</span>
+    <span id="mapas-temporizador" class="temporizador oculto">⏱ 10 s</span>
+  </div>
+
+  <div class="marcador">
+    <span>✅ <span id="mapas-aciertos">0</span></span>
+    <span>❌ <span id="mapas-fallos">0</span></span>
+  </div>
+
+  <h2 id="mapas-pregunta">
+    Localiza…
+  </h2>
+
+  <p id="mapas-ayuda" class="mapas-ayuda">
+    Toca directamente sobre el mapa.
+  </p>
+
+  <div id="mapas-lienzo" class="mapas-lienzo">
+  </div>
+
+  <div id="mapas-feedback" class="oculto">
+  </div>
+
+  <button id="mapas-siguiente" class="oculto">
+    Siguiente pregunta →
+  </button>
+
+</section>
+
+
+<!-- =========================
+     MAPAS - PAUSA ENTRENAMIENTO
+========================== -->
+
+<div
+  id="mapas-pausa"
+  class="modal-entrenamiento oculto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="mapas-pausa-titulo"
+>
+
+  <div class="modal-entrenamiento-contenido">
+
+    <div class="modal-entrenamiento-icono">🗺️</div>
+
+    <h2 id="mapas-pausa-titulo">
+      ¡Buen ritmo!
+    </h2>
+
+    <p id="mapas-pausa-texto">
+      Llevas 15 preguntas. ¿Quieres seguir practicando?
+    </p>
+
+    <button id="mapas-continuar">
+      Seguir practicando →
+    </button>
+
+    <button id="mapas-salir" class="btn-secundario">
+      ← Volver a Mapas
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     MAPAS - RESULTADO
+========================== -->
+
+<section id="mapas-fin" class="oculto">
+
+  <button id="volver-mapas-fin" class="btn-volver">
+    ← Volver a Mapas
+  </button>
+
+  <h2>Resultado</h2>
+
+  <div id="mapas-resultado-examen"></div>
+
+  <div id="mapas-revision-examen"></div>
+
+  <div class="acciones-fin-examen">
+
+    <button id="mapas-repetir-examen">
+      ↻ Repetir este examen
+    </button>
+
+    <button id="mapas-nuevo-examen">
+      ✦ Nuevo examen
+    </button>
+
+    <button id="mapas-repasar-fallos" class="btn-repasar-fallos oculto">
+      🎯 Repasar solo mis fallos
+    </button>
+
+    <button id="mapas-volver-menu" class="btn-secundario">
+      ← Volver a Mapas
+    </button>
+
+  </div>
+
+</section>
+
+
 <!-- =========================
      CONTENIDO EN DESARROLLO
 ========================== -->
@@ -1171,6 +1461,8 @@
 <script src="sabiasque.js"></script>
 <script src="script.js"></script>
 <script src="rios.js"></script>
+<script src="mapas-europa.js"></script>
+<script src="mapas.js"></script>
 
 </body>
 </html>

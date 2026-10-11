@@ -1277,11 +1277,7 @@ btnRios.addEventListener(
 btnMapas.addEventListener(
   "click",
   () => {
-    mostrarContenidoDesarrollo(
-      "Mapas",
-      "📍",
-      "Aquí construiremos la práctica para localizar países directamente sobre el mapa."
-    );
+    abrirMapasMenu();
   }
 );
 
@@ -3172,6 +3168,10 @@ sabiasQueDetalle.classList.add("oculto");
 
   if (typeof ocultarPantallasRios === "function") {
     ocultarPantallasRios();
+  }
+
+  if (typeof ocultarPantallasMapas === "function") {
+    ocultarPantallasMapas();
   }
 }
 // ==========================================
