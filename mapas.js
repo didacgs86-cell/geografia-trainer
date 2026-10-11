@@ -108,6 +108,34 @@ let mapasEsRepasoFallos = false;
 
 
 // ==========================================
+// ESTADO DEL MAPA: ZOOM, PAN Y GESTOS
+// ==========================================
+
+const MAPAS_VIEWBOX_INICIAL = {
+  x: 0,
+  y: 0,
+  ancho: 1000,
+  alto: 650
+};
+
+const MAPAS_ZOOM_MIN = 1;
+const MAPAS_ZOOM_MAX = 4.5;
+
+let mapasViewBoxActual = {
+  ...MAPAS_VIEWBOX_INICIAL
+};
+
+let mapasPunterosActivos =
+  new Map();
+
+let mapasArrastre = null;
+let mapasDistanciaPinza = null;
+let mapasCentroPinza = null;
+let mapasHuboMovimiento = false;
+let mapasIgnorarSiguienteClick = false;
+
+
+// ==========================================
 // UTILIDADES
 // ==========================================
 
@@ -403,7 +431,7 @@ function crearSvgEuropaMapas() {
                 class="mapas-capital-visible"
                 cx="${capital.x}"
                 cy="${capital.y}"
-                r="4.5"
+                r="5.5"
               ></circle>
 
               <circle
@@ -446,9 +474,44 @@ function crearSvgEuropaMapas() {
 
     </svg>
 
+    <div
+      class="mapas-controles"
+      aria-label="Controles del mapa"
+    >
+      <button
+        type="button"
+        id="mapas-zoom-mas"
+        class="mapas-control"
+        aria-label="Ampliar mapa"
+        title="Ampliar"
+      >
+        +
+      </button>
+
+      <button
+        type="button"
+        id="mapas-zoom-menos"
+        class="mapas-control"
+        aria-label="Reducir mapa"
+        title="Reducir"
+      >
+        −
+      </button>
+
+      <button
+        type="button"
+        id="mapas-zoom-reset"
+        class="mapas-control mapas-control-reset"
+        aria-label="Restablecer vista"
+        title="Ver Europa completa"
+      >
+        ↺
+      </button>
+    </div>
+
     <div class="mapas-leyenda">
       <span>
-        Datos cartográficos: Natural Earth · dominio público
+        Natural Earth · dominio público
       </span>
     </div>
   `;
@@ -463,6 +526,10 @@ function crearSvgEuropaMapas() {
     document.getElementById(
       "mapas-paises-capa"
     );
+
+  reiniciarVistaMapas();
+  activarControlesMapa();
+  activarGestosMapa();
 
 
   if (mapasModoActual === "paises") {
@@ -507,6 +574,11 @@ function activarClicksPaisesMapas() {
 
             evento.stopPropagation();
 
+            if (mapasIgnorarSiguienteClick) {
+              mapasIgnorarSiguienteClick = false;
+              return;
+            }
+
             responderMapa(
               elemento.dataset.iso
             );
@@ -519,27 +591,690 @@ function activarClicksPaisesMapas() {
 
 function activarClicksCapitalesMapas() {
 
-  mapasLienzo
-    .querySelectorAll(
-      ".mapas-capital"
-    )
-    .forEach(
-      elemento => {
+  const svg =
+    document.getElementById(
+      "mapas-svg"
+    );
 
-        elemento.addEventListener(
-          "click",
-          evento => {
+  if (!svg) return;
 
-            evento.stopPropagation();
+  svg.addEventListener(
+    "click",
+    evento => {
 
-            responderMapa(
-              elemento.dataset.iso
-            );
-          }
+      if (mapasRespondida) return;
+
+      if (mapasIgnorarSiguienteClick) {
+        mapasIgnorarSiguienteClick = false;
+        return;
+      }
+
+      const punto =
+        convertirPuntoClienteASvg(
+          evento.clientX,
+          evento.clientY
+        );
+
+      if (!punto) return;
+
+      const isoMasCercano =
+        capitalMasCercanaMapas(
+          punto.x,
+          punto.y
+        );
+
+      if (isoMasCercano) {
+        responderMapa(
+          isoMasCercano
         );
       }
+    }
+  );
+}
+
+
+function capitalMasCercanaMapas(
+  x,
+  y
+) {
+
+  let mejorISO = null;
+  let mejorDistancia = Infinity;
+
+  MAPA_EUROPA.ordenISO.forEach(
+    iso => {
+
+      const capital =
+        MAPA_EUROPA.capitales[iso];
+
+      const dx =
+        capital.x - x;
+
+      const dy =
+        capital.y - y;
+
+      const distancia =
+        Math.sqrt(
+          dx * dx +
+          dy * dy
+        );
+
+      if (
+        distancia <
+        mejorDistancia
+      ) {
+        mejorDistancia =
+          distancia;
+
+        mejorISO =
+          iso;
+      }
+    }
+  );
+
+  return mejorISO;
+}
+
+// ==========================================
+// ZOOM / PAN / SELECCIÓN ESPACIAL
+// ==========================================
+
+function obtenerSvgMapas() {
+
+  return document.getElementById(
+    "mapas-svg"
+  );
+}
+
+
+function aplicarViewBoxMapas() {
+
+  const svg =
+    obtenerSvgMapas();
+
+  if (!svg) return;
+
+  svg.setAttribute(
+    "viewBox",
+    [
+      mapasViewBoxActual.x,
+      mapasViewBoxActual.y,
+      mapasViewBoxActual.ancho,
+      mapasViewBoxActual.alto
+    ].join(" ")
+  );
+}
+
+
+function limitarViewBoxMapas() {
+
+  const inicial =
+    MAPAS_VIEWBOX_INICIAL;
+
+  mapasViewBoxActual.ancho =
+    Math.max(
+      inicial.ancho /
+        MAPAS_ZOOM_MAX,
+      Math.min(
+        inicial.ancho /
+          MAPAS_ZOOM_MIN,
+        mapasViewBoxActual.ancho
+      )
+    );
+
+  mapasViewBoxActual.alto =
+    mapasViewBoxActual.ancho *
+    (
+      inicial.alto /
+      inicial.ancho
+    );
+
+  const maxX =
+    inicial.x +
+    inicial.ancho -
+    mapasViewBoxActual.ancho;
+
+  const maxY =
+    inicial.y +
+    inicial.alto -
+    mapasViewBoxActual.alto;
+
+  mapasViewBoxActual.x =
+    Math.max(
+      inicial.x,
+      Math.min(
+        maxX,
+        mapasViewBoxActual.x
+      )
+    );
+
+  mapasViewBoxActual.y =
+    Math.max(
+      inicial.y,
+      Math.min(
+        maxY,
+        mapasViewBoxActual.y
+      )
     );
 }
+
+
+function reiniciarVistaMapas() {
+
+  mapasViewBoxActual = {
+    ...MAPAS_VIEWBOX_INICIAL
+  };
+
+  mapasPunterosActivos.clear();
+  mapasArrastre = null;
+  mapasDistanciaPinza = null;
+  mapasCentroPinza = null;
+  mapasHuboMovimiento = false;
+  mapasIgnorarSiguienteClick = false;
+
+  aplicarViewBoxMapas();
+}
+
+
+function convertirPuntoClienteASvg(
+  clientX,
+  clientY
+) {
+
+  const svg =
+    obtenerSvgMapas();
+
+  if (!svg) return null;
+
+  const rect =
+    svg.getBoundingClientRect();
+
+  if (
+    rect.width === 0 ||
+    rect.height === 0
+  ) {
+    return null;
+  }
+
+  return {
+    x:
+      mapasViewBoxActual.x +
+      (
+        (clientX - rect.left) /
+        rect.width
+      ) *
+      mapasViewBoxActual.ancho,
+
+    y:
+      mapasViewBoxActual.y +
+      (
+        (clientY - rect.top) /
+        rect.height
+      ) *
+      mapasViewBoxActual.alto
+  };
+}
+
+
+function zoomMapas(
+  factor,
+  centroCliente = null
+) {
+
+  const svg =
+    obtenerSvgMapas();
+
+  if (!svg) return;
+
+  const zoomActual =
+    MAPAS_VIEWBOX_INICIAL.ancho /
+    mapasViewBoxActual.ancho;
+
+  const zoomNuevo =
+    Math.max(
+      MAPAS_ZOOM_MIN,
+      Math.min(
+        MAPAS_ZOOM_MAX,
+        zoomActual * factor
+      )
+    );
+
+  const anchoNuevo =
+    MAPAS_VIEWBOX_INICIAL.ancho /
+    zoomNuevo;
+
+  const altoNuevo =
+    MAPAS_VIEWBOX_INICIAL.alto /
+    zoomNuevo;
+
+  let centroSvg;
+
+  if (centroCliente) {
+
+    centroSvg =
+      convertirPuntoClienteASvg(
+        centroCliente.x,
+        centroCliente.y
+      );
+
+  } else {
+
+    centroSvg = {
+      x:
+        mapasViewBoxActual.x +
+        mapasViewBoxActual.ancho / 2,
+      y:
+        mapasViewBoxActual.y +
+        mapasViewBoxActual.alto / 2
+    };
+  }
+
+  if (!centroSvg) return;
+
+  const proporcionX =
+    (
+      centroSvg.x -
+      mapasViewBoxActual.x
+    ) /
+    mapasViewBoxActual.ancho;
+
+  const proporcionY =
+    (
+      centroSvg.y -
+      mapasViewBoxActual.y
+    ) /
+    mapasViewBoxActual.alto;
+
+  mapasViewBoxActual = {
+    x:
+      centroSvg.x -
+      proporcionX *
+      anchoNuevo,
+    y:
+      centroSvg.y -
+      proporcionY *
+      altoNuevo,
+    ancho:
+      anchoNuevo,
+    alto:
+      altoNuevo
+  };
+
+  limitarViewBoxMapas();
+  aplicarViewBoxMapas();
+}
+
+
+function activarControlesMapa() {
+
+  const btnMas =
+    document.getElementById(
+      "mapas-zoom-mas"
+    );
+
+  const btnMenos =
+    document.getElementById(
+      "mapas-zoom-menos"
+    );
+
+  const btnReset =
+    document.getElementById(
+      "mapas-zoom-reset"
+    );
+
+  if (
+    !btnMas ||
+    !btnMenos ||
+    !btnReset
+  ) {
+    return;
+  }
+
+  btnMas.addEventListener(
+    "click",
+    evento => {
+
+      evento.stopPropagation();
+
+      zoomMapas(1.45);
+    }
+  );
+
+  btnMenos.addEventListener(
+    "click",
+    evento => {
+
+      evento.stopPropagation();
+
+      zoomMapas(
+        1 / 1.45
+      );
+    }
+  );
+
+  btnReset.addEventListener(
+    "click",
+    evento => {
+
+      evento.stopPropagation();
+
+      reiniciarVistaMapas();
+    }
+  );
+}
+
+
+function distanciaEntrePunterosMapas() {
+
+  const puntos =
+    [...mapasPunterosActivos.values()];
+
+  if (puntos.length < 2) {
+    return null;
+  }
+
+  const dx =
+    puntos[0].x -
+    puntos[1].x;
+
+  const dy =
+    puntos[0].y -
+    puntos[1].y;
+
+  return Math.sqrt(
+    dx * dx +
+    dy * dy
+  );
+}
+
+
+function centroEntrePunterosMapas() {
+
+  const puntos =
+    [...mapasPunterosActivos.values()];
+
+  if (puntos.length < 2) {
+    return null;
+  }
+
+  return {
+    x:
+      (
+        puntos[0].x +
+        puntos[1].x
+      ) / 2,
+
+    y:
+      (
+        puntos[0].y +
+        puntos[1].y
+      ) / 2
+  };
+}
+
+
+function activarGestosMapa() {
+
+  const svg =
+    obtenerSvgMapas();
+
+  if (!svg) return;
+
+  svg.addEventListener(
+    "wheel",
+    evento => {
+
+      evento.preventDefault();
+
+      const factor =
+        evento.deltaY < 0
+          ? 1.16
+          : 1 / 1.16;
+
+      zoomMapas(
+        factor,
+        {
+          x: evento.clientX,
+          y: evento.clientY
+        }
+      );
+    },
+    {
+      passive: false
+    }
+  );
+
+
+  svg.addEventListener(
+    "pointerdown",
+    evento => {
+
+      if (
+        evento.pointerType === "mouse" &&
+        evento.button !== 0
+      ) {
+        return;
+      }
+
+      svg.setPointerCapture(
+        evento.pointerId
+      );
+
+      mapasPunterosActivos.set(
+        evento.pointerId,
+        {
+          x: evento.clientX,
+          y: evento.clientY
+        }
+      );
+
+      mapasHuboMovimiento = false;
+
+      if (
+        mapasPunterosActivos.size === 1
+      ) {
+
+        mapasArrastre = {
+          x: evento.clientX,
+          y: evento.clientY
+        };
+
+      } else if (
+        mapasPunterosActivos.size === 2
+      ) {
+
+        mapasDistanciaPinza =
+          distanciaEntrePunterosMapas();
+
+        mapasCentroPinza =
+          centroEntrePunterosMapas();
+
+        mapasArrastre = null;
+      }
+    }
+  );
+
+
+  svg.addEventListener(
+    "pointermove",
+    evento => {
+
+      if (
+        !mapasPunterosActivos.has(
+          evento.pointerId
+        )
+      ) {
+        return;
+      }
+
+      const anterior =
+        mapasPunterosActivos.get(
+          evento.pointerId
+        );
+
+      mapasPunterosActivos.set(
+        evento.pointerId,
+        {
+          x: evento.clientX,
+          y: evento.clientY
+        }
+      );
+
+
+      if (
+        mapasPunterosActivos.size === 2
+      ) {
+
+        const nuevaDistancia =
+          distanciaEntrePunterosMapas();
+
+        const nuevoCentro =
+          centroEntrePunterosMapas();
+
+        if (
+          mapasDistanciaPinza &&
+          nuevaDistancia &&
+          nuevoCentro
+        ) {
+
+          const diferencia =
+            Math.abs(
+              nuevaDistancia -
+              mapasDistanciaPinza
+            );
+
+          if (diferencia > 2) {
+            mapasHuboMovimiento = true;
+          }
+
+          const factor =
+            nuevaDistancia /
+            mapasDistanciaPinza;
+
+          zoomMapas(
+            factor,
+            nuevoCentro
+          );
+
+          mapasDistanciaPinza =
+            nuevaDistancia;
+
+          mapasCentroPinza =
+            nuevoCentro;
+        }
+
+        return;
+      }
+
+
+      if (
+        mapasPunterosActivos.size === 1 &&
+        mapasArrastre
+      ) {
+
+        const dxPix =
+          evento.clientX -
+          mapasArrastre.x;
+
+        const dyPix =
+          evento.clientY -
+          mapasArrastre.y;
+
+        if (
+          Math.abs(dxPix) > 3 ||
+          Math.abs(dyPix) > 3
+        ) {
+          mapasHuboMovimiento = true;
+        }
+
+        if (
+          mapasViewBoxActual.ancho <
+          MAPAS_VIEWBOX_INICIAL.ancho
+        ) {
+
+          const rect =
+            svg.getBoundingClientRect();
+
+          mapasViewBoxActual.x -=
+            dxPix /
+            rect.width *
+            mapasViewBoxActual.ancho;
+
+          mapasViewBoxActual.y -=
+            dyPix /
+            rect.height *
+            mapasViewBoxActual.alto;
+
+          limitarViewBoxMapas();
+          aplicarViewBoxMapas();
+        }
+
+        mapasArrastre = {
+          x: evento.clientX,
+          y: evento.clientY
+        };
+      }
+    }
+  );
+
+
+  const terminarPuntero =
+    evento => {
+
+      mapasPunterosActivos.delete(
+        evento.pointerId
+      );
+
+      if (
+        mapasHuboMovimiento
+      ) {
+        mapasIgnorarSiguienteClick = true;
+
+        setTimeout(
+          () => {
+            mapasIgnorarSiguienteClick = false;
+          },
+          120
+        );
+      }
+
+      if (
+        mapasPunterosActivos.size < 2
+      ) {
+        mapasDistanciaPinza = null;
+        mapasCentroPinza = null;
+      }
+
+      if (
+        mapasPunterosActivos.size === 1
+      ) {
+
+        const restante =
+          [...mapasPunterosActivos.values()][0];
+
+        mapasArrastre = {
+          x: restante.x,
+          y: restante.y
+        };
+
+      } else {
+
+        mapasArrastre = null;
+      }
+    };
+
+
+  svg.addEventListener(
+    "pointerup",
+    terminarPuntero
+  );
+
+  svg.addEventListener(
+    "pointercancel",
+    terminarPuntero
+  );
+}
+
 
 
 // ==========================================
@@ -778,8 +1513,8 @@ function mostrarPreguntaMapas() {
     mapasPreguntaTexto.textContent =
       `Localiza ${mapasObjetivoActual.capital}`;
 
-    mapasAyuda.textContent =
-      "Toca el punto correspondiente a la capital.";
+    mapasAyuda.innerHTML =
+      `${banderaMapas(mapasObjetivoActual.iso)} <strong>${escaparMapas(mapasObjetivoActual.pais)}</strong> · Toca la zona del mapa donde se encuentra la capital.`;
   }
 
 
