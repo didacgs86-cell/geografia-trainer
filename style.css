@@ -1416,3 +1416,15 @@ body {
     font-size: 14px;
   }
 }
+
+
+/* =========================================
+   PREGUNTA DE RÍOS - MAYOR CONTRASTE
+========================================= */
+
+#rios-pregunta {
+  color: #111111;
+  font-weight: 700;
+  opacity: 1;
+  text-shadow: none;
+}
