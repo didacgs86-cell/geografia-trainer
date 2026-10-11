@@ -30,6 +30,33 @@ const mapasOrografiaMenu =
 const contenidoDesarrollo =
   document.getElementById("contenido-desarrollo");
 
+const avisoLegal =
+  document.getElementById("aviso-legal");
+
+const politicaPrivacidad =
+  document.getElementById("politica-privacidad");
+
+const politicaCookies =
+  document.getElementById("politica-cookies");
+
+const btnAvisoLegal =
+  document.getElementById("btn-aviso-legal");
+
+const btnPrivacidad =
+  document.getElementById("btn-privacidad");
+
+const btnCookies =
+  document.getElementById("btn-cookies");
+
+const btnVolverAvisoLegal =
+  document.getElementById("volver-aviso-legal");
+
+const btnVolverPrivacidad =
+  document.getElementById("volver-privacidad");
+
+const btnVolverCookies =
+  document.getElementById("volver-cookies");
+
 const tituloContenidoDesarrollo =
   document.getElementById("titulo-contenido-desarrollo");
 
@@ -1167,6 +1194,65 @@ function mostrarInicioPrincipal() {
   inicio.classList.remove("oculto");
 }
 
+
+function mostrarAvisoLegal() {
+
+  ocultarTodasLasPantallas();
+
+  avisoLegal.classList.remove("oculto");
+}
+
+
+function mostrarPoliticaPrivacidad() {
+
+  ocultarTodasLasPantallas();
+
+  politicaPrivacidad.classList.remove("oculto");
+}
+
+
+function mostrarPoliticaCookies() {
+
+  ocultarTodasLasPantallas();
+
+  politicaCookies.classList.remove("oculto");
+}
+
+
+btnAvisoLegal.addEventListener(
+  "click",
+  mostrarAvisoLegal
+);
+
+btnPrivacidad.addEventListener(
+  "click",
+  mostrarPoliticaPrivacidad
+);
+
+btnCookies.addEventListener(
+  "click",
+  mostrarPoliticaCookies
+);
+
+btnVolverAvisoLegal.addEventListener(
+  "click",
+  mostrarInicioPrincipal
+);
+
+btnVolverPrivacidad.addEventListener(
+  "click",
+  mostrarInicioPrincipal
+);
+
+btnVolverCookies.addEventListener(
+  "click",
+  mostrarInicioPrincipal
+);
+
+
+// ==========================================
+// MENÚS PRINCIPALES
+// ==========================================
 
 function mostrarGeografiaMenu() {
 
@@ -3146,6 +3232,10 @@ function ocultarTodasLasPantallas() {
   viajesMenu.classList.add("oculto");
   mapasOrografiaMenu.classList.add("oculto");
   contenidoDesarrollo.classList.add("oculto");
+
+  avisoLegal.classList.add("oculto");
+  politicaPrivacidad.classList.add("oculto");
+  politicaCookies.classList.add("oculto");
 
   configuracion.classList.add("oculto");
 
