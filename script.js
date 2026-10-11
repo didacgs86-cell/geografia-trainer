@@ -13,6 +13,67 @@ if (typeof GEO_DATA === "undefined") {
 
 const inicio = document.getElementById("inicio");
 const configuracion = document.getElementById("configuracion");
+
+const geografiaMenu =
+  document.getElementById("geografia-menu");
+
+const historiaMenu =
+  document.getElementById("historia-menu");
+
+const viajesMenu =
+  document.getElementById("viajes-menu");
+
+const mapasOrografiaMenu =
+  document.getElementById("mapas-orografia-menu");
+
+const contenidoDesarrollo =
+  document.getElementById("contenido-desarrollo");
+
+const tituloContenidoDesarrollo =
+  document.getElementById("titulo-contenido-desarrollo");
+
+const iconoContenidoDesarrollo =
+  document.getElementById("icono-contenido-desarrollo");
+
+const textoContenidoDesarrollo =
+  document.getElementById("texto-contenido-desarrollo");
+
+const btnGeografia =
+  document.getElementById("btn-geografia");
+
+const btnHistoria =
+  document.getElementById("btn-historia");
+
+const btnViajes =
+  document.getElementById("btn-viajes");
+
+const btnVolverGeografiaInicio =
+  document.getElementById("volver-geografia-inicio");
+
+const btnVolverHistoriaInicio =
+  document.getElementById("volver-historia-inicio");
+
+const btnVolverViajesInicio =
+  document.getElementById("volver-viajes-inicio");
+
+const btnMapasOrografia =
+  document.getElementById("btn-mapas-orografia");
+
+const btnVolverMapasOrografiaGeografia =
+  document.getElementById("volver-mapas-orografia-geografia");
+
+const btnMontanas =
+  document.getElementById("btn-montanas");
+
+const btnRios =
+  document.getElementById("btn-rios");
+
+const btnMapas =
+  document.getElementById("btn-mapas");
+
+const btnVolverContenidoDesarrollo =
+  document.getElementById("volver-contenido-desarrollo");
+
 const sabiasQueMenu =
   document.getElementById("sabiasque-menu");
 
@@ -1091,7 +1152,146 @@ const COORDENADAS_EXTRA = {
 
 
 // ==========================================
-// MENÚ PRINCIPAL
+// NAVEGACIÓN PRINCIPAL
+// ==========================================
+
+function mostrarInicioPrincipal() {
+
+  ocultarTodasLasPantallas();
+
+  inicio.classList.remove("oculto");
+}
+
+
+function mostrarGeografiaMenu() {
+
+  ocultarTodasLasPantallas();
+
+  geografiaMenu.classList.remove("oculto");
+}
+
+
+function mostrarHistoriaMenu() {
+
+  ocultarTodasLasPantallas();
+
+  historiaMenu.classList.remove("oculto");
+}
+
+
+function mostrarViajesMenu() {
+
+  ocultarTodasLasPantallas();
+
+  viajesMenu.classList.remove("oculto");
+}
+
+
+function mostrarMapasOrografiaMenu() {
+
+  ocultarTodasLasPantallas();
+
+  mapasOrografiaMenu.classList.remove("oculto");
+}
+
+
+function mostrarContenidoDesarrollo(
+  titulo,
+  icono,
+  texto
+) {
+
+  ocultarTodasLasPantallas();
+
+  contenidoDesarrollo.classList.remove("oculto");
+
+  tituloContenidoDesarrollo.textContent = titulo;
+  iconoContenidoDesarrollo.textContent = icono;
+  textoContenidoDesarrollo.textContent = texto;
+}
+
+
+btnGeografia.addEventListener(
+  "click",
+  mostrarGeografiaMenu
+);
+
+btnHistoria.addEventListener(
+  "click",
+  mostrarHistoriaMenu
+);
+
+btnViajes.addEventListener(
+  "click",
+  mostrarViajesMenu
+);
+
+btnVolverGeografiaInicio.addEventListener(
+  "click",
+  mostrarInicioPrincipal
+);
+
+btnVolverHistoriaInicio.addEventListener(
+  "click",
+  mostrarInicioPrincipal
+);
+
+btnVolverViajesInicio.addEventListener(
+  "click",
+  mostrarInicioPrincipal
+);
+
+btnMapasOrografia.addEventListener(
+  "click",
+  mostrarMapasOrografiaMenu
+);
+
+btnVolverMapasOrografiaGeografia.addEventListener(
+  "click",
+  mostrarGeografiaMenu
+);
+
+btnMontanas.addEventListener(
+  "click",
+  () => {
+    mostrarContenidoDesarrollo(
+      "Montañas",
+      "⛰️",
+      "Aquí construiremos la práctica de montañas, cordilleras y grandes cumbres."
+    );
+  }
+);
+
+btnRios.addEventListener(
+  "click",
+  () => {
+    mostrarContenidoDesarrollo(
+      "Ríos",
+      "🌊",
+      "Aquí construiremos la práctica de grandes ríos, cuencas y localización."
+    );
+  }
+);
+
+btnMapas.addEventListener(
+  "click",
+  () => {
+    mostrarContenidoDesarrollo(
+      "Mapas",
+      "📍",
+      "Aquí construiremos la práctica para localizar países directamente sobre el mapa."
+    );
+  }
+);
+
+btnVolverContenidoDesarrollo.addEventListener(
+  "click",
+  mostrarMapasOrografiaMenu
+);
+
+
+// ==========================================
+// MENÚ DE GEOGRAFÍA
 // ==========================================
 
 btnCapitales.addEventListener("click", () => {
@@ -1130,6 +1330,12 @@ btnEspana.addEventListener("click", () => {
   espanaMenu.classList.remove("oculto");
 
 });
+
+
+// ==========================================
+// MENÚ DE VIAJES
+// ==========================================
+
 btnSabiasQue.addEventListener("click", () => {
 
   ocultarTodasLasPantallas();
@@ -1143,7 +1349,7 @@ btnSabiasQue.addEventListener("click", () => {
 
 btnVolverSabiasQueInicio.addEventListener(
   "click",
-  volverAlMenu
+  mostrarViajesMenu
 );
 
 
@@ -1278,9 +1484,7 @@ btnVolverEspanaInicio.addEventListener(
 
 function volverAlMenu() {
 
-  ocultarTodasLasPantallas();
-
-  inicio.classList.remove("oculto");
+  mostrarGeografiaMenu();
 }
 
 
@@ -2935,6 +3139,12 @@ function ocultarTodasLasPantallas() {
   cancelarTemporizadores();
 
   inicio.classList.add("oculto");
+
+  geografiaMenu.classList.add("oculto");
+  historiaMenu.classList.add("oculto");
+  viajesMenu.classList.add("oculto");
+  mapasOrografiaMenu.classList.add("oculto");
+  contenidoDesarrollo.classList.add("oculto");
 
   configuracion.classList.add("oculto");
 

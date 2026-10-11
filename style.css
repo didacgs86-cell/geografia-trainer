@@ -954,3 +954,39 @@ body {
 #salir-entrenamiento {
   margin-top: 4px;
 }
+
+
+/* =========================================
+   NAVEGACIÓN POR ÁREAS
+========================================= */
+
+#geografia-menu,
+#historia-menu,
+#viajes-menu,
+#mapas-orografia-menu,
+#contenido-desarrollo {
+  color: #1f2937;
+}
+
+.mensaje-desarrollo {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 20px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.mensaje-desarrollo strong {
+  font-size: 17px;
+  color: #334155;
+}
+
+.mensaje-desarrollo span {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #64748b;
+}
