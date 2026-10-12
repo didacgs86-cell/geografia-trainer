@@ -470,9 +470,9 @@ function renderArticuloCaidaRoma(tema, bloque, articulo) {
             <strong>Para recordar</strong>
 
             <span>
-              El año 476 sirve como fecha convencional, pero el propio texto
-              presenta la desaparición del Imperio romano de Occidente como
-              un proceso largo de transformación y no como una ruptura súbita.
+              El año 476 se utiliza como fecha convencional del final del Imperio
+              romano de Occidente, pero su desaparición fue el resultado de un
+              proceso largo de transformación y no de una ruptura súbita.
             </span>
           </div>
 
