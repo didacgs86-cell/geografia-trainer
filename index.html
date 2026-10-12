@@ -161,7 +161,7 @@
 
       <span class="boton-texto">
         <strong>Mapas y orografía</strong>
-        <small>Montañas, ríos y práctica con mapas.</small>
+        <small>Montañas, ríos, mares y práctica con mapas.</small>
       </span>
 
       <span class="boton-flecha">›</span>
@@ -188,15 +188,51 @@
     <h2>Historia</h2>
 
     <p>
-      Esta sección queda preparada para ir incorporando
-      contenidos, repasos y ejercicios de Historia.
+      Repasos cronológicos y conceptos esenciales de las grandes civilizaciones antiguas.
     </p>
   </div>
 
-  <div class="mensaje-desarrollo">
-    <strong>Próximamente</strong>
-    <span>La estructura ya está creada para seguir ampliándola.</span>
+  <div class="inicio-opciones">
+
+    <button class="boton-portada historia-tema-btn" data-historia-tema="grecia">
+      <span class="boton-icono">🏛️</span>
+      <span class="boton-texto">
+        <strong>Antigua Grecia</strong>
+        <small>Polis, guerras médicas, Atenas, Esparta y mundo helenístico.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada historia-tema-btn" data-historia-tema="roma">
+      <span class="boton-icono">🏺</span>
+      <span class="boton-texto">
+        <strong>Antigua Roma</strong>
+        <small>Monarquía, República, Imperio y caída de Occidente.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada historia-tema-btn" data-historia-tema="mesopotamia">
+      <span class="boton-icono">𒀭</span>
+      <span class="boton-texto">
+        <strong>Mesopotamia</strong>
+        <small>Sumer, Acad, Babilonia, Asiria y escritura cuneiforme.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
   </div>
+
+</section>
+
+
+<section id="historia-tema" class="oculto">
+
+  <button id="volver-historia-tema" class="btn-volver">
+    ← Volver a Historia
+  </button>
+
+  <div id="historia-tema-contenido"></div>
 
 </section>
 
@@ -235,6 +271,18 @@
       <span class="boton-flecha">›</span>
     </button>
 
+    <button id="btn-maravillas" class="boton-portada">
+      <span class="boton-icono">✨</span>
+
+      <span class="boton-texto">
+        <strong>Maravillas del mundo</strong>
+        <small>Las siete maravillas antiguas y las siete modernas.</small>
+      </span>
+
+      <span class="boton-flecha">›</span>
+    </button>
+
+
     <button id="btn-monedas" class="boton-portada">
       <span class="boton-icono">💱</span>
 
@@ -250,6 +298,42 @@
 
 </section>
 
+
+
+
+<!-- =========================
+     MARAVILLAS DEL MUNDO
+========================== -->
+
+<section id="maravillas-menu" class="oculto">
+
+  <button id="volver-maravillas-viajes" class="btn-volver">
+    ← Volver a Viajes
+  </button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">✨</div>
+
+    <h2>Maravillas del mundo</h2>
+
+    <p>
+      Compara las siete maravillas de la Antigüedad con la lista moderna de New7Wonders.
+    </p>
+  </div>
+
+  <div class="maravillas-selector">
+    <button class="maravillas-tab activa" data-maravillas-grupo="antiguas">
+      🏺 Antiguas
+    </button>
+
+    <button class="maravillas-tab" data-maravillas-grupo="modernas">
+      🌍 Modernas
+    </button>
+  </div>
+
+  <div id="maravillas-lista"></div>
+
+</section>
 
 
 <!-- =========================
@@ -407,7 +491,7 @@
     <h2>Mapas y orografía</h2>
 
     <p>
-      Practica el relieve, los ríos y la localización de países sobre mapas.
+      Practica el relieve, los ríos, los mares y la localización sobre mapas.
     </p>
   </div>
 
@@ -437,6 +521,18 @@
     </button>
 
 
+    <button id="btn-mares" class="boton-portada">
+      <span class="boton-icono">🌐</span>
+
+      <span class="boton-texto">
+        <strong>Mares y océanos</strong>
+        <small>Principales mares y océanos del mundo.</small>
+      </span>
+
+      <span class="boton-flecha">›</span>
+    </button>
+
+
     <button id="btn-mapas" class="boton-portada">
       <span class="boton-icono">📍</span>
 
@@ -448,6 +544,180 @@
       <span class="boton-flecha">›</span>
     </button>
 
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+     MARES Y OCÉANOS
+========================== -->
+
+<section id="mares-menu" class="oculto">
+
+  <button id="volver-mares-orografia" class="btn-volver">
+    ← Volver a Mapas y orografía
+  </button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">🌐</div>
+
+    <h2>Mares y océanos</h2>
+
+    <p>
+      Repasa los grandes océanos y los principales mares del mundo.
+    </p>
+  </div>
+
+  <div class="inicio-opciones">
+
+    <button class="boton-portada mares-modo" data-mares-modo="pistas">
+      <span class="boton-icono">🧩</span>
+
+      <span class="boton-texto">
+        <strong>Adivina el mar u océano</strong>
+        <small>Tres pistas geográficas y cuatro posibles respuestas.</small>
+      </span>
+
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada mares-modo" data-mares-modo="costa">
+      <span class="boton-icono">🏖️</span>
+
+      <span class="boton-texto">
+        <strong>Mar → País</strong>
+        <small>Elige un país que tenga costa en ese mar.</small>
+      </span>
+
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="mares-config" class="oculto">
+
+  <button id="volver-mares-menu" class="btn-volver">
+    ← Volver a Mares y océanos
+  </button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">🌐</div>
+
+    <h2 id="mares-config-titulo">Adivina el mar u océano</h2>
+
+    <p id="mares-config-descripcion">
+      Elige cómo quieres practicar.
+    </p>
+  </div>
+
+  <div class="espana-opciones">
+
+    <button id="mares-entrenamiento" class="boton-portada">
+      <span class="boton-icono">♾️</span>
+      <span class="boton-texto">
+        <strong>Entrenamiento libre</strong>
+        <small>Sin límite · aviso cada 15 preguntas.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="mares-examen10" class="boton-portada">
+      <span class="boton-icono">📝</span>
+      <span class="boton-texto">
+        <strong>Examen · 10 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Sin repeticiones.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="mares-examen20" class="boton-portada">
+      <span class="boton-icono">🎯</span>
+      <span class="boton-texto">
+        <strong>Examen · 20 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Revisión final.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="mares-juego" class="oculto">
+
+  <button id="volver-mares-desde-juego" class="btn-volver">
+    ← Volver a Mares y océanos
+  </button>
+
+  <div class="info-partida">
+    <span id="mares-tipo-partida">Mares</span>
+    <span id="mares-numero-pregunta">Pregunta 1</span>
+    <span id="mares-temporizador" class="temporizador oculto">⏱ 10 s</span>
+  </div>
+
+  <div class="marcador">
+    <span>✅ <span id="mares-aciertos">0</span></span>
+    <span>❌ <span id="mares-fallos">0</span></span>
+  </div>
+
+  <h2 id="mares-pregunta"></h2>
+
+  <div id="mares-pistas" class="mares-pistas oculto"></div>
+
+  <div id="mares-respuestas"></div>
+
+  <div id="mares-feedback" class="oculto"></div>
+
+  <button id="mares-siguiente" class="oculto">
+    Siguiente pregunta →
+  </button>
+
+</section>
+
+
+<div
+  id="mares-pausa"
+  class="modal-entrenamiento oculto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="mares-pausa-titulo"
+>
+  <div class="modal-entrenamiento-contenido">
+    <div class="modal-entrenamiento-icono">🌐</div>
+    <h2 id="mares-pausa-titulo">¡Buen ritmo!</h2>
+    <p id="mares-pausa-texto">Llevas 15 preguntas. ¿Quieres seguir practicando?</p>
+    <button id="mares-continuar">Seguir practicando →</button>
+    <button id="mares-salir" class="btn-secundario">← Volver a Mares y océanos</button>
+  </div>
+</div>
+
+
+<section id="mares-fin" class="oculto">
+
+  <button id="volver-mares-fin" class="btn-volver">
+    ← Volver a Mares y océanos
+  </button>
+
+  <h2>Resultado</h2>
+
+  <div id="mares-resultado-examen"></div>
+  <div id="mares-revision-examen"></div>
+
+  <div class="acciones-fin-examen">
+    <button id="mares-repetir-examen">↻ Repetir este examen</button>
+    <button id="mares-nuevo-examen">✦ Nuevo examen</button>
+    <button id="mares-repasar-fallos" class="btn-repasar-fallos oculto">
+      🎯 Repasar solo mis fallos
+    </button>
+    <button id="mares-volver-menu" class="btn-secundario">
+      ← Volver a Mares y océanos
+    </button>
   </div>
 
 </section>
@@ -1912,6 +2182,9 @@
 <script src="rios.js"></script>
 <script src="mapas.js"></script>
 <script src="monedas.js"></script>
+<script src="mares.js"></script>
+<script src="historia.js"></script>
+<script src="maravillas.js"></script>
 
 </body>
 </html>

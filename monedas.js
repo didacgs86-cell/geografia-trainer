@@ -91,6 +91,31 @@ function capitalizarMonedas(texto) {
   return texto.charAt(0).toUpperCase() + texto.slice(1);
 }
 
+function monedaCortaMonedas(moneda) {
+
+  if (!moneda) return "";
+
+  if (moneda.codigo === "ILS") {
+    return "séquel";
+  }
+
+  if (moneda.codigo === "ZWG") {
+    return "ZiG";
+  }
+
+  const nombre =
+    String(moneda.moneda || "")
+      .trim();
+
+  if (!nombre) {
+    return moneda.codigo || "";
+  }
+
+  return nombre
+    .split(/\s+/)[0]
+    .toLowerCase();
+}
+
 function etiquetaMoneda(moneda) {
   const simbolo = moneda.simbolo ? ` · ${moneda.simbolo}` : "";
   return `${capitalizarMonedas(moneda.moneda)} (${moneda.codigo})${simbolo}`;
@@ -116,20 +141,42 @@ function crearBancoMonedas() {
     }));
   }
 
-  const porCodigo = new Map();
+  const porDenominacion =
+    new Map();
+
   datos.forEach(pais => {
-    if (!porCodigo.has(pais.codigo)) porCodigo.set(pais.codigo, []);
-    porCodigo.get(pais.codigo).push(pais);
+
+    const corta =
+      monedaCortaMonedas(pais);
+
+    if (
+      !porDenominacion.has(
+        corta
+      )
+    ) {
+      porDenominacion.set(
+        corta,
+        []
+      );
+    }
+
+    porDenominacion
+      .get(corta)
+      .push(pais);
   });
 
-  return [...porCodigo.entries()].map(([codigo, paises]) => ({
-    id: `moneda-pais-${codigo}`,
-    tipo: "moneda-pais",
-    codigo,
-    moneda: paises[0].moneda,
-    simbolo: paises[0].simbolo,
-    paisesCorrectos: paises
-  }));
+  return [...porDenominacion.entries()]
+    .map(
+      ([monedaCorta, paises]) => ({
+        id:
+          `moneda-pais-${monedaCorta}`,
+        tipo:
+          "moneda-pais",
+        monedaCorta,
+        paisesCorrectos:
+          paises
+      })
+    );
 }
 
 function concretarPreguntaMonedas(base) {
@@ -145,32 +192,97 @@ function crearOpcionesMonedas(pregunta) {
   const datos = datosFiltradosMonedas();
 
   if (pregunta.tipo === "pais-moneda") {
-    const correcto = pregunta.pais.codigo;
-    const porCodigo = new Map();
+
+    const correctoCodigo =
+      pregunta.pais.codigo;
+
+    const correctoCorto =
+      monedaCortaMonedas(
+        pregunta.pais
+      );
+
+    const porDenominacion =
+      new Map();
 
     datos.forEach(pais => {
-      if (pais.codigo !== correcto && !porCodigo.has(pais.codigo)) {
-        porCodigo.set(pais.codigo, pais);
+
+      const corta =
+        monedaCortaMonedas(pais);
+
+      if (
+        corta !== correctoCorto &&
+        !porDenominacion.has(corta)
+      ) {
+        porDenominacion.set(
+          corta,
+          pais
+        );
       }
     });
 
-    const distractores = barajarMonedas([...porCodigo.values()]).slice(0, 3);
+    const distractores =
+      barajarMonedas(
+        [...porDenominacion.values()]
+      )
+        .slice(0, 3);
 
-    return barajarMonedas([pregunta.pais, ...distractores]).map(pais => ({
-      valor: pais.codigo,
-      texto: etiquetaMoneda(pais)
-    }));
+    return barajarMonedas([
+      {
+        valor: correctoCodigo,
+        texto:
+          capitalizarMonedas(
+            correctoCorto
+          )
+      },
+      ...distractores.map(
+        pais => ({
+          valor:
+            pais.codigo,
+          texto:
+            capitalizarMonedas(
+              monedaCortaMonedas(
+                pais
+              )
+            )
+        })
+      )
+    ]);
   }
 
-  const correctos = new Set(pregunta.paisesCorrectos.map(p => p.iso2));
-  const distractores = barajarMonedas(
-    datos.filter(p => !correctos.has(p.iso2) && p.codigo !== pregunta.codigo)
-  ).slice(0, 3);
+  const correctos =
+    new Set(
+      pregunta.paisesCorrectos.map(
+        p => p.iso2
+      )
+    );
 
-  return barajarMonedas([pregunta.paisCorrecto, ...distractores]).map(pais => ({
-    valor: pais.iso2,
-    texto: `${banderaMonedas(pais.iso2)} ${pais.pais}`
-  }));
+  const distractores =
+    barajarMonedas(
+      datos.filter(
+        pais =>
+          !correctos.has(
+            pais.iso2
+          ) &&
+          monedaCortaMonedas(
+            pais
+          ) !==
+            pregunta.monedaCorta
+      )
+    )
+      .slice(0, 3);
+
+  return barajarMonedas([
+    pregunta.paisCorrecto,
+    ...distractores
+  ])
+    .map(
+      pais => ({
+        valor:
+          pais.iso2,
+        texto:
+          `${banderaMonedas(pais.iso2)} ${pais.pais}`
+      })
+    );
 }
 
 function cancelarTemporizadorMonedas() {
@@ -356,7 +468,7 @@ function mostrarPreguntaMonedas() {
       `¿Cuál es la moneda de <strong>${banderaMonedas(pais.iso2)} ${escaparMonedas(pais.pais)}</strong>?`;
   } else {
     monedasPreguntaTexto.innerHTML =
-      `¿Cuál de estos países utiliza <strong>${escaparMonedas(capitalizarMonedas(monedasPreguntaActual.moneda))} (${monedasPreguntaActual.codigo})</strong>?`;
+      `¿Cuál de estos países utiliza <strong>${escaparMonedas(capitalizarMonedas(monedasPreguntaActual.monedaCorta))}</strong>?`;
   }
 
   monedasOpcionesActuales = crearOpcionesMonedas(monedasPreguntaActual);
@@ -509,11 +621,7 @@ function mostrarFeedbackMonedas(acierto, tiempoAgotado) {
     moneda = pregunta.pais;
   } else {
     pais = pregunta.paisCorrecto;
-    moneda = {
-      moneda: pregunta.moneda,
-      codigo: pregunta.codigo,
-      simbolo: pregunta.simbolo
-    };
+    moneda = pregunta.paisCorrecto;
   }
 
   const titulo = tiempoAgotado
@@ -606,7 +714,7 @@ function enunciadoRevisionMonedas(resultado) {
     return `¿Cuál es la moneda de ${p.pais.pais}?`;
   }
 
-  return `¿Qué país utiliza ${capitalizarMonedas(p.moneda)} (${p.codigo})?`;
+  return `¿Qué país utiliza ${capitalizarMonedas(p.monedaCorta)}?`;
 }
 
 function crearRevisionMonedas() {

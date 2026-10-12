@@ -3528,6 +3528,18 @@ sabiasQueDetalle.classList.add("oculto");
   if (typeof ocultarPantallasMonedas === "function") {
     ocultarPantallasMonedas();
   }
+
+  if (typeof ocultarPantallasMares === "function") {
+    ocultarPantallasMares();
+  }
+
+  if (typeof ocultarPantallasHistoriaContenido === "function") {
+    ocultarPantallasHistoriaContenido();
+  }
+
+  if (typeof ocultarPantallasMaravillas === "function") {
+    ocultarPantallasMaravillas();
+  }
 }
 // ==========================================
 // JUEGO DE ESPAÑA
