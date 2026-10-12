@@ -194,11 +194,20 @@
 
   <div class="inicio-opciones">
 
+    <button class="boton-portada historia-tema-btn" data-historia-tema="mesopotamia">
+      <span class="boton-icono">𒀭</span>
+      <span class="boton-texto">
+        <strong>Mesopotamia</strong>
+        <small>Sumer, Acad, Babilonia, Asiria y escritura cuneiforme.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
     <button class="boton-portada historia-tema-btn" data-historia-tema="grecia">
       <span class="boton-icono">🏛️</span>
       <span class="boton-texto">
         <strong>Antigua Grecia</strong>
-        <small>Polis, guerras médicas, Atenas, Esparta y mundo helenístico.</small>
+        <small>Mundo egeo, polis, guerras médicas y época helenística.</small>
       </span>
       <span class="boton-flecha">›</span>
     </button>
@@ -208,15 +217,6 @@
       <span class="boton-texto">
         <strong>Antigua Roma</strong>
         <small>Monarquía, República, Imperio y caída de Occidente.</small>
-      </span>
-      <span class="boton-flecha">›</span>
-    </button>
-
-    <button class="boton-portada historia-tema-btn" data-historia-tema="mesopotamia">
-      <span class="boton-icono">𒀭</span>
-      <span class="boton-texto">
-        <strong>Mesopotamia</strong>
-        <small>Sumer, Acad, Babilonia, Asiria y escritura cuneiforme.</small>
       </span>
       <span class="boton-flecha">›</span>
     </button>
@@ -233,6 +233,17 @@
   </button>
 
   <div id="historia-tema-contenido"></div>
+
+</section>
+
+
+<section id="historia-subtema" class="oculto">
+
+  <button id="volver-historia-subtema" class="btn-volver">
+    ← Volver al tema
+  </button>
+
+  <div id="historia-subtema-contenido"></div>
 
 </section>
 
@@ -548,6 +559,199 @@
 
 </section>
 
+
+
+
+<!-- =========================
+     MONTAÑAS DEL MUNDO
+========================== -->
+
+<section id="montanas-menu" class="oculto">
+
+  <button id="volver-montanas-orografia" class="btn-volver">
+    ← Volver a Mapas y orografía
+  </button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">⛰️</div>
+
+    <h2>Montañas del mundo</h2>
+
+    <p>
+      Aprende grandes cumbres y macizos relacionándolos con países,
+      cordilleras y pistas geográficas.
+    </p>
+  </div>
+
+  <div class="rios-opciones">
+
+    <button class="boton-portada montanas-modo" data-montanas-modo="montana-pais">
+      <span class="boton-icono">🌍</span>
+      <span class="boton-texto">
+        <strong>Montaña → País</strong>
+        <small>¿En qué país o países se encuentra cada gran cumbre?</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada montanas-modo" data-montanas-modo="pais-montana">
+      <span class="boton-icono">⛰️</span>
+      <span class="boton-texto">
+        <strong>País → Montaña</strong>
+        <small>Identifica una montaña importante relacionada con cada país.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada montanas-modo" data-montanas-modo="cordillera">
+      <span class="boton-icono">🏔️</span>
+      <span class="boton-texto">
+        <strong>Montaña → Cordillera</strong>
+        <small>Relaciona cada cumbre con su cordillera o macizo.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada montanas-modo" data-montanas-modo="adivina">
+      <span class="boton-icono">🧩</span>
+      <span class="boton-texto">
+        <strong>Adivina la montaña</strong>
+        <small>Usa tres pistas geográficas para identificarla.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+  <div class="rios-nota">
+    Base inicial: 28 montañas y cumbres destacadas de los principales continentes.
+  </div>
+
+</section>
+
+
+<section id="montanas-config" class="oculto">
+
+  <button id="volver-montanas-menu" class="btn-volver">
+    ← Volver a Montañas
+  </button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">⛰️</div>
+
+    <h2 id="montanas-config-titulo">Montaña → País</h2>
+
+    <p id="montanas-config-descripcion">
+      Elige cómo quieres practicar.
+    </p>
+  </div>
+
+  <div class="espana-opciones">
+
+    <button id="montanas-entrenamiento" class="boton-portada">
+      <span class="boton-icono">♾️</span>
+      <span class="boton-texto">
+        <strong>Entrenamiento libre</strong>
+        <small>Sin límite · aviso cada 15 preguntas.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="montanas-examen10" class="boton-portada">
+      <span class="boton-icono">📝</span>
+      <span class="boton-texto">
+        <strong>Examen · 10 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Sin repeticiones.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="montanas-examen20" class="boton-portada">
+      <span class="boton-icono">🎯</span>
+      <span class="boton-texto">
+        <strong>Examen · 20 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Revisión final.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+  </div>
+
+</section>
+
+
+<section id="montanas-juego" class="oculto">
+
+  <button id="volver-montanas-desde-juego" class="btn-volver">
+    ← Volver a Montañas
+  </button>
+
+  <div class="info-partida">
+    <span id="montanas-tipo-partida">Montañas</span>
+    <span id="montanas-numero-pregunta">Pregunta 1</span>
+    <span id="montanas-temporizador" class="temporizador oculto">⏱ 10 s</span>
+  </div>
+
+  <div class="marcador">
+    <span>✅ <span id="montanas-aciertos">0</span></span>
+    <span>❌ <span id="montanas-fallos">0</span></span>
+  </div>
+
+  <h2 id="montanas-pregunta"></h2>
+
+  <div id="montanas-pistas" class="montanas-pistas oculto"></div>
+
+  <div id="montanas-respuestas"></div>
+
+  <div id="montanas-feedback" class="oculto"></div>
+
+  <button id="montanas-siguiente" class="oculto">
+    Siguiente pregunta →
+  </button>
+
+</section>
+
+
+<div
+  id="montanas-pausa"
+  class="modal-entrenamiento oculto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="montanas-pausa-titulo"
+>
+  <div class="modal-entrenamiento-contenido">
+    <div class="modal-entrenamiento-icono">⛰️</div>
+    <h2 id="montanas-pausa-titulo">¡Buen ritmo!</h2>
+    <p id="montanas-pausa-texto">Llevas 15 preguntas. ¿Quieres seguir practicando?</p>
+    <button id="montanas-continuar">Seguir practicando →</button>
+    <button id="montanas-salir" class="btn-secundario">← Volver a Montañas</button>
+  </div>
+</div>
+
+
+<section id="montanas-fin" class="oculto">
+
+  <button id="volver-montanas-fin" class="btn-volver">
+    ← Volver a Montañas
+  </button>
+
+  <h2>Resultado</h2>
+
+  <div id="montanas-resultado-examen"></div>
+  <div id="montanas-revision-examen"></div>
+
+  <div class="acciones-fin-examen">
+    <button id="montanas-repetir-examen">↻ Repetir este examen</button>
+    <button id="montanas-nuevo-examen">✦ Nuevo examen</button>
+    <button id="montanas-repasar-fallos" class="btn-repasar-fallos oculto">
+      🎯 Repasar solo mis fallos
+    </button>
+    <button id="montanas-volver-menu" class="btn-secundario">
+      ← Volver a Montañas
+    </button>
+  </div>
+
+</section>
 
 
 <!-- =========================
@@ -2185,6 +2389,7 @@
 <script src="mares.js"></script>
 <script src="historia.js"></script>
 <script src="maravillas.js"></script>
+<script src="montanas.js"></script>
 
 </body>
 </html>

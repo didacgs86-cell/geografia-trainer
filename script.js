@@ -1386,11 +1386,7 @@ btnVolverMapasOrografiaGeografia.addEventListener(
 btnMontanas.addEventListener(
   "click",
   () => {
-    mostrarContenidoDesarrollo(
-      "Montañas",
-      "⛰️",
-      "Aquí construiremos la práctica de montañas, cordilleras y grandes cumbres."
-    );
+    abrirMontanasMenu();
   }
 );
 
@@ -3539,6 +3535,10 @@ sabiasQueDetalle.classList.add("oculto");
 
   if (typeof ocultarPantallasMaravillas === "function") {
     ocultarPantallasMaravillas();
+  }
+
+  if (typeof ocultarPantallasMontanas === "function") {
+    ocultarPantallasMontanas();
   }
 }
 // ==========================================

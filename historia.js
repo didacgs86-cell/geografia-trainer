@@ -3,28 +3,73 @@
 // ==========================================
 
 const HISTORIA_TEMAS = {
+  mesopotamia: {
+    icono: "𒀭",
+    titulo: "Mesopotamia",
+    subtitulo: "Ciudades, imperios y escritura entre el Tigris y el Éufrates.",
+    bloques: [
+      {
+        id: "sumer-primeras-ciudades",
+        titulo: "1. Sumer y las primeras ciudades",
+        texto: "En el sur de Mesopotamia surgieron durante el IV milenio a. C. centros urbanos como Uruk, Ur o Lagash. La escritura cuneiforme se desarrolló inicialmente para necesidades administrativas y económicas."
+      },
+      {
+        id: "imperio-acadio",
+        titulo: "2. Imperio acadio",
+        texto: "Sargón de Acad creó en el siglo XXIV a. C. un poder territorial que integró amplias zonas de Mesopotamia. Sumerio y acadio convivieron durante siglos como lenguas de cultura y administración."
+      },
+      {
+        id: "babilonia",
+        titulo: "3. Babilonia",
+        texto: "Babilonia alcanzó gran importancia con Hammurabi en el siglo XVIII a. C. Su célebre recopilación legal muestra una sociedad jerarquizada y una administración compleja."
+      },
+      {
+        id: "asiria",
+        titulo: "4. Asiria",
+        texto: "El Imperio neoasirio dominó gran parte de Oriente Próximo entre los siglos IX y VII a. C. mediante una poderosa organización militar, una administración provincial y deportaciones de población."
+      },
+      {
+        id: "neobabilonico-persa",
+        titulo: "5. Imperio neobabilónico y conquista persa",
+        texto: "Tras la caída de Asiria, Babilonia recuperó protagonismo bajo Nabucodonosor II. En 539 a. C., Ciro II de Persia conquistó la ciudad e incorporó Mesopotamia al Imperio aqueménida."
+      }
+    ],
+    claves: [
+      "Mesopotamia significa «tierra entre ríos».",
+      "Tigris y Éufrates estructuraron agricultura, ciudades y comunicaciones.",
+      "La escritura cuneiforme se utilizó durante más de tres milenios.",
+      "Sumerios, acadios, babilonios y asirios no formaron una única civilización continua.",
+      "539 a. C.: conquista persa de Babilonia."
+    ]
+  },
+
   grecia: {
     icono: "🏛️",
     titulo: "Antigua Grecia",
     subtitulo: "Del mundo egeo a Alejandro Magno y el helenismo.",
     bloques: [
       {
+        id: "mundo-egeo-epoca-oscura",
         titulo: "1. Mundo egeo y época oscura",
         texto: "Las civilizaciones minoica (Creta) y micénica precedieron al mundo griego clásico. Tras el colapso de los palacios micénicos hacia 1200 a. C. comenzó una etapa de retroceso demográfico y político conocida tradicionalmente como Edad Oscura."
       },
       {
+        id: "polis-expansion",
         titulo: "2. Polis y expansión griega",
         texto: "Entre los siglos VIII y VI a. C. se consolidaron las polis, comunidades políticas independientes como Atenas, Esparta, Corinto o Tebas. La expansión colonial extendió ciudades y redes comerciales por el Mediterráneo y el mar Negro."
       },
       {
+        id: "guerras-medicas",
         titulo: "3. Guerras médicas",
         texto: "A comienzos del siglo V a. C. varias polis griegas combatieron al Imperio persa. Maratón (490 a. C.), Termópilas y Salamina (480 a. C.) son algunos de los episodios más conocidos."
       },
       {
+        id: "peloponeso",
         titulo: "4. Atenas, Esparta y la guerra del Peloponeso",
         texto: "El siglo V a. C. vio el apogeo de la democracia ateniense y de su imperio marítimo. La rivalidad con Esparta desembocó en la guerra del Peloponeso (431-404 a. C.), que terminó con la derrota de Atenas."
       },
       {
+        id: "macedonia-helenismo",
         titulo: "5. Macedonia y mundo helenístico",
         texto: "Filipo II de Macedonia impuso su hegemonía sobre gran parte de Grecia. Su hijo Alejandro Magno conquistó el Imperio persa y llegó hasta el valle del Indo. Tras su muerte en 323 a. C., sus dominios se dividieron en reinos helenísticos."
       }
@@ -44,22 +89,27 @@ const HISTORIA_TEMAS = {
     subtitulo: "De una ciudad del Lacio a un imperio mediterráneo.",
     bloques: [
       {
+        id: "monarquia",
         titulo: "1. Monarquía",
         texto: "La tradición romana situaba la fundación de Roma en 753 a. C. La etapa monárquica concluyó tradicionalmente en 509 a. C., cuando se instauró la República."
       },
       {
+        id: "republica",
         titulo: "2. República",
         texto: "La República se organizó mediante magistraturas, Senado y asambleas. Roma expandió su dominio por Italia y, tras las guerras púnicas contra Cartago, se convirtió en la principal potencia del Mediterráneo occidental."
       },
       {
+        id: "crisis-republica",
         titulo: "3. Crisis de la República",
         texto: "Las conquistas transformaron la economía y la sociedad. Conflictos políticos, desigualdades, ejércitos ligados a sus generales y guerras civiles marcaron los siglos II y I a. C. César fue asesinado en 44 a. C."
       },
       {
+        id: "principado-imperio",
         titulo: "4. Principado e Imperio",
         texto: "Octavio recibió el título de Augusto en 27 a. C. El sistema imperial mantuvo instituciones republicanas formalmente, pero concentró el poder en el emperador. Los siglos I y II d. C. fueron el periodo de máxima expansión territorial."
       },
       {
+        id: "antiguedad-tardia-caida",
         titulo: "5. Antigüedad tardía y caída de Occidente",
         texto: "La crisis del siglo III fue seguida por reformas de Diocleciano y Constantino. Tras la división definitiva del Imperio en 395, Occidente sufrió una creciente fragmentación política. En 476 Odoacro depuso a Rómulo Augústulo."
       }
@@ -71,41 +121,6 @@ const HISTORIA_TEMAS = {
       "395: división definitiva entre Oriente y Occidente.",
       "476: deposición de Rómulo Augústulo."
     ]
-  },
-
-  mesopotamia: {
-    icono: "𒀭",
-    titulo: "Mesopotamia",
-    subtitulo: "Ciudades, imperios y escritura entre el Tigris y el Éufrates.",
-    bloques: [
-      {
-        titulo: "1. Sumer y las primeras ciudades",
-        texto: "En el sur de Mesopotamia surgieron durante el IV milenio a. C. centros urbanos como Uruk, Ur o Lagash. La escritura cuneiforme se desarrolló inicialmente para necesidades administrativas y económicas."
-      },
-      {
-        titulo: "2. Imperio acadio",
-        texto: "Sargón de Acad creó en el siglo XXIV a. C. un poder territorial que integró amplias zonas de Mesopotamia. Sumerio y acadio convivieron durante siglos como lenguas de cultura y administración."
-      },
-      {
-        titulo: "3. Babilonia",
-        texto: "Babilonia alcanzó gran importancia con Hammurabi en el siglo XVIII a. C. Su célebre recopilación legal muestra una sociedad jerarquizada y una administración compleja."
-      },
-      {
-        titulo: "4. Asiria",
-        texto: "El Imperio neoasirio dominó gran parte de Oriente Próximo entre los siglos IX y VII a. C. mediante una poderosa organización militar, una administración provincial y deportaciones de población."
-      },
-      {
-        titulo: "5. Imperio neobabilónico y conquista persa",
-        texto: "Tras la caída de Asiria, Babilonia recuperó protagonismo bajo Nabucodonosor II. En 539 a. C., Ciro II de Persia conquistó la ciudad e incorporó Mesopotamia al Imperio aqueménida."
-      }
-    ],
-    claves: [
-      "Mesopotamia significa «tierra entre ríos».",
-      "Tigris y Éufrates estructuraron agricultura, ciudades y comunicaciones.",
-      "La escritura cuneiforme se utilizó durante más de tres milenios.",
-      "Sumerios, acadios, babilonios y asirios no formaron una única civilización continua.",
-      "539 a. C.: conquista persa de Babilonia."
-    ]
   }
 };
 
@@ -115,15 +130,29 @@ const historiaTemaPantalla =
 const historiaTemaContenido =
   document.getElementById("historia-tema-contenido");
 
+const historiaSubtemaPantalla =
+  document.getElementById("historia-subtema");
+
+const historiaSubtemaContenido =
+  document.getElementById("historia-subtema-contenido");
+
+let historiaTemaActual = null;
+
 function ocultarPantallasHistoriaContenido() {
   if (historiaTemaPantalla) {
     historiaTemaPantalla.classList.add("oculto");
+  }
+
+  if (historiaSubtemaPantalla) {
+    historiaSubtemaPantalla.classList.add("oculto");
   }
 }
 
 function abrirTemaHistoria(id) {
   const tema = HISTORIA_TEMAS[id];
   if (!tema) return;
+
+  historiaTemaActual = id;
 
   ocultarTodasLasPantallas();
   historiaTemaPantalla.classList.remove("oculto");
@@ -138,10 +167,18 @@ function abrirTemaHistoria(id) {
     <div class="historia-tema-grid">
       <div class="historia-cronologia">
         ${tema.bloques.map(b => `
-          <article class="historia-bloque">
-            <h3>${b.titulo}</h3>
-            <p>${b.texto}</p>
-          </article>
+          <button
+            type="button"
+            class="historia-bloque historia-bloque-entrable"
+            data-historia-subtema="${b.id}"
+          >
+            <div class="historia-bloque-texto">
+              <h3>${b.titulo}</h3>
+              <p>${b.texto}</p>
+            </div>
+
+            <span class="historia-bloque-flecha">›</span>
+          </button>
         `).join("")}
       </div>
 
@@ -151,11 +188,101 @@ function abrirTemaHistoria(id) {
       </aside>
     </div>
   `;
+
+  historiaTemaContenido
+    .querySelectorAll("[data-historia-subtema]")
+    .forEach(boton => {
+      boton.addEventListener("click", () => {
+        abrirSubtemaHistoria(
+          id,
+          boton.dataset.historiaSubtema
+        );
+      });
+    });
 }
 
-document.querySelectorAll(".historia-tema-btn").forEach(b => {
-  b.addEventListener("click", () => abrirTemaHistoria(b.dataset.historiaTema));
-});
+function abrirSubtemaHistoria(temaId, subtemaId) {
+  const tema = HISTORIA_TEMAS[temaId];
+  if (!tema) return;
 
-document.getElementById("volver-historia-tema")
-  .addEventListener("click", mostrarHistoriaMenu);
+  const bloque =
+    tema.bloques.find(
+      item => item.id === subtemaId
+    );
+
+  if (!bloque) return;
+
+  historiaTemaActual = temaId;
+
+  ocultarTodasLasPantallas();
+  historiaSubtemaPantalla.classList.remove("oculto");
+
+  historiaSubtemaContenido.innerHTML = `
+    <article class="historia-articulo">
+
+      <div class="historia-articulo-miga">
+        ${tema.titulo}
+      </div>
+
+      <header class="historia-articulo-header">
+        <div class="historia-tema-icono">${tema.icono}</div>
+        <h2>${bloque.titulo.replace(/^\d+\.\s*/, "")}</h2>
+      </header>
+
+      <section class="historia-resumen-destacado">
+        <span class="historia-resumen-etiqueta">
+          Resumen
+        </span>
+
+        <p>
+          ${bloque.texto}
+        </p>
+      </section>
+
+      <section class="historia-contenido-futuro">
+        <h3>Contenido ampliado</h3>
+
+        <p>
+          Este subapartado ya está preparado para incorporar aquí tu texto histórico completo.
+          Cuando me pases tu documento, podremos convertir fechas, personajes, conceptos,
+          causas, consecuencias y datos clave en elementos visuales sin perder tu redacción.
+        </p>
+      </section>
+
+    </article>
+  `;
+}
+
+document
+  .querySelectorAll(".historia-tema-btn")
+  .forEach(b => {
+    b.addEventListener(
+      "click",
+      () =>
+        abrirTemaHistoria(
+          b.dataset.historiaTema
+        )
+    );
+  });
+
+document
+  .getElementById("volver-historia-tema")
+  .addEventListener(
+    "click",
+    mostrarHistoriaMenu
+  );
+
+document
+  .getElementById("volver-historia-subtema")
+  .addEventListener(
+    "click",
+    () => {
+      if (historiaTemaActual) {
+        abrirTemaHistoria(
+          historiaTemaActual
+        );
+      } else {
+        mostrarHistoriaMenu();
+      }
+    }
+  );
