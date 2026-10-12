@@ -542,16 +542,6 @@ function abrirSubtemaHistoria(temaId, subtemaId) {
         </p>
       </section>
 
-      <section class="historia-contenido-futuro">
-        <h3>Contenido ampliado</h3>
-
-        <p>
-          Este subapartado ya está preparado para incorporar aquí tu texto histórico completo.
-          Cuando me pases tu documento, podremos convertir fechas, personajes, conceptos,
-          causas, consecuencias y datos clave en elementos visuales sin perder tu redacción.
-        </p>
-      </section>
-
     </article>
   `;
 }
