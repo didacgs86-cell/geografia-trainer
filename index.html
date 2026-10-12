@@ -240,7 +240,7 @@
 
       <span class="boton-texto">
         <strong>Monedas</strong>
-        <small>Relaciona países y monedas · Próximamente.</small>
+        <small>Relaciona países y monedas de todo el mundo.</small>
       </span>
 
       <span class="boton-flecha">›</span>
@@ -248,6 +248,146 @@
 
   </div>
 
+</section>
+
+
+
+<!-- =========================
+     MONEDAS
+========================== -->
+
+<section id="monedas-menu" class="oculto">
+  <button id="volver-monedas-viajes" class="btn-volver">← Volver a Viajes</button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">💱</div>
+    <h2>Monedas</h2>
+    <p>Aprende qué moneda utiliza cada país y practica también en sentido inverso.</p>
+  </div>
+
+  <div class="monedas-aviso">
+    <strong>195 países soberanos</strong>
+    <span>Se usa la moneda nacional o principal de referencia en los países con sistemas multimoneda. Actualizado a octubre de 2026.</span>
+  </div>
+
+  <div class="inicio-opciones">
+    <button class="boton-portada monedas-modo" data-monedas-modo="pais-moneda">
+      <span class="boton-icono">🌍</span>
+      <span class="boton-texto">
+        <strong>País → Moneda</strong>
+        <small>Te damos el país y eliges su moneda.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button class="boton-portada monedas-modo" data-monedas-modo="moneda-pais">
+      <span class="boton-icono">💵</span>
+      <span class="boton-texto">
+        <strong>Moneda → País</strong>
+        <small>Te damos la moneda y eliges un país que la utiliza.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+  </div>
+</section>
+
+<section id="monedas-config" class="oculto">
+  <button id="volver-monedas-menu" class="btn-volver">← Volver a Monedas</button>
+
+  <div class="espana-cabecera">
+    <div id="monedas-config-icono" class="espana-bandera">💱</div>
+    <h2 id="monedas-config-titulo">País → Moneda</h2>
+    <p id="monedas-config-descripcion">Elige la zona geográfica y el tipo de partida.</p>
+  </div>
+
+  <div class="bloque-config">
+    <label for="monedas-region">🌐 Zona geográfica</label>
+    <select id="monedas-region">
+      <option value="Todos">Todo el mundo</option>
+      <option value="Europa">Europa</option>
+      <option value="Asia">Asia</option>
+      <option value="África">África</option>
+      <option value="América">América</option>
+      <option value="Oceanía">Oceanía</option>
+    </select>
+  </div>
+
+  <div id="monedas-disponibles" class="monedas-disponibles"></div>
+
+  <div class="espana-opciones">
+    <button id="monedas-entrenamiento" class="boton-portada">
+      <span class="boton-icono">♾️</span>
+      <span class="boton-texto">
+        <strong>Entrenamiento libre</strong>
+        <small>Sin límite · aviso cada 15 preguntas.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="monedas-examen10" class="boton-portada">
+      <span class="boton-icono">📝</span>
+      <span class="boton-texto">
+        <strong id="monedas-examen10-titulo">Examen · 10 preguntas</strong>
+        <small>⏱ 10 s por pregunta · Sin repeticiones.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="monedas-examen20" class="boton-portada">
+      <span class="boton-icono">🎯</span>
+      <span class="boton-texto">
+        <strong id="monedas-examen20-titulo">Examen · 20 preguntas</strong>
+        <small id="monedas-examen20-subtitulo">⏱ 10 s por pregunta · Revisión final.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+  </div>
+</section>
+
+<section id="monedas-juego" class="oculto">
+  <button id="volver-monedas-desde-juego" class="btn-volver">← Volver a Monedas</button>
+
+  <div class="info-partida">
+    <span id="monedas-tipo-partida">Monedas</span>
+    <span id="monedas-numero-pregunta">Pregunta 1</span>
+    <span id="monedas-temporizador" class="temporizador oculto">⏱ 10 s</span>
+  </div>
+
+  <div class="marcador">
+    <span>✅ <span id="monedas-aciertos">0</span></span>
+    <span>❌ <span id="monedas-fallos">0</span></span>
+  </div>
+
+  <h2 id="monedas-pregunta">¿Cuál es la moneda de…?</h2>
+
+  <div id="monedas-respuestas"></div>
+  <div id="monedas-feedback" class="oculto"></div>
+
+  <button id="monedas-siguiente" class="oculto">Siguiente pregunta →</button>
+</section>
+
+<div id="monedas-pausa" class="modal-entrenamiento oculto" role="dialog" aria-modal="true" aria-labelledby="monedas-pausa-titulo">
+  <div class="modal-entrenamiento-contenido">
+    <div class="modal-entrenamiento-icono">💱</div>
+    <h2 id="monedas-pausa-titulo">¡Buen ritmo!</h2>
+    <p id="monedas-pausa-texto">Llevas 15 preguntas. ¿Quieres seguir practicando?</p>
+    <button id="monedas-continuar">Seguir practicando →</button>
+    <button id="monedas-salir" class="btn-secundario">← Volver a Monedas</button>
+  </div>
+</div>
+
+<section id="monedas-fin" class="oculto">
+  <button id="volver-monedas-fin" class="btn-volver">← Volver a Monedas</button>
+  <h2>Resultado</h2>
+  <div id="monedas-resultado-examen"></div>
+  <div id="monedas-revision-examen"></div>
+
+  <div class="acciones-fin-examen">
+    <button id="monedas-repetir-examen">↻ Repetir este examen</button>
+    <button id="monedas-nuevo-examen">✦ Nuevo examen</button>
+    <button id="monedas-repasar-fallos" class="btn-repasar-fallos oculto">🎯 Repasar solo mis fallos</button>
+    <button id="monedas-volver-menu" class="btn-secundario">← Volver a Monedas</button>
+  </div>
 </section>
 
 
@@ -1771,6 +1911,7 @@
 <script src="mapas-europa.js"></script>
 <script src="rios.js"></script>
 <script src="mapas.js"></script>
+<script src="monedas.js"></script>
 
 </body>
 </html>

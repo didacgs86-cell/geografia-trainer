@@ -1473,14 +1473,7 @@ btnSabiasQue.addEventListener("click", () => {
 });
 
 btnMonedas.addEventListener("click", () => {
-
-  mostrarContenidoDesarrollo(
-    "Monedas",
-    "💱",
-    "Aquí construiremos el entrenamiento para relacionar cada país con su moneda y cada moneda con su país.",
-    mostrarViajesMenu
-  );
-
+  abrirMonedasMenu();
 });
 
 
@@ -3530,6 +3523,10 @@ sabiasQueDetalle.classList.add("oculto");
 
   if (typeof ocultarPantallasMapas === "function") {
     ocultarPantallasMapas();
+  }
+
+  if (typeof ocultarPantallasMonedas === "function") {
+    ocultarPantallasMonedas();
   }
 }
 // ==========================================
