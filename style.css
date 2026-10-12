@@ -2059,3 +2059,269 @@ body {
     r: 6;
   }
 }
+
+
+/* =========================================
+   REVISIÓN DE BANDERAS · EXPLICACIÓN
+========================================= */
+
+.revision-bandera-explicacion {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-left: 3px solid #2563eb;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.revision-bandera-explicacion-titulo {
+  margin-bottom: 4px;
+  color: #1e3a5f;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   MAPA INTERACTIVO DE RÍOS
+========================================= */
+
+#rios-mapa-proximamente {
+  width: 100%;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #1f2937;
+}
+
+#rios-mapa-juego {
+  width: 100%;
+}
+
+#rios-mapa-pregunta {
+  margin: 12px 0 8px;
+  color: #17212b;
+  text-align: center;
+  font-size: 29px;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+}
+
+.rios-mapa-lienzo {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #aeb9c6;
+  border-radius: 10px;
+  background: #edf3f7;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.07);
+}
+
+#rios-mapa-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 420px;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+#rios-mapa-svg:active {
+  cursor: grabbing;
+}
+
+.rios-mapa-mar {
+  fill: #e8f1f6;
+}
+
+.rios-mapa-pais {
+  fill: #fafbfc;
+  stroke: #8a98a6;
+  stroke-width: 0.9;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+.rios-mapa-rio {
+  fill: none;
+  stroke: #3d7ea6;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  transition:
+    stroke 0.15s ease,
+    stroke-width 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.rios-mapa-rio-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 18;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+  pointer-events: stroke;
+}
+
+.rios-mapa-grupo:hover .rios-mapa-rio {
+  stroke: #15577e;
+  stroke-width: 4;
+}
+
+.rios-mapa-rio-secundario .rios-mapa-rio {
+  stroke: #b8c7d1;
+  stroke-width: 2.2;
+  opacity: 0.62;
+}
+
+.rios-mapa-rio-destacado .rios-mapa-rio {
+  stroke: #163f5c;
+  stroke-width: 5;
+  opacity: 1;
+}
+
+.rios-mapa-correcto .rios-mapa-rio {
+  stroke: #3f8259 !important;
+  stroke-width: 5 !important;
+  opacity: 1 !important;
+}
+
+.rios-mapa-incorrecto .rios-mapa-rio {
+  stroke: #ad5555 !important;
+  stroke-width: 5 !important;
+  opacity: 1 !important;
+}
+
+.rios-mapa-bloqueado {
+  pointer-events: none;
+}
+
+.rios-mapa-leyenda {
+  padding: 7px 11px 8px;
+  border-top: 1px solid #d9e0e7;
+  background: #f8fafc;
+  color: #7a8795;
+  text-align: right;
+  font-size: 10px;
+}
+
+.rios-mapa-controles {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.rios-mapa-control {
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #263b50;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.10);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.rios-mapa-control:hover {
+  background: #ffffff;
+  color: #0f2740;
+  transform: none;
+}
+
+.rios-mapa-control-reset {
+  font-size: 18px;
+}
+
+.rios-mapa-respuestas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.rios-mapa-respuestas button {
+  margin: 0;
+  background: #ffffff;
+  color: #1f2937;
+  border: 2px solid #e5e7eb;
+}
+
+#rios-mapa-feedback {
+  margin-top: 16px;
+  padding: 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.rios-mapa-feedback-titulo {
+  margin-bottom: 8px;
+  color: #1f2937;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.rios-mapa-ficha {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #475569;
+  text-align: center;
+  line-height: 1.45;
+}
+
+.rios-mapa-ficha strong {
+  color: #173e5a;
+  font-size: 18px;
+}
+
+.rios-mapa-tu-respuesta {
+  color: #914343;
+}
+
+#rios-mapa-siguiente {
+  margin-top: 16px;
+  background: #111827;
+}
+
+@media (max-width: 600px) {
+
+  #rios-mapa-pregunta {
+    font-size: 23px;
+  }
+
+  #rios-mapa-svg {
+    min-height: 360px;
+  }
+
+  .rios-mapa-respuestas {
+    grid-template-columns: 1fr;
+  }
+
+  .rios-mapa-control {
+    width: 40px;
+    height: 40px;
+  }
+
+  .rios-mapa-rio-hit {
+    stroke-width: 22;
+  }
+}

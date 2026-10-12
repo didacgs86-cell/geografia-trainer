@@ -138,6 +138,9 @@ const btnEspana = document.getElementById("btn-espana");
 const btnSabiasQue =
   document.getElementById("btn-sabiasque");
 
+const btnMonedas =
+  document.getElementById("btn-monedas");
+
 const btnVolverSabiasQueInicio =
   document.getElementById("volver-sabiasque-inicio");
 
@@ -874,6 +877,32 @@ function crearRevisionExamen(snapshot) {
           );
 
       let respuestaUsuario = "";
+      let explicacionBanderaRevision = "";
+
+      if (
+        !item.acertada &&
+        !snapshot.esEspana &&
+        (
+          snapshot.tipoJuego === "bandera-pais" ||
+          snapshot.tipoJuego === "pais-bandera"
+        )
+      ) {
+
+        explicacionBanderaRevision = `
+          <div class="revision-bandera-explicacion">
+            <div class="revision-bandera-explicacion-titulo">
+              💡 Para recordarla
+            </div>
+            <div>
+              ${escaparHTML(
+                explicacionBandera(
+                  item.pregunta
+                )
+              )}
+            </div>
+          </div>
+        `;
+      }
 
       if (!item.acertada) {
 
@@ -916,6 +945,8 @@ function crearRevisionExamen(snapshot) {
           </div>
 
           ${respuestaUsuario}
+
+          ${explicacionBanderaRevision}
 
         </div>
       `;
@@ -1286,15 +1317,25 @@ function mostrarMapasOrografiaMenu() {
 }
 
 
+let contenidoDesarrolloVolverA =
+  mostrarMapasOrografiaMenu;
+
+
 function mostrarContenidoDesarrollo(
   titulo,
   icono,
-  texto
+  texto,
+  volverA = mostrarMapasOrografiaMenu
 ) {
 
   ocultarTodasLasPantallas();
 
   contenidoDesarrollo.classList.remove("oculto");
+
+  contenidoDesarrolloVolverA =
+    typeof volverA === "function"
+      ? volverA
+      : mostrarMapasOrografiaMenu;
 
   tituloContenidoDesarrollo.textContent = titulo;
   iconoContenidoDesarrollo.textContent = icono;
@@ -1369,7 +1410,9 @@ btnMapas.addEventListener(
 
 btnVolverContenidoDesarrollo.addEventListener(
   "click",
-  mostrarMapasOrografiaMenu
+  () => {
+    contenidoDesarrolloVolverA();
+  }
 );
 
 
@@ -1426,6 +1469,17 @@ btnSabiasQue.addEventListener("click", () => {
   sabiasQueMenu.classList.remove("oculto");
 
   mostrarListaSabiasQue();
+
+});
+
+btnMonedas.addEventListener("click", () => {
+
+  mostrarContenidoDesarrollo(
+    "Monedas",
+    "💱",
+    "Aquí construiremos el entrenamiento para relacionar cada país con su moneda y cada moneda con su país.",
+    mostrarViajesMenu
+  );
 
 });
 
@@ -1987,6 +2041,220 @@ function banderaDe(p) {
     .join("");
 }
 
+
+const BANDERA_EXPLICACIONES = {
+  "AF": "El emoji suele mostrar el antiguo tricolor negro, rojo y verde de la república afgana: colores vinculados históricamente al pasado, la lucha y la esperanza; el emblema central recoge símbolos islámicos.",
+  "AL": "El fondo rojo y el águila bicéfala negra proceden del emblema de Skanderbeg; el águila es un símbolo histórico de Albania.",
+  "DE": "El negro, rojo y oro se asocian al movimiento liberal y nacional alemán del siglo XIX y quedaron ligados a la tradición democrática alemana.",
+  "AD": "El azul, amarillo y rojo combinan influencias francesas y españolas; el escudo central reúne símbolos de los copríncipes y de los territorios históricos vinculados a Andorra.",
+  "AO": "El rojo recuerda la lucha por la independencia y el negro al continente africano; el engranaje, el machete y la estrella aluden al trabajo, la producción y el ideal revolucionario.",
+  "AG": "El sol naciente simboliza una nueva era; negro, azul, blanco y rojo se relacionan habitualmente con el pueblo, el Caribe, la esperanza y la energía.",
+  "SA": "El verde está estrechamente ligado al islam; la shahada expresa la fe islámica y la espada simboliza justicia y la tradición del Estado saudí.",
+  "DZ": "El verde y el blanco se vinculan al islam y a la pureza; la media luna y la estrella rojas son símbolos islámicos tradicionales.",
+  "AR": "El celeste y blanco están ligados a la revolución e independencia; el Sol de Mayo representa la emancipación y remite a la simbología de la Revolución de Mayo.",
+  "AM": "El rojo, azul y naranja forman el tricolor nacional; se interpretan comúnmente como lucha y supervivencia, cielo/paz y trabajo o creatividad del pueblo armenio.",
+  "AU": "La Union Jack recuerda la herencia británica; la gran estrella de siete puntas representa la federación y las demás forman la Cruz del Sur.",
+  "AT": "El rojo-blanco-rojo es uno de los diseños nacionales más antiguos de Europa y deriva del escudo medieval de la casa de Babenberg.",
+  "AZ": "El azul se asocia a la herencia túrquica, el rojo a modernización y progreso y el verde al islam; la media luna y la estrella refuerzan esa identidad.",
+  "BS": "El azul aguamarina representa el mar, el dorado las playas y el sol, y el triángulo negro la fuerza y determinación del pueblo.",
+  "BD": "El verde se relaciona con el paisaje y la juventud del país; el disco rojo simboliza el sol naciente y también la sangre derramada en la independencia.",
+  "BB": "El azul representa mar y cielo, el dorado la arena; el tridente roto simboliza la ruptura del vínculo colonial con Gran Bretaña.",
+  "BH": "El rojo es un color histórico del golfo Pérsico; el blanco simboliza paz y las cinco puntas de la línea dentada recuerdan los cinco pilares del islam.",
+  "BZ": "El azul procede de la tradición política dominante en la independencia y el rojo de la oposición histórica; el escudo muestra la industria maderera, clave en la historia del país.",
+  "BJ": "El verde, amarillo y rojo son colores panafricanos; suelen asociarse a esperanza, riqueza y valor o sacrificio.",
+  "BY": "El rojo y verde retoman colores de la etapa soviética y de la tradición bielorrusa; el ornamento lateral reproduce un motivo textil popular tradicional.",
+  "BO": "El rojo, amarillo y verde se interpretan habitualmente como sacrificio histórico, riqueza mineral y naturaleza; son los colores del tricolor boliviano desde el siglo XIX.",
+  "BA": "El azul y las estrellas evocan Europa; el triángulo alude a la forma del país y a sus tres pueblos constituyentes, mientras las estrellas sugieren continuidad.",
+  "BW": "El azul claro simboliza el agua y la lluvia, esenciales en un país seco; la franja negra con bordes blancos representa convivencia y armonía racial.",
+  "BR": "El verde y amarillo procedían originalmente de las casas imperiales de Braganza y Habsburgo; el globo azul muestra el cielo y las estrellas representan estados y distrito federal.",
+  "BN": "El amarillo es el color tradicional del sultán; las franjas blanca y negra representan a los principales ministros y el escudo rojo simboliza la monarquía y el islam.",
+  "BG": "El blanco, verde y rojo forman el tricolor nacional; suelen interpretarse como paz, fertilidad/naturaleza y valor o sacrificio.",
+  "BF": "El rojo y verde son colores panafricanos y recuerdan la revolución y la tierra; la estrella amarilla simboliza la guía de la revolución.",
+  "BI": "La cruz blanca divide rojo y verde, colores ligados a lucha e independencia y esperanza; las tres estrellas aluden al lema nacional y a grupos históricos del país.",
+  "BT": "El amarillo representa la autoridad secular del rey y el naranja la tradición budista; el dragón Druk simboliza el 'Reino del Dragón del Trueno'.",
+  "BE": "El negro, amarillo y rojo proceden de los colores del antiguo ducado de Brabante; la disposición vertical se adoptó durante la revolución belga.",
+  "CV": "El azul representa el océano que rodea el archipiélago; las franjas recuerdan paz y esfuerzo, y las diez estrellas simbolizan las diez islas principales.",
+  "KH": "El azul se asocia a la monarquía y el rojo a la nación; Angkor Wat en blanco representa el patrimonio jemer y la religión.",
+  "CM": "Verde, rojo y amarillo son colores panafricanos; la estrella central simboliza la unidad y el rojo ocupa el centro como vínculo entre norte y sur.",
+  "CA": "La hoja de arce es el gran símbolo nacional canadiense; rojo y blanco fueron proclamados colores nacionales y remiten también a las tradiciones francesa e inglesa.",
+  "QA": "El granate es el color distintivo de Catar y el blanco simboliza paz; las nueve puntas recuerdan su incorporación histórica al grupo de emiratos del Golfo tras acuerdos británicos.",
+  "TD": "El azul, amarillo y rojo combinan el azul de tradición francesa con colores panafricanos; suelen asociarse a cielo/esperanza, sol/desierto y sacrificio.",
+  "CZ": "El blanco y rojo proceden de Bohemia; el triángulo azul se añadió para distinguir la bandera checoslovaca y representar también a Eslovaquia en el diseño original.",
+  "CL": "El blanco se vincula a los Andes nevados, el azul al cielo y Pacífico y el rojo a la lucha por la independencia; la estrella simboliza guía y unidad.",
+  "CN": "El rojo está ligado a la revolución; la gran estrella representa al Partido Comunista y las cuatro menores la unidad del pueblo en torno a él.",
+  "CY": "El mapa de la isla aparece en color cobre, aludiendo al mineral que dio fama histórica a Chipre; las ramas de olivo simbolizan paz entre comunidades.",
+  "VA": "El amarillo y blanco son los colores pontificios; las llaves cruzadas de san Pedro y la tiara representan la autoridad del papa y de la Santa Sede.",
+  "CO": "El amarillo ocupa la mitad de la bandera y suele vincularse a riqueza y recursos; azul y rojo se asocian al mar/cielo y a la sangre de la independencia.",
+  "KM": "Las cuatro franjas y las cuatro estrellas representan las cuatro islas históricas del archipiélago; el verde, la media luna y las estrellas expresan la identidad islámica.",
+  "KP": "El rojo ocupa el centro y refleja la tradición revolucionaria; la estrella roja es símbolo socialista, mientras blanco y azul se asocian oficialmente a pureza y soberanía/paz.",
+  "KR": "El taegeuk rojo y azul representa el equilibrio de fuerzas complementarias; los cuatro trigramas proceden de la filosofía oriental y simbolizan principios de la naturaleza.",
+  "CR": "El azul, blanco y rojo siguen la tradición centroamericana y republicana; el rojo central se asocia al calor y generosidad del pueblo y a la lucha por la libertad.",
+  "CI": "El naranja, blanco y verde forman un tricolor inspirado en Francia; se asocian habitualmente a sabana/tierra, paz y bosques/esperanza.",
+  "HR": "Rojo, blanco y azul son colores paneslavos; el escudo ajedrezado es el símbolo histórico croata y la corona superior reúne emblemas regionales.",
+  "CU": "Las franjas azules representan antiguas divisiones de la isla y las blancas ideales de independencia; el triángulo rojo y la estrella solitaria simbolizan libertad y sacrificio.",
+  "DK": "La cruz nórdica blanca sobre rojo, conocida como Dannebrog, es uno de los diseños nacionales más antiguos y sirvió de modelo para otras banderas escandinavas.",
+  "DM": "El verde refleja la vegetación; la cruz tricolor recuerda la Trinidad y el cristianismo, y el loro sisserou central es una especie emblemática de Dominica.",
+  "EC": "El amarillo, azul y rojo comparten origen con la Gran Colombia; el escudo incorpora el Chimborazo, el río Guayas y símbolos de soberanía y comercio.",
+  "EG": "El rojo, blanco y negro proceden de la tradición panárabe; el águila de Saladino es un emblema de soberanía y nacionalismo árabe.",
+  "SV": "El azul y blanco derivan de la antigua Federación Centroamericana; el escudo central muestra símbolos de las cinco repúblicas centroamericanas y el lema nacional.",
+  "AE": "Rojo, verde, blanco y negro son colores panárabes; expresan la identidad árabe común y la unión de los emiratos.",
+  "ER": "El verde alude a agricultura, el azul al mar Rojo y el rojo a la lucha por la independencia; la rama de olivo recuerda la paz y la herencia de la ONU.",
+  "SK": "Blanco, azul y rojo son colores paneslavos; el escudo muestra la doble cruz sobre tres montes, símbolo histórico de Eslovaquia.",
+  "SI": "Blanco, azul y rojo son colores paneslavos; el escudo representa el monte Triglav, el Adriático y estrellas históricas de los condes de Celje.",
+  "ES": "El rojo-amarillo-rojo se eligió en 1785 por su buena visibilidad naval; el escudo actual reúne símbolos de los antiguos reinos y de la monarquía constitucional.",
+  "US": "Las 13 franjas recuerdan las colonias originales y las 50 estrellas representan los estados actuales; rojo, blanco y azul se consolidaron como colores nacionales.",
+  "EE": "Azul, negro y blanco se asocian tradicionalmente al cielo y mares, la tierra y la identidad nacional, y la luz o la nieve.",
+  "SZ": "El escudo, las lanzas y el bastón de combate reflejan la cultura suazi; azul se asocia a paz, amarillo a recursos y rojo a las luchas del pasado.",
+  "ET": "Verde, amarillo y rojo son colores históricos etíopes que inspiraron el panafricanismo; el disco azul y la estrella simbolizan unidad y convivencia.",
+  "PH": "Azul y rojo simbolizan tradicionalmente paz/justicia y valor; el triángulo blanco representa igualdad, el sol la independencia y las tres estrellas los grandes grupos insulares.",
+  "FI": "La cruz nórdica azul sobre blanco se interpreta como los numerosos lagos y el cielo frente a la nieve del paisaje finlandés.",
+  "FJ": "La Union Jack refleja la herencia británica; el escudo conserva símbolos agrícolas e históricos y el azul claro enfatiza el carácter oceánico del país.",
+  "FR": "El tricolor nació con la Revolución francesa; azul y rojo eran colores de París y el blanco estaba vinculado a la monarquía francesa.",
+  "GA": "Verde, amarillo y azul se asocian a bosques, línea ecuatorial/sol y océano Atlántico; es una composición propia de la identidad gabonesa.",
+  "GM": "El rojo simboliza sol y sabana, el azul el río Gambia y el verde bosques/agricultura; las franjas blancas expresan paz y unidad.",
+  "GE": "La gran cruz de san Jorge y las cuatro cruces menores enlazan con la tradición cristiana medieval georgiana y con antiguos símbolos del reino.",
+  "GH": "Rojo, amarillo y verde son colores panafricanos; la estrella negra representa la libertad africana y el legado del panafricanismo.",
+  "GD": "El rojo, amarillo y verde son colores caribeños y africanos; la nuez moscada recuerda uno de los cultivos emblemáticos de Granada y las estrellas sus divisiones administrativas.",
+  "GR": "La cruz expresa la tradición ortodoxa; azul y blanco se asocian al mar y cielo griegos, y las nueve franjas se relacionan tradicionalmente con el lema independentista.",
+  "GT": "Azul y blanco derivan de la tradición centroamericana; el escudo incluye el quetzal, pergamino de independencia, rifles y laureles.",
+  "GN": "Rojo, amarillo y verde son colores panafricanos; suelen asociarse a sacrificio, recursos/sol y vegetación.",
+  "GQ": "Verde, blanco y rojo representan naturaleza, paz y lucha por la independencia; el triángulo azul alude al mar y el escudo muestra el árbol de la seda o ceiba.",
+  "GW": "Rojo, amarillo y verde son panafricanos; la estrella negra simboliza unidad africana y el legado de los movimientos de liberación.",
+  "GY": "El verde representa bosques y agricultura, el dorado recursos minerales, el rojo dinamismo; blanco y negro se asocian a ríos y resistencia.",
+  "HT": "El azul y rojo proceden de la bandera francesa tras eliminarse el blanco colonial; el escudo central lleva palmeras, armas y el lema 'La unión hace la fuerza'.",
+  "HN": "Azul y blanco proceden de la Federación Centroamericana; las cinco estrellas recuerdan a los cinco estados de aquella unión y el ideal de integración regional.",
+  "HU": "Rojo, blanco y verde son colores históricos del escudo húngaro y se convirtieron en el tricolor nacional durante el siglo XIX.",
+  "IN": "El azafrán, blanco y verde se asocian oficialmente a valor/renuncia, verdad/paz y fertilidad/fe; la rueda azul de Ashoka simboliza ley y movimiento.",
+  "ID": "Rojo y blanco son colores históricos del archipiélago, presentes ya en el imperio Majapahit; hoy se interpretan también como valor y pureza.",
+  "IQ": "Rojo, blanco, negro y verde son colores panárabes; la inscripción 'Allahu Akbar' en verde refuerza la identidad islámica del Estado.",
+  "IE": "El verde representa la tradición nacionalista y católica, el naranja la tradición protestante vinculada a Guillermo de Orange y el blanco la paz entre ambas.",
+  "IR": "Verde, blanco y rojo son colores nacionales de larga tradición; el emblema central estiliza la palabra Alá y el borde repite una expresión religiosa.",
+  "IS": "La cruz nórdica refleja la tradición escandinava; azul, blanco y rojo se asocian comúnmente al mar, hielo/nieve y fuego volcánico.",
+  "MH": "El azul representa el Pacífico, las franjas naranja y blanca se asocian a valentía/riqueza y paz, y la estrella señala los distritos e islas del país.",
+  "SB": "El azul simboliza el océano, el verde la tierra y el amarillo el sol; las cinco estrellas representan los cinco grupos insulares originales.",
+  "IL": "Las franjas azules se inspiran en el talit, manto de oración judío; la estrella de David es uno de los principales símbolos del judaísmo y del Estado de Israel.",
+  "IT": "El tricolor verde, blanco y rojo procede de las repúblicas italianas de época napoleónica y se convirtió en símbolo de la unificación nacional.",
+  "JM": "El negro representa la fuerza y creatividad del pueblo, el verde esperanza y recursos agrícolas, y el dorado la luz del sol y riqueza natural.",
+  "JP": "El disco rojo representa el sol, elemento central de la identidad simbólica japonesa; el fondo blanco crea el diseño conocido como Hinomaru.",
+  "JO": "Negro, blanco, verde y rojo son colores panárabes vinculados a dinastías islámicas históricas; la estrella de siete puntas tiene significados religiosos y de unidad.",
+  "KZ": "El azul celeste se asocia al cielo, paz y pueblos túrquicos; el sol, el águila esteparia y el ornamento tradicional reflejan naturaleza e identidad kazaja.",
+  "KE": "Negro, rojo y verde simbolizan al pueblo, la lucha por la independencia y la tierra; el blanco expresa paz y el escudo masái defensa de la libertad.",
+  "KG": "El rojo recuerda el estandarte atribuido a Manas; el sol de 40 rayos representa las tribus unificadas y el centro reproduce el tunduk de una yurta.",
+  "KI": "El sol naciente, el océano y la fragata representan el entorno insular; las franjas onduladas son el Pacífico y el ave simboliza libertad y soberanía.",
+  "KW": "Verde, blanco, rojo y negro son colores panárabes y enlazan con la identidad árabe y la historia política de la región.",
+  "LA": "El rojo recuerda la lucha independentista, el azul representa prosperidad y el Mekong, y el disco blanco simboliza la luna sobre el río y la unidad.",
+  "LS": "Azul, blanco y verde se relacionan con lluvia/cielo, paz y prosperidad; el sombrero mokorotlo negro es un símbolo cultural basotho.",
+  "LV": "El granate y blanco proceden de una antigua tradición heráldica letona medieval; es uno de los diseños nacionales más antiguos documentados de Europa.",
+  "LR": "Las franjas y la estrella reflejan la influencia histórica de Estados Unidos; las once franjas recuerdan a los firmantes de la declaración de independencia liberiana.",
+  "LY": "Rojo, negro y verde son colores históricos y panárabes; la media luna y la estrella blancas sobre negro enlazan con la tradición islámica y con la antigua monarquía.",
+  "LI": "Azul y rojo son colores históricos de la casa principesca; la corona dorada se añadió para distinguir la bandera de la de Haití y simboliza la monarquía.",
+  "LT": "El amarillo, verde y rojo se asocian habitualmente a sol/prosperidad, naturaleza y sacrificio por la nación; son colores del movimiento nacional lituano.",
+  "LU": "Rojo, blanco y azul claro proceden de los colores históricos del gran ducado y de su escudo; se parecen deliberadamente a la tradición heráldica neerlandesa.",
+  "LB": "El cedro es un símbolo milenario del Líbano; rojo suele asociarse al sacrificio y blanco a paz/nieve, mientras el árbol verde representa permanencia.",
+  "MK": "El sol amarillo de ocho rayos sobre rojo simboliza el 'nuevo sol de la libertad', expresión ligada al himno nacional y a la identidad macedonia.",
+  "MG": "Blanco, rojo y verde combinan la tradición histórica de la monarquía merina con colores asociados a independencia y población campesina.",
+  "MY": "Las franjas rojas y blancas representan los estados y territorios federales; azul simboliza unidad, amarillo a la monarquía y media luna/estrella al islam.",
+  "MW": "Negro, rojo y verde son colores panafricanos; el sol naciente simboliza esperanza y el rojo recuerda la lucha por la libertad africana.",
+  "MV": "El rojo recuerda a quienes defendieron el país, el verde la paz y prosperidad y la media luna blanca expresa la identidad islámica.",
+  "ML": "Verde, amarillo y rojo son colores panafricanos; suelen asociarse a naturaleza, riqueza/sol y sacrificio por la independencia.",
+  "MT": "Blanco y rojo son colores tradicionales vinculados a la historia medieval de Malta; la Cruz de Jorge recuerda la condecoración británica otorgada a la isla en la Segunda Guerra Mundial.",
+  "MA": "El rojo es un color histórico de la dinastía alauí; el pentagrama verde, conocido como Sello de Salomón, añade simbolismo islámico y tradicional.",
+  "MU": "Rojo, azul, amarillo y verde se interpretan como lucha por la libertad, océano Índico, luz de la independencia y vegetación/agricultura.",
+  "MR": "El verde y la media luna con estrella expresan la identidad islámica; el dorado alude al Sahara y las franjas rojas añadidas recuerdan sacrificio y defensa de la patria.",
+  "FM": "El azul representa el Pacífico; las cuatro estrellas blancas simbolizan los cuatro estados federados: Yap, Chuuk, Pohnpei y Kosrae.",
+  "MD": "El azul, amarillo y rojo comparten tradición con Rumanía; el escudo con águila y cabeza de uro distingue la identidad histórica moldava.",
+  "MN": "Rojo y azul son colores nacionales; el símbolo soyombo reúne elementos tradicionales que representan libertad, eternidad, fuego, sol, luna y equilibrio.",
+  "ME": "El rojo con borde dorado remite a antiguas banderas principescas; el águila bicéfala y el león del escudo representan la tradición estatal y dinástica montenegrina.",
+  "MZ": "Verde, negro, amarillo, blanco y rojo combinan panafricanismo, recursos y lucha; el libro, azada y fusil simbolizan educación, agricultura y defensa.",
+  "MM": "Amarillo, verde y rojo se asocian oficialmente a solidaridad, paz/naturaleza y valor; la gran estrella blanca representa la unión del país.",
+  "MX": "El verde, blanco y rojo forman el tricolor nacional; el águila con la serpiente sobre un nopal procede del mito fundacional mexica de Tenochtitlan.",
+  "MC": "Rojo y blanco son los colores heráldicos de la casa Grimaldi, dinastía que gobierna Mónaco desde la Edad Media.",
+  "NA": "Azul, rojo y verde se asocian a cielo/océano, pueblo y vegetación; el sol dorado representa vida y energía y los bordes blancos paz y unidad.",
+  "NR": "El azul simboliza el Pacífico, la línea amarilla el ecuador y la estrella blanca señala la posición de Nauru al sur de éste y sus doce tribus tradicionales.",
+  "NP": "Es la única bandera nacional no rectangular: los dos gallardetes derivan de estandartes tradicionales; sol y luna expresan permanencia y las montañas del Himalaya se evocan en el borde blanco.",
+  "NI": "Azul y blanco derivan de la Federación Centroamericana; el escudo triangular incluye cinco volcanes, arco iris y gorro frigio como símbolos de unión y libertad.",
+  "NG": "El verde representa agricultura y riqueza natural y el blanco paz y unidad; el diseño nació de un concurso previo a la independencia.",
+  "NO": "La cruz nórdica refleja la tradición escandinava; rojo, blanco y azul también subrayan los vínculos históricos con Dinamarca y Suecia.",
+  "NZ": "La Union Jack recuerda la herencia británica y las cuatro estrellas rojas representan la Cruz del Sur, visible desde el hemisferio sur.",
+  "NE": "Naranja, blanco y verde se asocian al Sahara, pureza y zonas fértiles; el disco naranja central representa el sol.",
+  "OM": "Blanco, rojo y verde son colores históricos del sultanato; el emblema del khanjar con espadas cruzadas es un símbolo tradicional omaní.",
+  "PK": "El verde representa a la mayoría musulmana y el blanco a las minorías; la media luna expresa progreso y la estrella luz y conocimiento.",
+  "PW": "El disco dorado representa la luna llena, importante en la tradición palauana; el fondo azul simboliza el océano y la paz.",
+  "PS": "Negro, blanco, verde y rojo son colores panárabes y remiten a dinastías y movimientos históricos del mundo árabe.",
+  "PA": "Rojo y azul representaban históricamente a los principales partidos políticos y el blanco la paz; las dos estrellas simbolizan pureza/autoridad y ley.",
+  "PG": "Rojo y negro son colores tradicionales; el ave del paraíso identifica a Papúa Nueva Guinea y la Cruz del Sur sitúa al país en el Pacífico.",
+  "PY": "Rojo, blanco y azul se inspiraron en ideales republicanos; es excepcional porque anverso y reverso llevan emblemas distintos vinculados al Estado y la Hacienda.",
+  "NL": "Rojo, blanco y azul derivan del antiguo 'Prinsenvlag' neerlandés; el rojo sustituyó al naranja y el tricolor se convirtió en uno de los modelos históricos de Europa.",
+  "PE": "Rojo y blanco son colores nacionales consolidados desde la independencia; su combinación procede de los primeros diseños creados por José de San Martín.",
+  "PL": "Blanco y rojo proceden del escudo polaco: el águila blanca sobre campo rojo, colores nacionales desde el siglo XIX.",
+  "PT": "Verde y rojo se asociaron a la república instaurada en 1910; la esfera armilar recuerda los descubrimientos marítimos y el escudo la historia del reino.",
+  "GB": "La Union Jack combina las cruces de san Jorge, san Andrés y san Patricio, representando la unión histórica de Inglaterra, Escocia e Irlanda.",
+  "CF": "Azul, blanco y rojo evocan la herencia francesa y verde, amarillo y rojo África; la franja roja central simboliza la unión entre ambos conjuntos.",
+  "CD": "El azul se asocia a paz, la estrella a unidad y futuro, y la banda roja con bordes amarillos al sacrificio y la riqueza del país.",
+  "DO": "La cruz blanca divide los campos azul y rojo y simboliza la fe; el escudo central incorpora Biblia, cruz y el lema nacional.",
+  "CG": "Verde, amarillo y rojo son colores panafricanos; la disposición diagonal distingue la bandera congoleña de otros tricolores africanos.",
+  "RW": "Azul, amarillo y verde se asocian a paz, desarrollo y prosperidad; el sol simboliza iluminación y una nueva etapa tras la historia reciente del país.",
+  "RO": "Azul, amarillo y rojo proceden de los colores históricos de Valaquia y Moldavia y se consolidaron en el siglo XIX con el movimiento nacional rumano.",
+  "RU": "Blanco, azul y rojo forman el tricolor histórico ruso desde la época de Pedro el Grande y ejercieron gran influencia en los colores paneslavos.",
+  "WS": "El rojo es el fondo tradicional y el rectángulo azul con la Cruz del Sur sitúa a Samoa en el Pacífico y vincula el diseño a su historia moderna.",
+  "KN": "Verde, amarillo, rojo y negro se asocian a tierra, sol, lucha y herencia africana; las dos estrellas blancas representan esperanza y libertad.",
+  "SM": "Blanco y azul reflejan los colores tradicionales de San Marino; el escudo muestra el monte Titano, sus tres torres y la palabra 'Libertas'.",
+  "VC": "Azul, amarillo y verde se relacionan con cielo/mar, calidez y vegetación; los tres diamantes verdes forman una 'V' alusiva a San Vicente.",
+  "LC": "El azul representa el Caribe, los triángulos recuerdan los Pitons y los colores negro y blanco simbolizan convivencia; amarillo alude al sol.",
+  "ST": "Verde, amarillo y rojo son panafricanos; las dos estrellas negras representan las dos islas principales y también la herencia africana.",
+  "SN": "Verde, amarillo y rojo son colores panafricanos; la estrella verde central simboliza unidad, esperanza e independencia.",
+  "RS": "Rojo, azul y blanco son colores paneslavos; el escudo incorpora el águila bicéfala y la cruz serbia, símbolos históricos del Estado.",
+  "SC": "Las cinco bandas radiantes representan un país joven que avanza hacia el futuro; los colores se asocian a cielo, sol, pueblo, justicia y tierra.",
+  "SL": "Verde, blanco y azul se interpretan como recursos/agricultura, unidad/justicia y puerto/océano, elementos centrales de la identidad nacional.",
+  "SG": "Rojo simboliza fraternidad e igualdad y blanco pureza; la media luna representa una nación joven y las cinco estrellas democracia, paz, progreso, justicia e igualdad.",
+  "SY": "El diseño sirio ha cambiado con la evolución política del país; sus colores y estrellas pertenecen a la tradición panárabe y a distintas etapas históricas de Siria.",
+  "SO": "El azul se inspiró en la bandera de Naciones Unidas por su papel en la transición del país; la estrella blanca de cinco puntas representa los territorios habitados históricamente por somalíes.",
+  "LK": "El león con espada procede de la tradición cingalesa; las franjas verde y naranja representan comunidades musulmana y tamil, y las hojas de bo simbolizan el budismo.",
+  "ZA": "El diseño multicolor de 1994 simboliza convergencia y unidad tras el apartheid; combina colores ligados a movimientos políticos y tradiciones históricas sudafricanas.",
+  "SD": "Rojo, blanco, negro y verde son colores panárabes; se relacionan con lucha, paz, pueblo y tradición islámica/agricultura.",
+  "SS": "Negro, rojo, verde, blanco, azul y amarillo reúnen simbolismos panafricanos: pueblo, sacrificio, tierra, paz, Nilo y esperanza o unidad.",
+  "SE": "La cruz nórdica amarilla sobre azul procede de la tradición escandinava y de los colores del escudo nacional sueco.",
+  "CH": "La cruz blanca sobre rojo es un antiguo símbolo de la Confederación Suiza; su forma cuadrada es una particularidad entre las banderas nacionales.",
+  "SR": "El verde, blanco y rojo se asocian a fertilidad, justicia/libertad y progreso; la estrella amarilla representa la unidad de los grupos del país.",
+  "TH": "Rojo, blanco y azul se interpretan tradicionalmente como nación, religión y monarquía; el azul central se añadió durante la Primera Guerra Mundial.",
+  "TZ": "Verde representa vegetación, azul lagos y océano, negro al pueblo y amarillo riqueza mineral; las diagonales unen los colores de Tanganica y Zanzíbar.",
+  "TJ": "Rojo, blanco y verde se relacionan con unidad, algodón/nieve y agricultura; la corona y siete estrellas son símbolos de soberanía y tradición tayika.",
+  "TL": "Rojo recuerda la lucha por la independencia, negro las dificultades del pasado y amarillo el legado colonial; la estrella blanca simboliza paz y esperanza.",
+  "TG": "Verde, amarillo y rojo son colores panafricanos; la estrella blanca representa esperanza y pureza y las cinco franjas recuerdan regiones históricas.",
+  "TO": "La cruz roja sobre blanco expresa la fuerte tradición cristiana del reino; el campo rojo completa un diseño fijado constitucionalmente desde el siglo XIX.",
+  "TT": "Rojo, negro y blanco se interpretan como fuego/sol y vitalidad, tierra/pueblo y mar/pureza, unidos en la diagonal característica.",
+  "TM": "El verde y la media luna expresan tradición islámica; la franja de alfombras muestra motivos de cinco tribus principales y las estrellas representan regiones del país.",
+  "TR": "La media luna y la estrella blancas sobre rojo proceden de la tradición otomana y se convirtieron en uno de los símbolos más reconocibles de Turquía.",
+  "TV": "La Union Jack recuerda la historia colonial británica; las estrellas representan las islas del archipiélago y su disposición aproxima su posición geográfica.",
+  "TN": "El rojo procede de la tradición otomana; el disco blanco con media luna y estrella simboliza la identidad islámica y la historia tunecina.",
+  "UA": "Azul y amarillo se interpretan popularmente como cielo sobre campos de trigo y son colores históricos presentes en la identidad nacional ucraniana.",
+  "UG": "Negro, amarillo y rojo son colores asociados al pueblo africano, sol y fraternidad; la grulla coronada es un símbolo nacional heredado de la época colonial.",
+  "UY": "Las nueve franjas recuerdan los departamentos originales y el Sol de Mayo simboliza la independencia, compartiendo tradición simbólica con Argentina.",
+  "UZ": "Azul, blanco y verde se asocian a cielo/agua, paz y naturaleza; las líneas rojas a la fuerza vital y la media luna con estrellas a tradición y soberanía.",
+  "VU": "Rojo, verde y negro reflejan sangre, tierra y pueblo melanesio; el colmillo de jabalí y hojas de namele son símbolos culturales de prosperidad y paz.",
+  "VE": "Amarillo, azul y rojo proceden de la tradición de la Gran Colombia; las estrellas representan las provincias históricas vinculadas a la independencia.",
+  "VN": "El fondo rojo representa revolución y lucha; la estrella amarilla simboliza la unidad de los principales grupos sociales bajo el Estado vietnamita.",
+  "YE": "Rojo, blanco y negro pertenecen a la tradición panárabe y fueron adoptados como símbolo de unidad tras la unificación de Yemen en 1990.",
+  "DJ": "Azul claro y verde representan mar/cielo y tierra, blanco paz; la estrella roja simboliza unidad y la lucha por la independencia.",
+  "ZM": "El verde representa recursos naturales, rojo la lucha, negro al pueblo y naranja minerales; el águila simboliza capacidad de elevarse sobre las dificultades.",
+  "ZW": "Verde, amarillo, rojo y negro son colores panafricanos; el ave de Zimbabue procede de las ruinas de Gran Zimbabue y la estrella roja refleja la lucha revolucionaria."
+};
+
+
+function explicacionBandera(p) {
+
+  if (
+    !p ||
+    !p.iso2
+  ) {
+    return "";
+  }
+
+  return (
+    BANDERA_EXPLICACIONES[p.iso2] ||
+    `La bandera de ${p.pais} tiene un diseño ligado a su historia e identidad. Esta nota ampliada todavía no está disponible para este territorio.`
+  );
+}
 
 // ==========================================
 // GENERAR PREGUNTA

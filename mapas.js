@@ -638,6 +638,80 @@ function capitalMasCercanaMapas(
   y
 ) {
 
+  /*
+    Primero damos prioridad a la capital que se está preguntando
+    si el usuario ha tocado razonablemente cerca de ella.
+
+    Esto es especialmente importante en casos como Roma /
+    Ciudad del Vaticano: a escala continental sus puntos son
+    prácticamente coincidentes y no sería justo obligar al
+    usuario a distinguirlos con precisión submilimétrica.
+  */
+
+  const capitalesMicroestado =
+    new Set([
+      "VA",
+      "MC",
+      "SM",
+      "LI",
+      "AD",
+      "MT",
+      "LU"
+    ]);
+
+  if (
+    mapasObjetivoActual &&
+    mapasObjetivoActual.iso &&
+    capitalesMicroestado.has(
+      mapasObjetivoActual.iso
+    )
+  ) {
+
+    const objetivo =
+      MAPA_EUROPA.capitales[
+        mapasObjetivoActual.iso
+      ];
+
+    const svg =
+      obtenerSvgMapas();
+
+    if (
+      objetivo &&
+      svg
+    ) {
+
+      const dxObjetivo =
+        objetivo.x - x;
+
+      const dyObjetivo =
+        objetivo.y - y;
+
+      const distanciaSvg =
+        Math.sqrt(
+          dxObjetivo * dxObjetivo +
+          dyObjetivo * dyObjetivo
+        );
+
+      const rect =
+        svg.getBoundingClientRect();
+
+      const escalaPantalla =
+        rect.width /
+        mapasViewBoxActual.ancho;
+
+      const distanciaPantalla =
+        distanciaSvg *
+        escalaPantalla;
+
+      if (
+        distanciaPantalla <= 30
+      ) {
+        return mapasObjetivoActual.iso;
+      }
+    }
+  }
+
+
   let mejorISO = null;
   let mejorDistancia = Infinity;
 

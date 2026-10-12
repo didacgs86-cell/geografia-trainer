@@ -573,7 +573,50 @@ const riosPausa =
 const riosPausaTexto =
   document.getElementById("rios-pausa-texto");
 
+const riosExamen10Desc =
+  document.getElementById("rios-examen10-desc");
+
+const riosExamen20Desc =
+  document.getElementById("rios-examen20-desc");
+
+const riosMapaSelector =
+  document.getElementById("rios-mapa-selector");
+
+const riosMapaJuego =
+  document.getElementById("rios-mapa-juego");
+
+const riosMapaTipo =
+  document.getElementById("rios-mapa-tipo");
+
+const riosMapaNumero =
+  document.getElementById("rios-mapa-numero");
+
+const riosMapaAciertosTexto =
+  document.getElementById("rios-mapa-aciertos");
+
+const riosMapaFallosTexto =
+  document.getElementById("rios-mapa-fallos");
+
+const riosMapaPregunta =
+  document.getElementById("rios-mapa-pregunta");
+
+const riosMapaAyuda =
+  document.getElementById("rios-mapa-ayuda");
+
+const riosMapaLienzo =
+  document.getElementById("rios-mapa-lienzo");
+
+const riosMapaRespuestas =
+  document.getElementById("rios-mapa-respuestas");
+
+const riosMapaFeedback =
+  document.getElementById("rios-mapa-feedback");
+
+const riosMapaSiguiente =
+  document.getElementById("rios-mapa-siguiente");
+
 const RIOS_TIEMPO_POR_PREGUNTA = 10;
+const RIOS_TIEMPO_ADIVINA = 15;
 
 let riosModoActual = null;
 let riosTotalExamen = null;
@@ -599,6 +642,37 @@ let riosTiempoRestante = RIOS_TIEMPO_POR_PREGUNTA;
 
 let riosUltimoExamen = null;
 let riosEsRepasoFallos = false;
+
+
+// ==========================================
+// ESTADO · MAPA DE RÍOS
+// ==========================================
+
+let riosMapaModoActual = null;
+let riosMapaCola = [];
+let riosMapaActual = null;
+let riosMapaAciertos = 0;
+let riosMapaFallos = 0;
+let riosMapaNumeroActual = 0;
+let riosMapaRespondida = false;
+
+const RIOS_MAPA_VIEWBOX_INICIAL = {
+  x: 0,
+  y: 0,
+  ancho: 1100,
+  alto: 650
+};
+
+let riosMapaViewBox = {
+  ...RIOS_MAPA_VIEWBOX_INICIAL
+};
+
+let riosMapaPunteros =
+  new Map();
+
+let riosMapaArrastre = null;
+let riosMapaDistanciaPinza = null;
+let riosMapaIgnorarClick = false;
 
 
 // ==========================================
@@ -778,6 +852,21 @@ function abrirConfigRios(modo) {
   riosConfigDescripcion.textContent =
     info.descripcion;
 
+  const segundos =
+    modo === "adivina"
+      ? RIOS_TIEMPO_ADIVINA
+      : RIOS_TIEMPO_POR_PREGUNTA;
+
+  if (riosExamen10Desc) {
+    riosExamen10Desc.textContent =
+      `⏱ ${segundos} s por pregunta · Sin preguntas repetidas.`;
+  }
+
+  if (riosExamen20Desc) {
+    riosExamen20Desc.textContent =
+      `⏱ ${segundos} s por pregunta · Revisión completa al terminar.`;
+  }
+
   riosConfig.classList.remove("oculto");
 }
 
@@ -789,6 +878,8 @@ function abrirMapaRiosProximamente() {
   riosMapaProximamente.classList.remove(
     "oculto"
   );
+
+  mostrarSelectorMapaRios();
 }
 
 
@@ -1376,7 +1467,9 @@ function iniciarTemporizadorRios() {
   }
 
   riosTiempoRestante =
-    RIOS_TIEMPO_POR_PREGUNTA;
+    riosModoActual === "adivina"
+      ? RIOS_TIEMPO_ADIVINA
+      : RIOS_TIEMPO_POR_PREGUNTA;
 
   riosTemporizador.classList.remove(
     "oculto"
@@ -1982,6 +2075,1172 @@ function repasarFallosRios() {
 }
 
 
+
+// ==========================================
+// MAPA INTERACTIVO DE RÍOS
+// ==========================================
+
+function mostrarSelectorMapaRios() {
+
+  riosMapaModoActual = null;
+
+  if (riosMapaSelector) {
+    riosMapaSelector.classList.remove(
+      "oculto"
+    );
+  }
+
+  if (riosMapaJuego) {
+    riosMapaJuego.classList.add(
+      "oculto"
+    );
+  }
+
+  if (riosMapaLienzo) {
+    riosMapaLienzo.innerHTML = "";
+  }
+
+  if (riosMapaRespuestas) {
+    riosMapaRespuestas.innerHTML = "";
+    riosMapaRespuestas.classList.add(
+      "oculto"
+    );
+  }
+
+  if (riosMapaFeedback) {
+    riosMapaFeedback.innerHTML = "";
+    riosMapaFeedback.classList.add(
+      "oculto"
+    );
+  }
+
+  if (riosMapaSiguiente) {
+    riosMapaSiguiente.classList.add(
+      "oculto"
+    );
+  }
+}
+
+
+function obtenerRiosMapaDisponibles() {
+
+  if (
+    typeof MAPA_RIOS_EUROPA === "undefined"
+  ) {
+    return [];
+  }
+
+  return MAPA_RIOS_EUROPA.orden
+    .map(
+      id => rioPorNombreRios(
+        MAPA_RIOS_EUROPA.rios[id].nombre
+      )
+    )
+    .filter(Boolean);
+}
+
+
+function prepararColaMapaRios() {
+
+  riosMapaCola =
+    barajarRios(
+      obtenerRiosMapaDisponibles()
+    );
+}
+
+
+function siguienteRioMapa() {
+
+  if (
+    riosMapaCola.length === 0
+  ) {
+    prepararColaMapaRios();
+  }
+
+  return riosMapaCola.shift();
+}
+
+
+function iniciarMapaRios(modo) {
+
+  riosMapaModoActual = modo;
+
+  riosMapaAciertos = 0;
+  riosMapaFallos = 0;
+  riosMapaNumeroActual = 0;
+  riosMapaRespondida = false;
+  riosMapaCola = [];
+
+  riosMapaAciertosTexto.textContent =
+    "0";
+
+  riosMapaFallosTexto.textContent =
+    "0";
+
+  riosMapaSelector.classList.add(
+    "oculto"
+  );
+
+  riosMapaJuego.classList.remove(
+    "oculto"
+  );
+
+  mostrarPreguntaMapaRios();
+}
+
+
+function mostrarPreguntaMapaRios() {
+
+  riosMapaRespondida = false;
+  riosMapaNumeroActual++;
+
+  riosMapaActual =
+    siguienteRioMapa();
+
+  if (!riosMapaActual) {
+    return;
+  }
+
+  riosMapaNumero.textContent =
+    `Pregunta ${riosMapaNumeroActual}`;
+
+  riosMapaFeedback.innerHTML = "";
+  riosMapaFeedback.classList.add(
+    "oculto"
+  );
+
+  riosMapaSiguiente.classList.add(
+    "oculto"
+  );
+
+  riosMapaRespuestas.innerHTML = "";
+  riosMapaRespuestas.classList.add(
+    "oculto"
+  );
+
+  if (
+    riosMapaModoActual === "localiza"
+  ) {
+
+    riosMapaTipo.textContent =
+      "🎯 Localiza el río";
+
+    riosMapaPregunta.textContent =
+      `Localiza el ${riosMapaActual.nombre}`;
+
+    riosMapaAyuda.textContent =
+      "Toca directamente el trazado del río en el mapa.";
+
+  } else {
+
+    riosMapaTipo.textContent =
+      "🔎 Identifica el río";
+
+    riosMapaPregunta.textContent =
+      "¿Qué río está destacado?";
+
+    riosMapaAyuda.textContent =
+      "Observa su recorrido y elige la respuesta correcta.";
+  }
+
+  crearMapaVisualRios();
+
+  if (
+    riosMapaModoActual === "identifica"
+  ) {
+    crearOpcionesIdentificaMapaRios();
+  }
+}
+
+
+function crearMapaVisualRios() {
+
+  const paises =
+    MAPA_RIOS_EUROPA.paises
+      .map(
+        d => `
+          <path
+            class="rios-mapa-pais"
+            d="${d}"
+            fill-rule="evenodd"
+          ></path>
+        `
+      )
+      .join("");
+
+
+  const rios =
+    MAPA_RIOS_EUROPA.orden
+      .map(
+        id => {
+
+          const info =
+            MAPA_RIOS_EUROPA.rios[id];
+
+          const esObjetivo =
+            riosMapaActual &&
+            riosMapaActual.id === id;
+
+          const claseObjetivo =
+            riosMapaModoActual === "identifica" &&
+            esObjetivo
+              ? "rios-mapa-rio-destacado"
+              : "";
+
+          const claseSecundaria =
+            riosMapaModoActual === "identifica" &&
+            !esObjetivo
+              ? "rios-mapa-rio-secundario"
+              : "";
+
+          return `
+            <g
+              class="rios-mapa-grupo ${claseObjetivo} ${claseSecundaria}"
+              data-rio-id="${id}"
+            >
+              <path
+                class="rios-mapa-rio"
+                d="${info.d}"
+              ></path>
+
+              <path
+                class="rios-mapa-rio-hit"
+                d="${info.d}"
+              ></path>
+            </g>
+          `;
+        }
+      )
+      .join("");
+
+
+  riosMapaLienzo.innerHTML = `
+    <svg
+      id="rios-mapa-svg"
+      viewBox="${MAPA_RIOS_EUROPA.viewBox}"
+      role="img"
+      aria-label="Mapa interactivo de los principales ríos de Europa"
+    >
+
+      <rect
+        class="rios-mapa-mar"
+        x="0"
+        y="0"
+        width="1100"
+        height="650"
+      ></rect>
+
+      <g class="rios-mapa-paises">
+        ${paises}
+      </g>
+
+      <g class="rios-mapa-capa-rios">
+        ${rios}
+      </g>
+
+    </svg>
+
+    <div class="rios-mapa-controles">
+      <button
+        type="button"
+        id="rios-mapa-zoom-mas"
+        class="rios-mapa-control"
+        aria-label="Ampliar mapa"
+      >+</button>
+
+      <button
+        type="button"
+        id="rios-mapa-zoom-menos"
+        class="rios-mapa-control"
+        aria-label="Reducir mapa"
+      >−</button>
+
+      <button
+        type="button"
+        id="rios-mapa-zoom-reset"
+        class="rios-mapa-control rios-mapa-control-reset"
+        aria-label="Restablecer vista"
+      >↺</button>
+    </div>
+
+    <div class="rios-mapa-leyenda">
+      Natural Earth · trazados fluviales didácticos simplificados
+    </div>
+  `;
+
+  reiniciarVistaMapaRios();
+  activarZoomMapaRios();
+  activarGestosMapaRios();
+
+  if (
+    riosMapaModoActual === "localiza"
+  ) {
+
+    riosMapaLienzo
+      .querySelectorAll(
+        ".rios-mapa-grupo"
+      )
+      .forEach(
+        grupo => {
+
+          grupo.addEventListener(
+            "click",
+            evento => {
+
+              evento.stopPropagation();
+
+              if (riosMapaIgnorarClick) {
+                riosMapaIgnorarClick = false;
+                return;
+              }
+
+              responderLocalizaMapaRios(
+                grupo.dataset.rioId
+              );
+            }
+          );
+        }
+      );
+  }
+}
+
+
+function crearOpcionesIdentificaMapaRios() {
+
+  const candidatas =
+    obtenerRiosMapaDisponibles()
+      .map(
+        rio => rio.nombre
+      );
+
+  const opciones =
+    crearOpcionesRios(
+      riosMapaActual.nombre,
+      candidatas
+    );
+
+  riosMapaRespuestas.classList.remove(
+    "oculto"
+  );
+
+  opciones.forEach(
+    nombre => {
+
+      const boton =
+        document.createElement(
+          "button"
+        );
+
+      boton.textContent =
+        nombre;
+
+      boton.addEventListener(
+        "click",
+        () => {
+          responderIdentificaMapaRios(
+            nombre,
+            boton
+          );
+        }
+      );
+
+      riosMapaRespuestas.appendChild(
+        boton
+      );
+    }
+  );
+}
+
+
+function responderLocalizaMapaRios(
+  idSeleccionado
+) {
+
+  if (riosMapaRespondida) return;
+
+  riosMapaRespondida = true;
+
+  const correcto =
+    idSeleccionado ===
+    riosMapaActual.id;
+
+  if (correcto) {
+    riosMapaAciertos++;
+  } else {
+    riosMapaFallos++;
+  }
+
+  actualizarMarcadorMapaRios();
+
+  marcarRioMapa(
+    idSeleccionado,
+    correcto
+      ? "rios-mapa-correcto"
+      : "rios-mapa-incorrecto"
+  );
+
+  marcarRioMapa(
+    riosMapaActual.id,
+    "rios-mapa-correcto"
+  );
+
+  bloquearMapaRios();
+
+  mostrarFeedbackMapaRios(
+    correcto,
+    idSeleccionado
+  );
+}
+
+
+function responderIdentificaMapaRios(
+  nombre,
+  botonSeleccionado
+) {
+
+  if (riosMapaRespondida) return;
+
+  riosMapaRespondida = true;
+
+  const correcto =
+    nombre ===
+    riosMapaActual.nombre;
+
+  if (correcto) {
+    riosMapaAciertos++;
+  } else {
+    riosMapaFallos++;
+  }
+
+  actualizarMarcadorMapaRios();
+
+  riosMapaRespuestas
+    .querySelectorAll("button")
+    .forEach(
+      boton => {
+
+        boton.disabled = true;
+
+        if (
+          boton.textContent ===
+          riosMapaActual.nombre
+        ) {
+          boton.classList.add(
+            "correcta"
+          );
+        }
+      }
+    );
+
+  if (
+    !correcto &&
+    botonSeleccionado
+  ) {
+    botonSeleccionado.classList.add(
+      "incorrecta"
+    );
+  }
+
+  marcarRioMapa(
+    riosMapaActual.id,
+    "rios-mapa-correcto"
+  );
+
+  mostrarFeedbackMapaRios(
+    correcto,
+    null
+  );
+}
+
+
+function marcarRioMapa(
+  id,
+  clase
+) {
+
+  const grupo =
+    riosMapaLienzo.querySelector(
+      `.rios-mapa-grupo[data-rio-id="${id}"]`
+    );
+
+  if (grupo) {
+    grupo.classList.add(
+      clase
+    );
+  }
+}
+
+
+function bloquearMapaRios() {
+
+  riosMapaLienzo
+    .querySelectorAll(
+      ".rios-mapa-grupo"
+    )
+    .forEach(
+      grupo => {
+        grupo.classList.add(
+          "rios-mapa-bloqueado"
+        );
+      }
+    );
+}
+
+
+function actualizarMarcadorMapaRios() {
+
+  riosMapaAciertosTexto.textContent =
+    String(riosMapaAciertos);
+
+  riosMapaFallosTexto.textContent =
+    String(riosMapaFallos);
+}
+
+
+function mostrarFeedbackMapaRios(
+  correcto,
+  idSeleccionado
+) {
+
+  const paises =
+    riosMapaActual.paises
+      .slice(0, 5)
+      .map(
+        nombrePaisConBanderaRios
+      )
+      .join(" · ");
+
+  const masPaises =
+    riosMapaActual.paises.length > 5
+      ? ` · +${riosMapaActual.paises.length - 5}`
+      : "";
+
+  let seleccion = "";
+
+  if (
+    !correcto &&
+    idSeleccionado
+  ) {
+
+    const seleccionado =
+      RIOS_EUROPA.find(
+        rio =>
+          rio.id === idSeleccionado
+      );
+
+    if (seleccionado) {
+      seleccion = `
+        <span class="rios-mapa-tu-respuesta">
+          Has tocado:
+          <strong>${escaparRios(seleccionado.nombre)}</strong>
+        </span>
+      `;
+    }
+  }
+
+  riosMapaFeedback.innerHTML = `
+    <div class="rios-mapa-feedback-titulo">
+      ${correcto ? "✅ Correcto." : "❌ Incorrecto."}
+    </div>
+
+    <div class="rios-mapa-ficha">
+      <strong>
+        🌊 ${escaparRios(riosMapaActual.nombre)}
+      </strong>
+
+      <span>
+        ${paises}${masPaises}
+      </span>
+
+      <span>
+        Desembocadura:
+        ${escaparRios(riosMapaActual.desembocadura)}
+      </span>
+
+      ${seleccion}
+    </div>
+  `;
+
+  riosMapaFeedback.classList.remove(
+    "oculto"
+  );
+
+  riosMapaSiguiente.classList.remove(
+    "oculto"
+  );
+}
+
+
+function reiniciarVistaMapaRios() {
+
+  riosMapaViewBox = {
+    ...RIOS_MAPA_VIEWBOX_INICIAL
+  };
+
+  riosMapaPunteros.clear();
+  riosMapaArrastre = null;
+  riosMapaDistanciaPinza = null;
+  riosMapaIgnorarClick = false;
+
+  aplicarVistaMapaRios();
+}
+
+
+function aplicarVistaMapaRios() {
+
+  const svg =
+    document.getElementById(
+      "rios-mapa-svg"
+    );
+
+  if (!svg) return;
+
+  svg.setAttribute(
+    "viewBox",
+    [
+      riosMapaViewBox.x,
+      riosMapaViewBox.y,
+      riosMapaViewBox.ancho,
+      riosMapaViewBox.alto
+    ].join(" ")
+  );
+}
+
+
+function zoomVistaMapaRios(
+  factor
+) {
+
+  const centroX =
+    riosMapaViewBox.x +
+    riosMapaViewBox.ancho / 2;
+
+  const centroY =
+    riosMapaViewBox.y +
+    riosMapaViewBox.alto / 2;
+
+  const anchoMin =
+    RIOS_MAPA_VIEWBOX_INICIAL.ancho /
+    3.5;
+
+  const anchoNuevo =
+    Math.max(
+      anchoMin,
+      Math.min(
+        RIOS_MAPA_VIEWBOX_INICIAL.ancho,
+        riosMapaViewBox.ancho /
+        factor
+      )
+    );
+
+  const altoNuevo =
+    anchoNuevo *
+    (
+      RIOS_MAPA_VIEWBOX_INICIAL.alto /
+      RIOS_MAPA_VIEWBOX_INICIAL.ancho
+    );
+
+  riosMapaViewBox = {
+    x:
+      centroX -
+      anchoNuevo / 2,
+    y:
+      centroY -
+      altoNuevo / 2,
+    ancho:
+      anchoNuevo,
+    alto:
+      altoNuevo
+  };
+
+  riosMapaViewBox.x =
+    Math.max(
+      0,
+      Math.min(
+        RIOS_MAPA_VIEWBOX_INICIAL.ancho -
+          riosMapaViewBox.ancho,
+        riosMapaViewBox.x
+      )
+    );
+
+  riosMapaViewBox.y =
+    Math.max(
+      0,
+      Math.min(
+        RIOS_MAPA_VIEWBOX_INICIAL.alto -
+          riosMapaViewBox.alto,
+        riosMapaViewBox.y
+      )
+    );
+
+  aplicarVistaMapaRios();
+}
+
+
+function activarZoomMapaRios() {
+
+  const btnMas =
+    document.getElementById(
+      "rios-mapa-zoom-mas"
+    );
+
+  const btnMenos =
+    document.getElementById(
+      "rios-mapa-zoom-menos"
+    );
+
+  const btnReset =
+    document.getElementById(
+      "rios-mapa-zoom-reset"
+    );
+
+  if (
+    btnMas &&
+    btnMenos &&
+    btnReset
+  ) {
+
+    btnMas.addEventListener(
+      "click",
+      evento => {
+        evento.stopPropagation();
+        zoomVistaMapaRios(1.45);
+      }
+    );
+
+    btnMenos.addEventListener(
+      "click",
+      evento => {
+        evento.stopPropagation();
+        zoomVistaMapaRios(
+          1 / 1.45
+        );
+      }
+    );
+
+    btnReset.addEventListener(
+      "click",
+      evento => {
+        evento.stopPropagation();
+        reiniciarVistaMapaRios();
+      }
+    );
+  }
+}
+
+
+function distanciaPinzaMapaRios() {
+
+  const puntos =
+    [...riosMapaPunteros.values()];
+
+  if (puntos.length < 2) {
+    return null;
+  }
+
+  const dx =
+    puntos[0].x -
+    puntos[1].x;
+
+  const dy =
+    puntos[0].y -
+    puntos[1].y;
+
+  return Math.sqrt(
+    dx * dx +
+    dy * dy
+  );
+}
+
+
+function centroPinzaMapaRios() {
+
+  const puntos =
+    [...riosMapaPunteros.values()];
+
+  if (puntos.length < 2) {
+    return null;
+  }
+
+  return {
+    x:
+      (
+        puntos[0].x +
+        puntos[1].x
+      ) / 2,
+
+    y:
+      (
+        puntos[0].y +
+        puntos[1].y
+      ) / 2
+  };
+}
+
+
+function limitarVistaMapaRios() {
+
+  const maxX =
+    RIOS_MAPA_VIEWBOX_INICIAL.ancho -
+    riosMapaViewBox.ancho;
+
+  const maxY =
+    RIOS_MAPA_VIEWBOX_INICIAL.alto -
+    riosMapaViewBox.alto;
+
+  riosMapaViewBox.x =
+    Math.max(
+      0,
+      Math.min(
+        maxX,
+        riosMapaViewBox.x
+      )
+    );
+
+  riosMapaViewBox.y =
+    Math.max(
+      0,
+      Math.min(
+        maxY,
+        riosMapaViewBox.y
+      )
+    );
+}
+
+
+function zoomMapaRiosEnPunto(
+  factor,
+  clientX,
+  clientY
+) {
+
+  const svg =
+    document.getElementById(
+      "rios-mapa-svg"
+    );
+
+  if (!svg) return;
+
+  const rect =
+    svg.getBoundingClientRect();
+
+  if (
+    rect.width === 0 ||
+    rect.height === 0
+  ) {
+    return;
+  }
+
+  const svgX =
+    riosMapaViewBox.x +
+    (
+      (clientX - rect.left) /
+      rect.width
+    ) *
+    riosMapaViewBox.ancho;
+
+  const svgY =
+    riosMapaViewBox.y +
+    (
+      (clientY - rect.top) /
+      rect.height
+    ) *
+    riosMapaViewBox.alto;
+
+  const anchoMin =
+    RIOS_MAPA_VIEWBOX_INICIAL.ancho /
+    3.5;
+
+  const anchoNuevo =
+    Math.max(
+      anchoMin,
+      Math.min(
+        RIOS_MAPA_VIEWBOX_INICIAL.ancho,
+        riosMapaViewBox.ancho /
+        factor
+      )
+    );
+
+  const altoNuevo =
+    anchoNuevo *
+    (
+      RIOS_MAPA_VIEWBOX_INICIAL.alto /
+      RIOS_MAPA_VIEWBOX_INICIAL.ancho
+    );
+
+  const proporcionX =
+    (
+      svgX -
+      riosMapaViewBox.x
+    ) /
+    riosMapaViewBox.ancho;
+
+  const proporcionY =
+    (
+      svgY -
+      riosMapaViewBox.y
+    ) /
+    riosMapaViewBox.alto;
+
+  riosMapaViewBox = {
+    x:
+      svgX -
+      proporcionX *
+      anchoNuevo,
+    y:
+      svgY -
+      proporcionY *
+      altoNuevo,
+    ancho:
+      anchoNuevo,
+    alto:
+      altoNuevo
+  };
+
+  limitarVistaMapaRios();
+  aplicarVistaMapaRios();
+}
+
+
+function activarGestosMapaRios() {
+
+  const svg =
+    document.getElementById(
+      "rios-mapa-svg"
+    );
+
+  if (!svg) return;
+
+
+  svg.addEventListener(
+    "wheel",
+    evento => {
+
+      evento.preventDefault();
+
+      zoomMapaRiosEnPunto(
+        evento.deltaY < 0
+          ? 1.16
+          : 1 / 1.16,
+        evento.clientX,
+        evento.clientY
+      );
+    },
+    {
+      passive: false
+    }
+  );
+
+
+  svg.addEventListener(
+    "pointerdown",
+    evento => {
+
+      if (
+        evento.pointerType === "mouse" &&
+        evento.button !== 0
+      ) {
+        return;
+      }
+
+      svg.setPointerCapture(
+        evento.pointerId
+      );
+
+      riosMapaPunteros.set(
+        evento.pointerId,
+        {
+          x: evento.clientX,
+          y: evento.clientY
+        }
+      );
+
+      if (
+        riosMapaPunteros.size === 1
+      ) {
+
+        riosMapaArrastre = {
+          x: evento.clientX,
+          y: evento.clientY
+        };
+
+      } else if (
+        riosMapaPunteros.size === 2
+      ) {
+
+        riosMapaDistanciaPinza =
+          distanciaPinzaMapaRios();
+
+        riosMapaArrastre = null;
+      }
+    }
+  );
+
+
+  svg.addEventListener(
+    "pointermove",
+    evento => {
+
+      if (
+        !riosMapaPunteros.has(
+          evento.pointerId
+        )
+      ) {
+        return;
+      }
+
+      riosMapaPunteros.set(
+        evento.pointerId,
+        {
+          x: evento.clientX,
+          y: evento.clientY
+        }
+      );
+
+
+      if (
+        riosMapaPunteros.size === 2
+      ) {
+
+        const nuevaDistancia =
+          distanciaPinzaMapaRios();
+
+        const centro =
+          centroPinzaMapaRios();
+
+        if (
+          riosMapaDistanciaPinza &&
+          nuevaDistancia &&
+          centro
+        ) {
+
+          const factor =
+            nuevaDistancia /
+            riosMapaDistanciaPinza;
+
+          if (
+            Math.abs(
+              nuevaDistancia -
+              riosMapaDistanciaPinza
+            ) > 2
+          ) {
+            riosMapaIgnorarClick = true;
+          }
+
+          zoomMapaRiosEnPunto(
+            factor,
+            centro.x,
+            centro.y
+          );
+
+          riosMapaDistanciaPinza =
+            nuevaDistancia;
+        }
+
+        return;
+      }
+
+
+      if (
+        riosMapaPunteros.size === 1 &&
+        riosMapaArrastre &&
+        riosMapaViewBox.ancho <
+          RIOS_MAPA_VIEWBOX_INICIAL.ancho
+      ) {
+
+        const dx =
+          evento.clientX -
+          riosMapaArrastre.x;
+
+        const dy =
+          evento.clientY -
+          riosMapaArrastre.y;
+
+        if (
+          Math.abs(dx) > 3 ||
+          Math.abs(dy) > 3
+        ) {
+          riosMapaIgnorarClick = true;
+        }
+
+        const rect =
+          svg.getBoundingClientRect();
+
+        riosMapaViewBox.x -=
+          dx /
+          rect.width *
+          riosMapaViewBox.ancho;
+
+        riosMapaViewBox.y -=
+          dy /
+          rect.height *
+          riosMapaViewBox.alto;
+
+        limitarVistaMapaRios();
+        aplicarVistaMapaRios();
+
+        riosMapaArrastre = {
+          x: evento.clientX,
+          y: evento.clientY
+        };
+      }
+    }
+  );
+
+
+  const terminar =
+    evento => {
+
+      riosMapaPunteros.delete(
+        evento.pointerId
+      );
+
+      if (
+        riosMapaPunteros.size < 2
+      ) {
+        riosMapaDistanciaPinza = null;
+      }
+
+      if (
+        riosMapaPunteros.size === 1
+      ) {
+
+        const restante =
+          [...riosMapaPunteros.values()][0];
+
+        riosMapaArrastre = {
+          x: restante.x,
+          y: restante.y
+        };
+
+      } else {
+
+        riosMapaArrastre = null;
+      }
+
+      if (riosMapaIgnorarClick) {
+        setTimeout(
+          () => {
+            riosMapaIgnorarClick = false;
+          },
+          150
+        );
+      }
+    };
+
+
+  svg.addEventListener(
+    "pointerup",
+    terminar
+  );
+
+  svg.addEventListener(
+    "pointercancel",
+    terminar
+  );
+}
+
+
 // ==========================================
 // EVENTOS
 // ==========================================
@@ -2167,6 +3426,41 @@ document
     "click",
     abrirRiosMenu
   );
+
+
+document
+  .querySelectorAll(
+    ".rios-mapa-modo"
+  )
+  .forEach(
+    boton => {
+
+      boton.addEventListener(
+        "click",
+        () => {
+          iniciarMapaRios(
+            boton.dataset.riosMapaModo
+          );
+        }
+      );
+    }
+  );
+
+
+document
+  .getElementById(
+    "rios-mapa-cambiar-modo"
+  )
+  .addEventListener(
+    "click",
+    mostrarSelectorMapaRios
+  );
+
+
+riosMapaSiguiente.addEventListener(
+  "click",
+  mostrarPreguntaMapaRios
+);
 
 
 document

@@ -235,6 +235,17 @@
       <span class="boton-flecha">›</span>
     </button>
 
+    <button id="btn-monedas" class="boton-portada">
+      <span class="boton-icono">💱</span>
+
+      <span class="boton-texto">
+        <strong>Monedas</strong>
+        <small>Relaciona países y monedas · Próximamente.</small>
+      </span>
+
+      <span class="boton-flecha">›</span>
+    </button>
+
   </div>
 
 </section>
@@ -370,11 +381,11 @@
       <span class="boton-flecha">›</span>
     </button>
 
-    <button id="btn-rios-mapa" class="boton-portada rios-mapa-proximo">
+    <button id="btn-rios-mapa" class="boton-portada">
       <span class="boton-icono">🗺️</span>
       <span class="boton-texto">
         <strong>Mapa de ríos</strong>
-        <small>Localización interactiva sobre el mapa de Europa · Próximamente.</small>
+        <small>Localiza e identifica 16 ríos principales sobre Europa.</small>
       </span>
       <span class="boton-flecha">›</span>
     </button>
@@ -425,7 +436,7 @@
       <span class="boton-icono">📝</span>
       <span class="boton-texto">
         <strong>Examen · 10 preguntas</strong>
-        <small>⏱ 10 s por pregunta · Sin preguntas repetidas.</small>
+        <small id="rios-examen10-desc">⏱ 10 s por pregunta · Sin preguntas repetidas.</small>
       </span>
       <span class="boton-flecha">›</span>
     </button>
@@ -434,7 +445,7 @@
       <span class="boton-icono">🎯</span>
       <span class="boton-texto">
         <strong>Examen · 20 preguntas</strong>
-        <small>⏱ 10 s por pregunta · Revisión completa al terminar.</small>
+        <small id="rios-examen20-desc">⏱ 10 s por pregunta · Revisión completa al terminar.</small>
       </span>
       <span class="boton-flecha">›</span>
     </button>
@@ -561,7 +572,7 @@
 
 
 <!-- =========================
-     MAPA DE RÍOS - PRÓXIMAMENTE
+     MAPA DE RÍOS
 ========================== -->
 
 <section id="rios-mapa-proximamente" class="oculto">
@@ -570,20 +581,81 @@
     ← Volver a Ríos
   </button>
 
-  <div class="espana-cabecera">
-    <div class="espana-bandera">🗺️</div>
+  <div id="rios-mapa-selector">
 
-    <h2>Mapa de ríos</h2>
+    <div class="espana-cabecera">
+      <div class="espana-bandera">🗺️</div>
 
-    <p>
-      Aquí construiremos el modo interactivo para localizar
-      los grandes ríos directamente sobre un mapa de Europa.
-    </p>
+      <h2>Mapa de ríos</h2>
+
+      <p>
+        Practica con 16 de los principales ríos europeos sobre un mapa interactivo.
+      </p>
+    </div>
+
+    <div class="rios-opciones">
+
+      <button class="boton-portada rios-mapa-modo" data-rios-mapa-modo="localiza">
+        <span class="boton-icono">🎯</span>
+        <span class="boton-texto">
+          <strong>Localiza el río</strong>
+          <small>Te damos el nombre y tú tocas su trazado en el mapa.</small>
+        </span>
+        <span class="boton-flecha">›</span>
+      </button>
+
+      <button class="boton-portada rios-mapa-modo" data-rios-mapa-modo="identifica">
+        <span class="boton-icono">🔎</span>
+        <span class="boton-texto">
+          <strong>Identifica el río</strong>
+          <small>Se destaca un trazado y eliges qué río es.</small>
+        </span>
+        <span class="boton-flecha">›</span>
+      </button>
+
+    </div>
+
+    <div class="rios-nota">
+      Mapa didáctico con trazados simplificados para facilitar el aprendizaje.
+    </div>
+
   </div>
 
-  <div class="mensaje-desarrollo">
-    <strong>Próximamente</strong>
-    <span>Esta será la parte visual del entrenamiento de ríos.</span>
+
+  <div id="rios-mapa-juego" class="oculto">
+
+    <button id="rios-mapa-cambiar-modo" class="btn-volver">
+      ← Cambiar modo
+    </button>
+
+    <div class="info-partida">
+      <span id="rios-mapa-tipo">Mapa de ríos</span>
+      <span id="rios-mapa-numero">Pregunta 1</span>
+    </div>
+
+    <div class="marcador">
+      <span>✅ <span id="rios-mapa-aciertos">0</span></span>
+      <span>❌ <span id="rios-mapa-fallos">0</span></span>
+    </div>
+
+    <h2 id="rios-mapa-pregunta">
+      Localiza…
+    </h2>
+
+    <p id="rios-mapa-ayuda" class="mapas-ayuda">
+      Toca directamente el trazado del río.
+    </p>
+
+    <div id="rios-mapa-lienzo" class="rios-mapa-lienzo"></div>
+
+    <div id="rios-mapa-respuestas" class="rios-mapa-respuestas oculto"></div>
+
+    <div id="rios-mapa-feedback" class="oculto"></div>
+
+    <button id="rios-mapa-siguiente" class="oculto">
+      Siguiente pregunta →
+    </button>
+
   </div>
 
 </section>
@@ -887,7 +959,7 @@
 <section id="contenido-desarrollo" class="oculto">
 
   <button id="volver-contenido-desarrollo" class="btn-volver">
-    ← Volver a Mapas y orografía
+    ← Volver
   </button>
 
   <div class="espana-cabecera">
@@ -1696,8 +1768,8 @@
 <script src="espana.js"></script>
 <script src="sabiasque.js"></script>
 <script src="script.js"></script>
-<script src="rios.js"></script>
 <script src="mapas-europa.js"></script>
+<script src="rios.js"></script>
 <script src="mapas.js"></script>
 
 </body>
