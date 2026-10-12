@@ -3130,3 +3130,346 @@ body {
     font-size: 16px;
   }
 }
+
+
+/* =========================================
+   HISTORIA · ARTÍCULO LARGO
+   CAÍDA DEL IMPERIO ROMANO DE OCCIDENTE
+========================================= */
+
+.historia-articulo-largo {
+  max-width: 860px;
+}
+
+.historia-articulo-header-editorial {
+  margin-bottom: 30px;
+}
+
+.historia-articulo-header-editorial h2 {
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: 34px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.historia-articulo-subtitulo {
+  max-width: 650px;
+  margin: 10px auto 0;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.historia-idea-central {
+  margin-bottom: 34px;
+  padding: 22px 24px;
+  border: 1px solid #dbe3ec;
+  border-left: 5px solid #334155;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.historia-idea-central p {
+  margin: 0;
+  color: #253241;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.72;
+}
+
+.historia-box-etiqueta,
+.historia-seccion-kicker {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.historia-seccion {
+  margin: 34px 0;
+}
+
+.historia-seccion h3 {
+  margin: 0 0 12px;
+  color: #17212b;
+  font-size: 21px;
+  line-height: 1.3;
+}
+
+.historia-seccion p {
+  margin: 0 0 16px;
+  color: #3f4c5c;
+  font-size: 15px;
+  line-height: 1.78;
+}
+
+.historia-linea-tiempo {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.historia-hito {
+  min-height: 112px;
+  padding: 13px;
+  border: 1px solid #dbe3ec;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.historia-hito-fecha {
+  margin-bottom: 7px;
+  color: #8a4f2d;
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.historia-hito-texto {
+  color: #52606f;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.historia-fecha-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.historia-fecha-cabecera h3 {
+  margin: 0;
+}
+
+.historia-fecha-pill {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #8a4f2d;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.03em;
+}
+
+.historia-fecha-box {
+  display: grid;
+  grid-template-columns: 105px 1fr;
+  gap: 22px;
+  margin: 38px 0;
+  padding: 24px;
+  border: 1px solid #d8c9bb;
+  border-radius: 14px;
+  background: #fbf8f4;
+}
+
+.historia-fecha-box-secundaria {
+  background: #f8fafc;
+  border-color: #dbe3ec;
+}
+
+.historia-fecha-grande {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  border-right: 1px solid #d8c9bb;
+  color: #8a4f2d;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.historia-fecha-box-secundaria .historia-fecha-grande {
+  border-right-color: #dbe3ec;
+}
+
+.historia-fecha-contenido h3 {
+  margin: 0 0 10px;
+  color: #17212b;
+  font-size: 20px;
+}
+
+.historia-fecha-contenido p {
+  margin: 0;
+  color: #3f4c5c;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.historia-concepto-box {
+  margin: 38px 0;
+  padding: 22px 24px;
+  border: 1px solid #cbd5e1;
+  border-radius: 13px;
+  background: #f8fafc;
+}
+
+.historia-concepto-box h3 {
+  margin: 0 0 10px;
+  color: #17212b;
+  font-size: 20px;
+}
+
+.historia-concepto-box p {
+  margin: 0;
+  color: #3f4c5c;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.historia-dato-box {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 11px;
+  margin: 22px 0 4px;
+  padding: 14px 16px;
+  border-left: 4px solid #8a4f2d;
+  border-radius: 8px;
+  background: #fbf8f4;
+}
+
+.historia-dato-icono {
+  color: #8a4f2d;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.historia-dato-box strong,
+.historia-dato-box span {
+  display: block;
+}
+
+.historia-dato-box strong {
+  margin-bottom: 3px;
+  color: #5f3923;
+  font-size: 13px;
+}
+
+.historia-dato-box span {
+  color: #52606f;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.historia-final-476 {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 24px;
+  margin: 42px 0 10px;
+  padding: 26px;
+  border-radius: 15px;
+  background: #17212b;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+}
+
+.historia-final-fecha {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 6px;
+  color: #f2d5b8;
+  font-size: 46px;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+}
+
+.historia-final-contenido .historia-box-etiqueta {
+  color: #cbd5e1;
+}
+
+.historia-final-contenido h3 {
+  margin: 0 0 11px;
+  color: #ffffff;
+  font-size: 22px;
+  line-height: 1.3;
+}
+
+.historia-final-contenido > p {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 15px;
+  line-height: 1.78;
+}
+
+.historia-recordar {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 9px;
+  background: rgba(255,255,255,0.06);
+}
+
+.historia-recordar strong,
+.historia-recordar span {
+  display: block;
+}
+
+.historia-recordar strong {
+  margin-bottom: 5px;
+  color: #f2d5b8;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.historia-recordar span {
+  color: #dbe3ec;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 720px) {
+
+  .historia-articulo-header-editorial h2 {
+    font-size: 28px;
+  }
+
+  .historia-linea-tiempo {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .historia-fecha-box {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .historia-fecha-grande {
+    justify-content: flex-start;
+    min-height: auto;
+    padding-bottom: 10px;
+    border-right: 0;
+    border-bottom: 1px solid #d8c9bb;
+    font-size: 34px;
+  }
+
+  .historia-final-476 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .historia-final-fecha {
+    justify-content: flex-start;
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 460px) {
+
+  .historia-linea-tiempo {
+    grid-template-columns: 1fr;
+  }
+
+  .historia-idea-central,
+  .historia-fecha-box,
+  .historia-concepto-box,
+  .historia-final-476 {
+    padding: 18px;
+  }
+}

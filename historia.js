@@ -124,6 +124,25 @@ const HISTORIA_TEMAS = {
   }
 };
 
+
+const HISTORIA_ARTICULOS = {
+  "roma/antiguedad-tardia-caida": {
+    titulo: "La desintegración del Imperio romano de Occidente",
+    subtitulo: "De Adrianópolis (378) a la deposición de Rómulo Augústulo (476)",
+    parrafos: ["La desintegración del Imperio romano de Occidente fue un proceso largo y progresivo, no un acontecimiento puntual. Aunque tradicionalmente se considera el año 476 d. C. como la fecha de su desaparición, cuando Odoacro depuso al último emperador occidental, Rómulo Augústulo, la crisis del Imperio había comenzado mucho antes.", "Un momento importante fue la batalla de Adrianópolis, en el año 378, en la que los visigodos derrotaron al ejército romano y murió el emperador Valente. Este episodio mostró las crecientes dificultades del Imperio para controlar a los pueblos germánicos que penetraban dentro de sus fronteras.", "Tras la muerte del emperador Teodosio I en el año 395, el Imperio quedó definitivamente dividido entre sus dos hijos: Arcadio recibió el Imperio romano de Oriente y Honorio el Imperio romano de Occidente. Aunque ambas partes seguían considerándose integrantes de un mismo Imperio romano, en la práctica evolucionaron cada vez más por separado.", "Durante el gobierno de Honorio, el Imperio occidental atravesó graves problemas políticos, económicos y militares. El mantenimiento del ejército y de la administración imperial suponía una fuerte presión fiscal sobre la población, mientras que el poder central encontraba cada vez más dificultades para recaudar impuestos y controlar el territorio.", "Al mismo tiempo, el ejército romano dependió progresivamente de soldados y mandos de origen germánico. Este fenómeno se conoce habitualmente como “barbarización” del ejército, aunque muchos de estos militares estaban plenamente integrados en las estructuras romanas. Uno de los personajes más importantes fue Estilicón, general de origen vándalo que actuó como principal defensor del Imperio occidental durante los primeros años del reinado de Honorio.", "A comienzos del siglo V, los visigodos dirigidos por Alarico realizaron varias incursiones en Italia. Estilicón consiguió contenerlos en varias ocasiones y trató de utilizar a grupos germánicos mediante acuerdos y alianzas dentro del sistema imperial. Sin embargo, fue acusado de conspiración y ejecutado en el año 408.", "La muerte de Estilicón debilitó considerablemente la defensa de Occidente. Alarico volvió entonces a presionar al gobierno imperial y, tras fracasar las negociaciones con Honorio, saqueó Roma en el año 410. El saqueo tuvo una enorme repercusión simbólica, aunque Roma ya no era la capital política del Imperio occidental, que se encontraba en Rávena.", "Alarico murió poco después y fue sucedido por Ataúlfo. Los visigodos se desplazaron posteriormente hacia la Galia y la península ibérica. Ataúlfo contrajo matrimonio en el año 414 con Gala Placidia, hermana del emperador Honorio, que había sido capturada durante el saqueo de Roma.", "Paralelamente, otros pueblos habían penetrado en el Imperio. En la noche del 31 de diciembre del año 406, grupos de vándalos, suevos y alanos atravesaron el Rin y penetraron en la Galia. Posteriormente, muchos de ellos se desplazaron hacia Hispania. Los visigodos, por su parte, acabaron estableciéndose en el sur de la Galia mediante acuerdos con el Imperio y formaron el reino de Tolosa.", "Durante las décadas siguientes, el Imperio romano de Occidente fue perdiendo territorios y recursos. Los vándalos llegaron al norte de África y conquistaron Cartago en el año 439, privando al Imperio occidental de una de sus regiones más ricas y de una importante fuente de cereal e impuestos.", "A todo ello se añadieron la inestabilidad política, las luchas entre generales, las usurpaciones imperiales, las dificultades económicas y la creciente autonomía de los reinos germánicos establecidos dentro del antiguo territorio romano.", "El Imperio romano de Oriente intentó en diversas ocasiones intervenir en Occidente y recuperar territorios perdidos. Estas tentativas continuaron incluso después del año 476, especialmente durante el reinado de Justiniano en el siglo VI.", "Finalmente, en el año 476, el jefe militar Odoacro depuso a Rómulo Augústulo y envió las insignias imperiales a Constantinopla. Este hecho se utiliza tradicionalmente para señalar el final del Imperio romano de Occidente, aunque para muchos contemporáneos no supuso una ruptura inmediata, sino una etapa más dentro de un proceso de transformación política iniciado décadas antes."],
+    cronologia: [
+      { fecha: "378", texto: "Batalla de Adrianópolis. Muere el emperador Valente." },
+      { fecha: "395", texto: "División definitiva entre Oriente y Occidente tras la muerte de Teodosio I." },
+      { fecha: "406", texto: "Vándalos, suevos y alanos atraviesan el Rin." },
+      { fecha: "408", texto: "Ejecución de Estilicón." },
+      { fecha: "410", texto: "Alarico saquea Roma." },
+      { fecha: "414", texto: "Ataúlfo contrae matrimonio con Gala Placidia." },
+      { fecha: "439", texto: "Los vándalos conquistan Cartago." },
+      { fecha: "476", texto: "Odoacro depone a Rómulo Augústulo." }
+    ]
+  }
+};
+
 const historiaTemaPantalla =
   document.getElementById("historia-tema");
 
@@ -201,6 +220,271 @@ function abrirTemaHistoria(id) {
     });
 }
 
+
+function renderArticuloCaidaRoma(tema, bloque, articulo) {
+
+  const p = articulo.parrafos;
+
+  return `
+    <article class="historia-articulo historia-articulo-largo">
+
+      <div class="historia-articulo-miga">
+        ${tema.titulo} · ${bloque.titulo.replace(/^\d+\.\s*/, "")}
+      </div>
+
+      <header class="historia-articulo-header historia-articulo-header-editorial">
+        <div class="historia-tema-icono">${tema.icono}</div>
+
+        <h2>
+          ${articulo.titulo}
+        </h2>
+
+        <p class="historia-articulo-subtitulo">
+          ${articulo.subtitulo}
+        </p>
+      </header>
+
+      <section class="historia-idea-central">
+        <div class="historia-box-etiqueta">
+          Idea central
+        </div>
+
+        <p>
+          ${p[0]}
+        </p>
+      </section>
+
+
+      <section class="historia-seccion">
+
+        <div class="historia-seccion-kicker">
+          Cronología rápida
+        </div>
+
+        <div class="historia-linea-tiempo">
+          ${articulo.cronologia.map(hito => `
+            <div class="historia-hito">
+              <div class="historia-hito-fecha">
+                ${hito.fecha}
+              </div>
+
+              <div class="historia-hito-texto">
+                ${hito.texto}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+
+      </section>
+
+
+      <section class="historia-seccion">
+
+        <div class="historia-fecha-cabecera">
+          <span class="historia-fecha-pill">378</span>
+          <h3>Adrianópolis: una señal de alarma</h3>
+        </div>
+
+        <p>
+          ${p[1]}
+        </p>
+
+      </section>
+
+
+      <section class="historia-fecha-box">
+
+        <div class="historia-fecha-grande">
+          395
+        </div>
+
+        <div class="historia-fecha-contenido">
+          <div class="historia-box-etiqueta">
+            Punto de inflexión
+          </div>
+
+          <h3>
+            Oriente y Occidente toman caminos cada vez más separados
+          </h3>
+
+          <p>
+            ${p[2]}
+          </p>
+        </div>
+
+      </section>
+
+
+      <section class="historia-seccion">
+
+        <div class="historia-seccion-kicker">
+          Occidente bajo Honorio
+        </div>
+
+        <h3>
+          Presión política, económica y militar
+        </h3>
+
+        <p>
+          ${p[3]}
+        </p>
+
+      </section>
+
+
+      <section class="historia-concepto-box">
+
+        <div class="historia-box-etiqueta">
+          Concepto clave
+        </div>
+
+        <h3>
+          “Barbarización” del ejército
+        </h3>
+
+        <p>
+          ${p[4]}
+        </p>
+
+      </section>
+
+
+      <section class="historia-seccion">
+
+        <div class="historia-seccion-kicker">
+          Estilicón y Alarico
+        </div>
+
+        <h3>
+          De la contención a la crisis
+        </h3>
+
+        <p>
+          ${p[5]}
+        </p>
+
+        <p>
+          ${p[6]}
+        </p>
+
+        <div class="historia-dato-box">
+          <div class="historia-dato-icono">◆</div>
+
+          <div>
+            <strong>Dato importante</strong>
+            <span>
+              En 410 Roma sufrió un saqueo de enorme impacto simbólico,
+              aunque la capital política del Imperio romano de Occidente
+              se encontraba ya en Rávena.
+            </span>
+          </div>
+        </div>
+
+      </section>
+
+
+      <section class="historia-seccion">
+
+        <div class="historia-seccion-kicker">
+          Reordenación del Occidente romano
+        </div>
+
+        <h3>
+          Visigodos, vándalos, suevos y alanos
+        </h3>
+
+        <p>
+          ${p[7]}
+        </p>
+
+        <p>
+          ${p[8]}
+        </p>
+
+      </section>
+
+
+      <section class="historia-fecha-box historia-fecha-box-secundaria">
+
+        <div class="historia-fecha-grande">
+          439
+        </div>
+
+        <div class="historia-fecha-contenido">
+
+          <div class="historia-box-etiqueta">
+            Pérdida estratégica
+          </div>
+
+          <h3>
+            Los vándalos conquistan Cartago
+          </h3>
+
+          <p>
+            ${p[9]}
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section class="historia-seccion">
+
+        <div class="historia-seccion-kicker">
+          Un poder cada vez más fragmentado
+        </div>
+
+        <p>
+          ${p[10]}
+        </p>
+
+        <p>
+          ${p[11]}
+        </p>
+
+      </section>
+
+
+      <section class="historia-final-476">
+
+        <div class="historia-final-fecha">
+          476
+        </div>
+
+        <div class="historia-final-contenido">
+
+          <div class="historia-box-etiqueta">
+            Fecha convencional del final
+          </div>
+
+          <h3>
+            Odoacro depone a Rómulo Augústulo
+          </h3>
+
+          <p>
+            ${p[12]}
+          </p>
+
+          <div class="historia-recordar">
+            <strong>Para recordar</strong>
+
+            <span>
+              El año 476 sirve como fecha convencional, pero el propio texto
+              presenta la desaparición del Imperio romano de Occidente como
+              un proceso largo de transformación y no como una ruptura súbita.
+            </span>
+          </div>
+
+        </div>
+
+      </section>
+
+    </article>
+  `;
+}
+
+
 function abrirSubtemaHistoria(temaId, subtemaId) {
   const tema = HISTORIA_TEMAS[temaId];
   if (!tema) return;
@@ -216,6 +500,25 @@ function abrirSubtemaHistoria(temaId, subtemaId) {
 
   ocultarTodasLasPantallas();
   historiaSubtemaPantalla.classList.remove("oculto");
+
+  const claveArticulo =
+    `${temaId}/${subtemaId}`;
+
+  const articulo =
+    HISTORIA_ARTICULOS[
+      claveArticulo
+    ];
+
+  if (articulo) {
+    historiaSubtemaContenido.innerHTML =
+      renderArticuloCaidaRoma(
+        tema,
+        bloque,
+        articulo
+      );
+
+    return;
+  }
 
   historiaSubtemaContenido.innerHTML = `
     <article class="historia-articulo">
