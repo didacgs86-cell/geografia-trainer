@@ -317,6 +317,7 @@ const GEO_DATA = [
     "lat": 9.5,
     "lon": 2.25,
     "quizCapital": true,
+    "notaCapital": "Porto-Novo es la capital oficial; Cotonú concentra gran parte del Gobierno y de la actividad económica.",
     "nota": "Porto-Novo es la capital oficial; Cotonú alberga gran parte del Gobierno."
   },
   {
@@ -359,6 +360,8 @@ const GEO_DATA = [
     "lat": -17,
     "lon": -65,
     "quizCapital": true,
+    "preguntaCapital": "¿Cuál es la capital constitucional de Bolivia?",
+    "notaCapital": "Sucre es la capital constitucional. La Paz es la sede del Gobierno y de los órganos ejecutivo y legislativo.",
     "nota": "Sucre es la capital constitucional; La Paz es la sede del Gobierno."
   },
   {
@@ -737,6 +740,7 @@ const GEO_DATA = [
     "lat": 8,
     "lon": -5,
     "quizCapital": true,
+    "notaCapital": "Yamusukro es la capital oficial; Abiyán sigue siendo el principal centro económico y administrativo.",
     "nota": null
   },
   {
@@ -951,7 +955,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Esuatini",
-    "capital": "Lobamba",
+    "capital": "Mbabane",
     "continente": "África",
     "subregion": "África austral",
     "categoria": "estado",
@@ -961,6 +965,8 @@ const GEO_DATA = [
     "lat": -26.5,
     "lon": 31.5,
     "quizCapital": true,
+    "preguntaCapital": "¿Cuál es la capital administrativa de Esuatini?",
+    "notaCapital": "Mbabane es la capital administrativa. Lobamba es la capital real y legislativa.",
     "nota": "Mbabane es la capital administrativa; Lobamba es la capital real y legislativa."
   },
   {
@@ -1231,7 +1237,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Guinea Ecuatorial",
-    "capital": "Malabo",
+    "capital": "Ciudad de la Paz",
     "continente": "África",
     "subregion": "África central",
     "categoria": "estado",
@@ -1241,11 +1247,11 @@ const GEO_DATA = [
     "lat": 2,
     "lon": 10,
     "quizCapital": true,
-    "nota": null
+    "nota": "Ciudad de la Paz fue declarada capital de Guinea Ecuatorial el 2 de enero de 2026; Malabo fue la capital anterior."
   },
   {
     "pais": "Guinea-Bisáu",
-    "capital": "Bissau",
+    "capital": "Bisáu",
     "continente": "África",
     "subregion": "África occidental",
     "categoria": "estado",
@@ -1679,7 +1685,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Israel",
-    "capital": "Jerusalem",
+    "capital": "Jerusalén",
     "continente": "Asia",
     "subregion": "Asia occidental",
     "categoria": "estado",
@@ -1689,6 +1695,8 @@ const GEO_DATA = [
     "lat": 31.5,
     "lon": 34.75,
     "quizCapital": true,
+    "preguntaCapital": "¿Qué ciudad designa Israel como su capital?",
+    "notaCapital": "Israel designa Jerusalén como su capital; el estatus de la ciudad es objeto de disputa internacional.",
     "nota": "Jerusalén es la capital declarada por Israel; su estatus internacional es objeto de disputa."
   },
   {
@@ -1945,7 +1953,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Luxemburgo",
-    "capital": "Luxembourg",
+    "capital": "Luxemburgo",
     "continente": "Europa",
     "subregion": "Europa occidental",
     "categoria": "estado",
@@ -2057,7 +2065,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Malta",
-    "capital": "Valletta",
+    "capital": "La Valeta",
     "continente": "Europa",
     "subregion": "Europa meridional",
     "categoria": "estado",
@@ -2253,7 +2261,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Mónaco",
-    "capital": "Monaco",
+    "capital": "Mónaco",
     "continente": "Europa",
     "subregion": "Europa occidental",
     "categoria": "estado",
@@ -2291,6 +2299,8 @@ const GEO_DATA = [
     "lat": -0.53333333,
     "lon": 166.91666666,
     "quizCapital": true,
+    "preguntaCapital": "¿En qué distrito se encuentran las principales instituciones gubernamentales de Nauru?",
+    "notaCapital": "Nauru no tiene una capital oficial; las principales instituciones gubernamentales se encuentran en el distrito de Yaren.",
     "nota": "Nauru no tiene una capital oficial; Yaren se usa habitualmente como capital de facto."
   },
   {
@@ -2459,6 +2469,8 @@ const GEO_DATA = [
     "lat": null,
     "lon": null,
     "quizCapital": true,
+    "preguntaCapital": "¿Cuál es la sede administrativa de facto de Palestina?",
+    "notaCapital": "Ramala funciona como sede administrativa de facto. El Estado de Palestina reivindica Jerusalén Este como capital.",
     "nota": "Ramala funciona como sede administrativa. El Estado de Palestina reclama Jerusalén Este como capital."
   },
   {
@@ -2515,6 +2527,8 @@ const GEO_DATA = [
     "lat": 52.5,
     "lon": 5.75,
     "quizCapital": true,
+    "preguntaCapital": "¿Cuál es la capital constitucional de Países Bajos?",
+    "notaCapital": "Ámsterdam es la capital constitucional; el Gobierno y el Parlamento se encuentran en La Haya.",
     "nota": null
   },
   {
@@ -2799,7 +2813,7 @@ const GEO_DATA = [
   },
   {
     "pais": "San Marino",
-    "capital": "City of San Marino",
+    "capital": "San Marino",
     "continente": "Europa",
     "subregion": "Europa meridional",
     "categoria": "estado",
@@ -2995,7 +3009,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Somalia",
-    "capital": "Mogadishu",
+    "capital": "Mogadiscio",
     "continente": "África",
     "subregion": "África oriental",
     "categoria": "estado",
@@ -3009,7 +3023,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Sri Lanka",
-    "capital": "Colombo",
+    "capital": "Sri Jayawardenepura Kotte",
     "continente": "Asia",
     "subregion": "Asia meridional",
     "categoria": "estado",
@@ -3019,7 +3033,8 @@ const GEO_DATA = [
     "lat": 7,
     "lon": 81,
     "quizCapital": true,
-    "nota": "Sri Jayawardenepura Kotte es la capital legislativa; Colombo es el principal centro ejecutivo y económico."
+    "preguntaCapital": "¿Cuál es la capital administrativa de Sri Lanka?",
+    "nota": "Sri Jayawardenepura Kotte es la capital administrativa; Colombo es la capital comercial y la ciudad más grande."
   },
   {
     "pais": "Sudáfrica",
@@ -3033,11 +3048,13 @@ const GEO_DATA = [
     "lat": -29,
     "lon": 24,
     "quizCapital": true,
+    "preguntaCapital": "¿Cuál es la capital administrativa de Sudáfrica?",
+    "notaCapital": "Sudáfrica distribuye sus capitales: Pretoria es administrativa, Ciudad del Cabo legislativa y Bloemfontein judicial.",
     "nota": "Sudáfrica tiene tres capitales: Pretoria (ejecutiva), Ciudad del Cabo (legislativa) y Bloemfontein (judicial)."
   },
   {
     "pais": "Sudán",
-    "capital": "Khartoum",
+    "capital": "Jartum",
     "continente": "África",
     "subregion": "África septentrional",
     "categoria": "estado",
@@ -3471,7 +3488,7 @@ const GEO_DATA = [
   },
   {
     "pais": "Yibuti",
-    "capital": "Djibouti",
+    "capital": "Yibuti",
     "continente": "África",
     "subregion": "África oriental",
     "categoria": "estado",

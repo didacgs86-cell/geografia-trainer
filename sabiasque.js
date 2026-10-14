@@ -24,22 +24,9 @@ const SABIAS_QUE = [
 
       Esta relación con la montaña sigue siendo una parte fundamental
       de la identidad cultural del país.
-
-      ESTO ES UNA PRUEBA DE DIDAC GONZALEZ, NO ES DEFINITIVO
     `,
 
     secciones: [
-
-      {
-        id: "historia",
-        icono: "📜",
-        titulo: "Historia",
-
-        contenido: `
-          Aquí podrás escribir toda la información que quieras
-          sobre la historia de Kirguistán.
-        `
-      },
 
       {
         id: "curiosidades",
@@ -47,39 +34,18 @@ const SABIAS_QUE = [
         titulo: "Curiosidades",
 
         contenido: `
-          La bandera de Kirguistán simboliza sobre todo su identidad nómada y su historia:
-          
-          El rojo representa valor y fortaleza; también está asociado al héroe épico Manas, el sol amarillo tiene 40 rayos, que representan tradicionalmente las 40 tribus kirguisas unificadas por Manas, en el centro del sol aparece el tүндүк (tündük), la estructura circular del techo de una yurta, símbolo del hogar, la familia y la unidad del pueblo kirguís.
-          
-          Hoy día solo el 5% de la población es nomada. 
-          
-          El islam convive con una fuerte secularización soviética.
-          
-          La vida urbana en Biskek puede resultar sorprendentemente moderna.
-         
-          Es joven demográficamente: En 2025, aproximadamente el 32 % de la población tenía menos de 15 años, mientras que solo alrededor del 6 % tenía 65 años o más. Además, cerca del 27 % tenía entre 10 y 24 añosEn 2025, aproximadamente el 32 % de la población tenía menos de 15 años, mientras que solo alrededor del 6 % tenía 65 años o más. Además, cerca del 27 % tenía entre 10 y 24 años
-        `
-      },
+          La bandera de Kirguistán incluye un sol amarillo de 40 rayos,
+          asociado tradicionalmente a las 40 tribus kirguisas.
 
-      {
-        id: "gastronomia",
-        icono: "🍽️",
-        titulo: "Gastronomía",
+          En el centro del sol aparece el tündük, la estructura circular
+          superior de una yurta, un símbolo muy ligado al hogar y a la
+          tradición nómada kirguisa.
 
-        contenido: `
-          Aquí podrás escribir toda la información que quieras
-          sobre la gastronomía de Kirguistán.
-        `
-      },
+          La herencia soviética sigue siendo visible en la arquitectura,
+          la planificación urbana y determinados elementos de la vida pública.
 
-      {
-        id: "geografia",
-        icono: "🗺️",
-        titulo: "Geografía",
-
-        contenido: `
-          Aquí podrás escribir toda la información que quieras
-          sobre la geografía de Kirguistán.
+          Biskek, la capital, concentra buena parte de la vida política,
+          cultural y económica del país.
         `
       }
 

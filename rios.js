@@ -45,7 +45,6 @@ const RIOS_EUROPA = [
     ],
     "ciudades": [
       "Basilea",
-      "Estrasburgo",
       "Colonia",
       "Düsseldorf"
     ],
@@ -141,7 +140,7 @@ const RIOS_EUROPA = [
     ],
     "desembocadura": "Mar Mediterráneo",
     "pistas": [
-      "Es el río más caudaloso de España.",
+      "Es uno de los ríos más caudalosos de España.",
       "Atraviesa Zaragoza.",
       "Forma un gran delta en el Mediterráneo."
     ]

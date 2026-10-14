@@ -1990,6 +1990,51 @@ function etiquetaContenido() {
 }
 
 
+function textoPreguntaCapitalMundo(p) {
+
+  if (
+    p &&
+    typeof p.preguntaCapital === "string" &&
+    p.preguntaCapital.trim()
+  ) {
+    return p.preguntaCapital;
+  }
+
+  return `¿Cuál es la capital de ${p.pais}?`;
+}
+
+
+function crearNotaCapitalMundo(p) {
+
+  if (!p) {
+    return "";
+  }
+
+  const nota =
+    typeof p.notaCapital === "string" &&
+    p.notaCapital.trim()
+      ? p.notaCapital
+      : (
+          typeof p.nota === "string" &&
+          p.nota.trim()
+            ? p.nota
+            : ""
+        );
+
+  if (!nota) {
+    return "";
+  }
+
+  return `
+
+    <div class="nota-capital">
+      ${escaparHTML(nota)}
+    </div>
+
+  `;
+}
+
+
 function etiquetaTipoJuego() {
 
   if (tipoJuego === "capitales") {
@@ -2299,7 +2344,9 @@ function generarPregunta() {
   if (tipoJuego === "capitales") {
 
     textoPregunta.textContent =
-      `¿Cuál es la capital de ${preguntaActual.pais}?`;
+      textoPreguntaCapitalMundo(
+        preguntaActual
+      );
 
   }
 
@@ -2553,6 +2600,8 @@ function crearResumenPregunta(p) {
 
     ${crearDetalleEstatus(p)}
 
+    ${crearNotaCapitalMundo(p)}
+
   `;
 }
 
@@ -2727,7 +2776,7 @@ function crearDetalleEstatus(p) {
 
       <br>
 
-      <span style="font-weight:normal;">
+      <span class="detalle-estatus">
 
         Territorio vinculado a
         ${escaparHTML(p.parent)}
@@ -2748,7 +2797,7 @@ function crearDetalleEstatus(p) {
 
       <br>
 
-      <span style="font-weight:normal;">
+      <span class="detalle-estatus">
 
         ${escaparHTML(
           p.estatus
@@ -3194,12 +3243,7 @@ function crearMapaSVG(
 
     return `
 
-      <div
-        style="
-          padding:24px;
-          text-align:center;
-        "
-      >
+      <div class="mapa-sin-coordenadas">
 
         No hay coordenadas
         disponibles para este lugar.
@@ -4313,78 +4357,38 @@ publicacionSabiasQueActual = publicacion;
 
   contenidoSabiasQue.innerHTML = `
 
-    <div
-      style="
-        text-align:center;
-        margin-bottom:30px;
-      "
-    >
+    <div class="sabias-cabecera-detalle">
 
-      <div
-        style="
-          font-size:55px;
-          margin-bottom:10px;
-        "
-      >
+      <div class="sabias-bandera-grande">
         ${escaparHTML(publicacion.bandera)}
       </div>
 
 
-      <h2
-        style="
-          margin-bottom:8px;
-        "
-      >
+      <h2 class="sabias-titulo-pais">
         ${escaparHTML(publicacion.pais)}
       </h2>
 
 
-      <h3
-        style="
-          margin-top:0;
-          color:#475569;
-        "
-      >
+      <h3 class="sabias-titulo-articulo">
         ${escaparHTML(publicacion.titulo)}
       </h3>
 
 
-      <div
-        style="
-          font-size:12px;
-          color:#94a3b8;
-          margin-top:10px;
-        "
-      >
+      <div class="sabias-fecha">
         ${escaparHTML(publicacion.fecha)}
       </div>
 
     </div>
 
 
-    <div
-      style="
-        font-size:16px;
-        line-height:1.8;
-        color:#334155;
-      "
-    >
+    <div class="sabias-cuerpo">
 
       ${parrafos}
 
     </div>
 
 <div id="secciones-pais"></div>
-    <div
-      style="
-        margin-top:35px;
-        padding-top:15px;
-        border-top:1px solid #e2e8f0;
-        font-size:11px;
-        color:#94a3b8;
-        text-align:center;
-      "
-    >
+    <div class="sabias-autor">
 
       Publicado por Didac G.
 
@@ -4477,9 +4481,9 @@ function mostrarSeccionSabiasQue(publicacion, seccion) {
 
   contenidoSabiasQueSeccion.innerHTML = `
 
-    <div style="text-align:center; margin-bottom:30px;">
+    <div class="sabias-cabecera-detalle">
 
-      <div style="font-size:48px; margin-bottom:10px;">
+      <div class="sabias-bandera-seccion">
         ${escaparHTML(seccion.icono)}
       </div>
 
@@ -4487,7 +4491,7 @@ function mostrarSeccionSabiasQue(publicacion, seccion) {
         ${escaparHTML(seccion.titulo)}
       </h2>
 
-      <div style="color:#64748b; font-size:14px;">
+      <div class="sabias-pais-seccion">
         ${escaparHTML(publicacion.bandera)}
         ${escaparHTML(publicacion.pais)}
       </div>
@@ -4495,13 +4499,7 @@ function mostrarSeccionSabiasQue(publicacion, seccion) {
     </div>
 
 
-    <div
-      style="
-        font-size:16px;
-        line-height:1.8;
-        color:#334155;
-      "
-    >
+    <div class="sabias-cuerpo">
       ${parrafos}
     </div>
 

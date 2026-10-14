@@ -3473,3 +3473,81 @@ body {
     padding: 18px;
   }
 }
+
+
+/* =========================================
+   REVISIÓN 1 · SEGURIDAD Y CONSISTENCIA
+========================================= */
+
+.detalle-estatus {
+  font-weight: 400;
+}
+
+.nota-capital {
+  max-width: 620px;
+  margin: 14px auto 0;
+  padding: 11px 13px;
+  border-left: 3px solid #94a3b8;
+  border-radius: 7px;
+  background: #f8fafc;
+  color: #52606f;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.mapa-sin-coordenadas {
+  padding: 24px;
+  text-align: center;
+}
+
+.sabias-cabecera-detalle {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sabias-bandera-grande {
+  margin-bottom: 10px;
+  font-size: 55px;
+}
+
+.sabias-bandera-seccion {
+  margin-bottom: 10px;
+  font-size: 48px;
+}
+
+.sabias-titulo-pais {
+  margin-bottom: 8px;
+}
+
+.sabias-titulo-articulo {
+  margin-top: 0;
+  color: #475569;
+}
+
+.sabias-fecha {
+  margin-top: 10px;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.sabias-cuerpo {
+  color: #334155;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.sabias-autor {
+  margin-top: 35px;
+  padding-top: 15px;
+  border-top: 1px solid #e2e8f0;
+  color: #94a3b8;
+  font-size: 11px;
+  text-align: center;
+}
+
+.sabias-pais-seccion {
+  color: #64748b;
+  font-size: 14px;
+}

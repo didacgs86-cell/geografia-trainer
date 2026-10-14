@@ -145,7 +145,7 @@ const MARES_DATA = [
       "La península arábiga queda al oeste y la India al este.",
       "Pakistán, India, Omán y Yemen tienen costa en sus aguas."
     ],
-    paises: ["India","Pakistán","Irán","Omán","Yemen","Somalia"]
+    paises: ["India","Pakistán","Omán","Yemen","Somalia"]
   },
   {
     id: "china-sur",

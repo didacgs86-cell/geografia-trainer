@@ -648,9 +648,10 @@ function capitalMasCercanaMapas(
     usuario a distinguirlos con precisión submilimétrica.
   */
 
-  const capitalesMicroestado =
+  const capitalesConPrioridadDeToque =
     new Set([
       "VA",
+      "IT",
       "MC",
       "SM",
       "LI",
@@ -662,7 +663,7 @@ function capitalMasCercanaMapas(
   if (
     mapasObjetivoActual &&
     mapasObjetivoActual.iso &&
-    capitalesMicroestado.has(
+    capitalesConPrioridadDeToque.has(
       mapasObjetivoActual.iso
     )
   ) {
@@ -745,6 +746,34 @@ function capitalMasCercanaMapas(
       }
     }
   );
+
+  const svg =
+    obtenerSvgMapas();
+
+  if (
+    !mejorISO ||
+    !svg
+  ) {
+    return null;
+  }
+
+  const rect =
+    svg.getBoundingClientRect();
+
+  const escalaPantalla =
+    rect.width /
+    mapasViewBoxActual.ancho;
+
+  const distanciaPantalla =
+    mejorDistancia *
+    escalaPantalla;
+
+  // Un toque lejos de cualquier capital no se interpreta como respuesta.
+  if (
+    distanciaPantalla > 34
+  ) {
+    return null;
+  }
 
   return mejorISO;
 }

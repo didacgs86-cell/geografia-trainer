@@ -465,7 +465,7 @@ function mostrarPreguntaMonedas() {
   if (monedasPreguntaActual.tipo === "pais-moneda") {
     const pais = monedasPreguntaActual.pais;
     monedasPreguntaTexto.innerHTML =
-      `¿Cuál es la moneda de <strong>${banderaMonedas(pais.iso2)} ${escaparMonedas(pais.pais)}</strong>?`;
+      `¿Cuál es la moneda nacional o principal de <strong>${banderaMonedas(pais.iso2)} ${escaparMonedas(pais.pais)}</strong>?`;
   } else {
     monedasPreguntaTexto.innerHTML =
       `¿Cuál de estos países utiliza <strong>${escaparMonedas(capitalizarMonedas(monedasPreguntaActual.monedaCorta))}</strong>?`;
@@ -711,7 +711,7 @@ function enunciadoRevisionMonedas(resultado) {
   const p = resultado.pregunta;
 
   if (p.tipo === "pais-moneda") {
-    return `¿Cuál es la moneda de ${p.pais.pais}?`;
+    return `¿Cuál es la moneda nacional o principal de ${p.pais.pais}?`;
   }
 
   return `¿Qué país utiliza ${capitalizarMonedas(p.monedaCorta)}?`;

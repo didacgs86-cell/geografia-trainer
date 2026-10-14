@@ -67,7 +67,7 @@ function nombreModoMontanas() {
   const nombres = {
     "montana-pais": "Montaña → País",
     "pais-montana": "País → Montaña",
-    "cordillera": "Montaña → Cordillera",
+    "cordillera": "Montaña → Cordillera o región",
     "adivina": "Adivina la montaña"
   };
 

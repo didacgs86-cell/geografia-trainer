@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; media-src 'self'; worker-src 'self'; manifest-src 'self'; form-action 'none'"
+  >
+  <meta name="referrer" content="no-referrer">
 
   <title>GeoTrainer</title>
 
@@ -16,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261014-r1">
 </head>
 
 <body>
@@ -101,8 +106,8 @@
     <h2>Geografía</h2>
 
     <p>
-      Practica países, capitales, banderas, geografía de España
-      y, próximamente, mapas y orografía.
+      Practica países, capitales, banderas, geografía de España,
+      mapas y orografía.
     </p>
   </div>
 
@@ -606,7 +611,7 @@
     <button class="boton-portada montanas-modo" data-montanas-modo="cordillera">
       <span class="boton-icono">🏔️</span>
       <span class="boton-texto">
-        <strong>Montaña → Cordillera</strong>
+        <strong>Montaña → Cordillera o región</strong>
         <small>Relaciona cada cumbre con su cordillera o macizo.</small>
       </span>
       <span class="boton-flecha">›</span>
@@ -2378,18 +2383,18 @@
   </main>
 
 
-<script src="countries.js"></script>
-<script src="espana.js"></script>
-<script src="sabiasque.js"></script>
-<script src="script.js"></script>
-<script src="mapas-europa.js"></script>
-<script src="rios.js"></script>
-<script src="mapas.js"></script>
-<script src="monedas.js"></script>
-<script src="mares.js"></script>
-<script src="historia.js?v=20261012c"></script>
-<script src="maravillas.js"></script>
-<script src="montanas.js"></script>
+<script src="countries.js?v=20261014-r1"></script>
+<script src="espana.js?v=20261014-r1"></script>
+<script src="sabiasque.js?v=20261014-r1"></script>
+<script src="script.js?v=20261014-r1"></script>
+<script src="mapas-europa.js?v=20261014-r1"></script>
+<script src="rios.js?v=20261014-r1"></script>
+<script src="mapas.js?v=20261014-r1"></script>
+<script src="monedas.js?v=20261014-r1"></script>
+<script src="mares.js?v=20261014-r1"></script>
+<script src="historia.js?v=20261014-r1"></script>
+<script src="maravillas.js?v=20261014-r1"></script>
+<script src="montanas.js?v=20261014-r1"></script>
 
 </body>
 </html>
