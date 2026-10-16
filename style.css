@@ -75,7 +75,7 @@ button:disabled {
 }
 
 .oculto {
-  display: none;
+  display: none !important;
 }
 
 /* BOTÓN VOLVER */
@@ -963,11 +963,9 @@ body {
 #geografia-menu,
 #historia-menu,
 #viajes-menu,
-#mapas-orografia-menu,
-
-
-
-
+#mapas-orografia-menu {
+  color: #1f2937;
+}
 
 /* =========================================
    MARCA GEOTRAINER

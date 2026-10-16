@@ -77,6 +77,19 @@ else fail(`Atributos style= en: ${inlineStyleHits.join(", ")}`);
 if (/Content-Security-Policy/i.test(html)) ok("CSP presente");
 else fail("Falta Content-Security-Policy");
 
+const css = read("style.css");
+if (/\.oculto\s*\{[^}]*display\s*:\s*none\s*!important\s*;?[^}]*\}/s.test(css)) {
+  ok("Clase .oculto blindada con display:none !important");
+} else {
+  fail("La clase .oculto debe usar display:none !important para evitar solapamientos");
+}
+
+if (!/#mapas-orografia-menu\s*,\s*(?:\/\*[\s\S]*?\*\/\s*)*\.marca-geotrainer\s*\{/m.test(css)) {
+  ok("CSS de navegación sin selector accidental sobre .marca-geotrainer");
+} else {
+  fail("Selector CSS accidental: los menús de navegación se mezclan con .marca-geotrainer");
+}
+
 if (/script-src 'self'/.test(html)) ok("CSP restringe scripts a self");
 else fail("CSP no restringe script-src a self");
 
@@ -212,6 +225,9 @@ for (const phrase of [
   else fail(`Texto interno "${phrase}" en: ${hits.join(", ")}`);
 }
 
+
+if (/function\s+mostrarEspanaMenu\s*\(/.test(read("script.js"))) ok("Navegación España: mostrarEspanaMenu definida");
+else fail("Falta mostrarEspanaMenu en script.js");
 
 for (const requiredId of [
   "mapas-asia","mapas-africa","mapas-america","mapas-oceania",

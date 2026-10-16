@@ -1399,13 +1399,17 @@ btnPaisBandera.addEventListener("click", () => {
   abrirConfiguracion("pais-bandera");
 });
 
-btnEspana.addEventListener("click", () => {
+function mostrarEspanaMenu() {
 
   ocultarTodasLasPantallas();
 
   espanaMenu.classList.remove("oculto");
+}
 
-});
+btnEspana.addEventListener(
+  "click",
+  mostrarEspanaMenu
+);
 
 
 // ==========================================
@@ -1499,13 +1503,10 @@ function abrirConfiguracionEspana(modo, titulo) {
 
   tituloEspanaConfig.textContent = titulo;
 }
-btnVolverEspanaMenu.addEventListener("click", () => {
-
-  ocultarTodasLasPantallas();
-
-  espanaMenu.classList.remove("oculto");
-
-});
+btnVolverEspanaMenu.addEventListener(
+  "click",
+  mostrarEspanaMenu
+);
 btnEspanaEntrenamiento.addEventListener("click", () => {
   iniciarJuegoEspana("entrenamiento", null);
 });
