@@ -48,7 +48,8 @@ function duplicates(values) {
 
 const jsFiles = [
   "countries.js","espana.js","sabiasque.js","script.js","mapas-europa.js",
-  "rios.js","mapas.js","monedas.js","mares.js","historia.js","maravillas.js","montanas.js"
+  "rios.js","mapas.js","monedas.js","mares.js","historia.js","maravillas.js","montanas.js",
+  "mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js"
 ];
 
 for (const file of jsFiles) {
@@ -91,6 +92,10 @@ for (const [label, rx] of [
   else fail(`${label} detectado en: ${hits.join(", ")}`);
 }
 
+const inlineJsStyleHits = jsFiles.filter(f => /\.style\.|setAttribute\(\s*["']style["']/.test(read(f)));
+if (inlineJsStyleHits.length === 0) ok("Sin estilos inline generados desde JavaScript");
+else fail(`Estilos inline generados desde JavaScript: ${inlineJsStyleHits.join(", ")}`);
+
 for (const [label, rx] of [
   ["localStorage", /\blocalStorage\b/],
   ["sessionStorage", /\bsessionStorage\b/],
@@ -126,10 +131,12 @@ else fail(`ISO2 inválidos: ${invalidISO.join(", ")}`);
 const allGeoNames = new Set(GEO_DATA.map(x => x.pais));
 const allowedNonCountries = new Set(["Antártida"]);
 
-const RIOS = loadConstBefore("rios.js", "RIOS_EUROPA", "const riosMenu");
+const RIOS = loadConstBefore("rios.js", "RIOS_MUNDO", "const riosMenu");
 const riverIdDup = duplicates(RIOS.map(x => x.id));
 if (riverIdDup.length === 0) ok(`Ríos: ${RIOS.length} IDs únicos`);
 else fail(`IDs de ríos duplicados: ${riverIdDup.join(", ")}`);
+if (RIOS.length === 50) ok("Ríos: banco mundial de 50 entradas");
+else fail(`Se esperaban 50 ríos; hay ${RIOS.length}`);
 const badRiverCountries = [...new Set(RIOS.flatMap(r => r.paises || []).filter(p => !allGeoNames.has(p) && !allowedNonCountries.has(p)))];
 if (badRiverCountries.length === 0) ok("Ríos: referencias de países válidas");
 else fail(`Ríos con países no reconocidos: ${badRiverCountries.join(", ")}`);
@@ -165,17 +172,59 @@ const unknownMapIso = [...mapIsos].filter(iso => !knownIsos.has(iso));
 if (unknownMapIso.length === 0) ok("Mapa Europa: ISO presentes en countries.js");
 else fail(`Mapa Europa con ISO desconocidos: ${unknownMapIso.join(", ")}`);
 
+const MAPAS_MUNDO = loadConst("mapas-mundo.js", "MAPAS_MUNDO");
+for (const [clave, esperado] of Object.entries({ asia:47, africa:54, america:35, oceania:14 })) {
+  const mapa = MAPAS_MUNDO[clave];
+  if (mapa && mapa.ordenISO.length === esperado) ok(`Mapa ${clave}: ${esperado} Estados`);
+  else fail(`Mapa ${clave}: número inesperado de Estados`);
+  const unknown = (mapa?.ordenISO || []).filter(iso => !knownIsos.has(iso));
+  if (unknown.length === 0) ok(`Mapa ${clave}: ISO válidos`);
+  else fail(`Mapa ${clave}: ISO desconocidos ${unknown.join(", ")}`);
+  const sinLocalizador = (mapa?.ordenISO || []).filter(iso => !mapa.paises?.[iso] && !mapa.marcadores?.[iso]);
+  if (sinLocalizador.length === 0) ok(`Mapa ${clave}: todos los Estados son localizables`);
+  else fail(`Mapa ${clave}: sin localizador ${sinLocalizador.join(", ")}`);
+  const sinCapital = (mapa?.ordenISO || []).filter(iso => !mapa.capitales?.[iso]);
+  if (sinCapital.length === 0) ok(`Mapa ${clave}: todas las capitales tienen punto`);
+  else fail(`Mapa ${clave}: capitales sin punto ${sinCapital.join(", ")}`);
+}
+
+const ESPANA_PROVINCIAS = loadConst("espana.js", "ESPANA_PROVINCIAS");
+const ESPANA_CIUDADES = loadConst("espana.js", "ESPANA_CIUDADES_AUTONOMAS");
+const ESPANA_COORDS = loadConstBefore("espana-mapa.js", "ESPANA_CAPITALES_COORD", "const espanaMapaPantalla");
+const sinCoordEspana = ESPANA_PROVINCIAS.filter(p => !ESPANA_COORDS[p.capital]).map(p => p.provincia);
+const sinCoordCiudades = ESPANA_CIUDADES.filter(c => !ESPANA_COORDS[c.ciudad]).map(c => c.ciudad);
+if (sinCoordEspana.length === 0 && sinCoordCiudades.length === 0) ok("Mapa España: 50 provincias + Ceuta y Melilla con referencia");
+else fail(`Mapa España: faltan referencias ${[...sinCoordEspana, ...sinCoordCiudades].join(", ")}`);
+
 for (const phrase of [
   "ESTO ES UNA PRUEBA",
   "Aquí podrás escribir toda la información que quieras",
   "Este subapartado ya está preparado",
   "Cuando me pases tu documento",
   "el propio texto presenta",
-  "sin perder tu redacción"
+  "sin perder tu redacción",
+  "Próximamente",
+  "Sección preparada",
+  "Podremos construir aquí"
 ]) {
   const hits = textFiles.filter(file => read(file).includes(phrase));
   if (hits.length === 0) ok(`Sin texto interno: ${phrase}`);
   else fail(`Texto interno "${phrase}" en: ${hits.join(", ")}`);
+}
+
+
+for (const requiredId of [
+  "mapas-asia","mapas-africa","mapas-america","mapas-oceania",
+  "btn-montanas-mapa","btn-mares-mapa","fisico-mapa",
+  "btn-espana-mapa","espana-mapa","criterios-fuentes","btn-criterios-fuentes"
+]) {
+  if (ids.includes(requiredId)) ok(`ID Revisión 2: ${requiredId}`);
+  else fail(`Falta ID Revisión 2: ${requiredId}`);
+}
+
+for (const file of ["mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js"]) {
+  if (html.includes(file)) ok(`Script Revisión 2 cargado: ${file}`);
+  else fail(`Script Revisión 2 no cargado: ${file}`);
 }
 
 for (const asset of [

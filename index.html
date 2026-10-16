@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <link rel="stylesheet" href="style.css?v=20261014-r1">
+  <link rel="stylesheet" href="style.css?v=20261016-r2">
 </head>
 
 <body>
@@ -52,7 +52,7 @@
 <div class="inicio-opciones">
 
     <button id="btn-geografia" class="boton-portada">
-      <span class="boton-icono">🌍</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3.2 4.5 6.2 4.5 9S15 17.8 12 21c-3-3.2-4.5-6.2-4.5-9S9 6.2 12 3Z"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Geografía</strong>
@@ -64,7 +64,7 @@
 
 
     <button id="btn-historia" class="boton-portada">
-      <span class="boton-icono">📜</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 20h14M7 17V8m5 9V8m5 9V8M4 8h16L12 3 4 8Z"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Historia</strong>
@@ -76,7 +76,7 @@
 
 
     <button id="btn-viajes" class="boton-portada">
-      <span class="boton-icono">✈️</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 11 18-7-7 18-3-8-8-3Z"></path><path d="m11 14 4-4"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Viajes</strong>
@@ -107,14 +107,14 @@
 
     <p>
       Practica países, capitales, banderas, geografía de España,
-      mapas y orografía.
+      mapas y geografía física.
     </p>
   </div>
 
   <div class="inicio-opciones">
 
     <button id="btn-capitales" class="boton-portada">
-      <span class="boton-icono">🏛️</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20h16M6 17h12M7 17V9m5 8V9m5 8V9M4 9h16L12 4 4 9Z"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Capitales</strong>
@@ -126,7 +126,7 @@
 
 
     <button id="btn-paises" class="boton-portada">
-      <span class="boton-icono">🌐</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h10l4 4-2 5 2 3-5 4-4-2-5 2-2-5 2-4-2-3 2-4Z"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Países</strong>
@@ -138,7 +138,7 @@
 
 
     <button id="btn-banderas" class="boton-portada">
-      <span class="boton-icono">🚩</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 21V4m0 1h10l-2 4 2 4H6"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Banderas</strong>
@@ -150,7 +150,7 @@
 
 
     <button id="btn-espana" class="boton-portada">
-      <span class="boton-icono">🇪🇸</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 6 9 4l4 1 4-1 2 4-1 5-3 1-2 4-5 1-3-3 1-4-2-3 1-3Z"></path><circle cx="12" cy="11" r="1.5"></circle></svg></span>
 
       <span class="boton-texto">
         <strong>España</strong>
@@ -162,10 +162,10 @@
 
 
     <button id="btn-mapas-orografia" class="boton-portada">
-      <span class="boton-icono">🗺️</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 18 5-8 3 4 3-7 7 11H3Z"></path><path d="M3 21h18"></path></svg></span>
 
       <span class="boton-texto">
-        <strong>Mapas y orografía</strong>
+        <strong>Mapas y geografía física</strong>
         <small>Montañas, ríos, mares y práctica con mapas.</small>
       </span>
 
@@ -492,7 +492,7 @@
 
 
 <!-- =========================
-     MAPAS Y OROGRAFÍA
+     MAPAS Y GEOGRAFÍA FÍSICA
 ========================== -->
 
 <section id="mapas-orografia-menu" class="oculto">
@@ -504,7 +504,7 @@
   <div class="espana-cabecera">
     <div class="espana-bandera">🗺️</div>
 
-    <h2>Mapas y orografía</h2>
+    <h2>Mapas y geografía física</h2>
 
     <p>
       Practica el relieve, los ríos, los mares y la localización sobre mapas.
@@ -514,7 +514,7 @@
   <div class="inicio-opciones">
 
     <button id="btn-montanas" class="boton-portada">
-      <span class="boton-icono">⛰️</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m2 20 6-10 3 4 4-8 7 14H2Z"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Montañas</strong>
@@ -526,7 +526,7 @@
 
 
     <button id="btn-rios" class="boton-portada">
-      <span class="boton-icono">🌊</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5c4 0 4 3 8 3s4-3 8-3M4 11c4 0 4 3 8 3s4-3 8-3M4 17c4 0 4 3 8 3s4-3 8-3"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Ríos</strong>
@@ -538,7 +538,7 @@
 
 
     <button id="btn-mares" class="boton-portada">
-      <span class="boton-icono">🌐</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"></circle><path d="M3.5 13c2.5-1.5 4.5-1.5 7 0s4.5 1.5 7 0 3.5-1 3.5-1"></path><path d="M12 3c2.5 2.8 3.8 5.5 3.8 8"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Mares y océanos</strong>
@@ -550,7 +550,7 @@
 
 
     <button id="btn-mapas" class="boton-portada">
-      <span class="boton-icono">📍</span>
+      <span class="boton-icono boton-icono-svg"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"></path><path d="M9 3v15m6-12v15"></path></svg></span>
 
       <span class="boton-texto">
         <strong>Mapas</strong>
@@ -574,7 +574,7 @@
 <section id="montanas-menu" class="oculto">
 
   <button id="volver-montanas-orografia" class="btn-volver">
-    ← Volver a Mapas y orografía
+    ← Volver a Mapas y geografía física
   </button>
 
   <div class="espana-cabecera">
@@ -622,6 +622,15 @@
       <span class="boton-texto">
         <strong>Adivina la montaña</strong>
         <small>Usa tres pistas geográficas para identificarla.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="btn-montanas-mapa" class="boton-portada">
+      <span class="boton-icono">🗺️</span>
+      <span class="boton-texto">
+        <strong>Mapa mundial de montañas</strong>
+        <small>Localiza e identifica las grandes cumbres sobre el mapa.</small>
       </span>
       <span class="boton-flecha">›</span>
     </button>
@@ -766,7 +775,7 @@
 <section id="mares-menu" class="oculto">
 
   <button id="volver-mares-orografia" class="btn-volver">
-    ← Volver a Mapas y orografía
+    ← Volver a Mapas y geografía física
   </button>
 
   <div class="espana-cabecera">
@@ -800,6 +809,15 @@
         <small>Elige un país que tenga costa en ese mar.</small>
       </span>
 
+      <span class="boton-flecha">›</span>
+    </button>
+
+    <button id="btn-mares-mapa" class="boton-portada">
+      <span class="boton-icono">🗺️</span>
+      <span class="boton-texto">
+        <strong>Mapa mundial de mares y océanos</strong>
+        <small>Localiza e identifica las principales masas de agua.</small>
+      </span>
       <span class="boton-flecha">›</span>
     </button>
 
@@ -933,23 +951,68 @@
 
 
 <!-- =========================
-     RÍOS DE EUROPA
+     MAPA MUNDIAL · GEOGRAFÍA FÍSICA
+========================== -->
+
+<section id="fisico-mapa" class="oculto mapa-ancho">
+  <button id="volver-fisico" class="btn-volver">← Volver</button>
+
+  <div class="espana-cabecera">
+    <div class="espana-bandera">🗺️</div>
+    <h2 id="fisico-titulo">Mapa mundial de geografía física</h2>
+    <p id="fisico-descripcion">Localiza elementos físicos sobre un mapa mundial.</p>
+  </div>
+
+  <div id="fisico-selector" class="mapa-selector-panel">
+    <p class="mapa-selector-intro">Elige el tipo de ejercicio:</p>
+    <div class="inicio-opciones">
+      <button class="boton-portada fisico-modo" data-fisico-modo="localiza">
+        <span class="boton-icono">⌖</span>
+        <span class="boton-texto"><strong>Localizar en el mapa</strong><small>Lee el nombre y toca su posición.</small></span>
+        <span class="boton-flecha">›</span>
+      </button>
+      <button class="boton-portada fisico-modo" data-fisico-modo="identifica">
+        <span class="boton-icono">◉</span>
+        <span class="boton-texto"><strong>Identificar</strong><small>Observa el punto destacado y elige el nombre correcto.</small></span>
+        <span class="boton-flecha">›</span>
+      </button>
+    </div>
+  </div>
+
+  <div id="fisico-juego" class="oculto">
+    <div class="info-partida">
+      <span>Mapa físico mundial</span>
+      <span id="fisico-numero">Pregunta 1</span>
+    </div>
+    <div class="marcador"><span>✅ <span id="fisico-aciertos">0</span></span><span>❌ <span id="fisico-fallos">0</span></span></div>
+    <h2 id="fisico-pregunta" class="mapa-pregunta"></h2>
+    <p id="fisico-ayuda" class="mapas-ayuda"></p>
+    <div id="fisico-lienzo" class="mapa-lienzo-amplio"></div>
+    <div id="fisico-respuestas" class="mapa-respuestas oculto"></div>
+    <div id="fisico-feedback" class="oculto feedback-unificado"></div>
+    <div class="mapa-acciones"><button id="fisico-siguiente" class="oculto">Siguiente pregunta →</button><button id="fisico-cambiar-modo" class="btn-secundario">Cambiar modo</button></div>
+  </div>
+</section>
+
+
+<!-- =========================
+     RÍOS DEL MUNDO
 ========================== -->
 
 <section id="rios-menu" class="oculto">
 
   <button id="volver-rios-orografia" class="btn-volver">
-    ← Volver a Mapas y orografía
+    ← Volver a Mapas y geografía física
   </button>
 
   <div class="espana-cabecera rios-cabecera">
     <div class="espana-bandera">🌊</div>
 
-    <h2>Ríos de Europa</h2>
+    <h2>Ríos del mundo</h2>
 
     <p>
-      Aprende los grandes ríos europeos relacionándolos con países,
-      ciudades y desembocaduras.
+      Aprende 50 grandes ríos del mundo relacionándolos con países,
+      ciudades, desembocaduras y pistas geográficas.
     </p>
   </div>
 
@@ -1003,8 +1066,8 @@
     <button id="btn-rios-mapa" class="boton-portada">
       <span class="boton-icono">🗺️</span>
       <span class="boton-texto">
-        <strong>Mapa de ríos</strong>
-        <small>Localiza e identifica 16 ríos principales sobre Europa.</small>
+        <strong>Mapa de ríos de Europa</strong>
+        <small>Localiza e identifica 16 ríos principales europeos.</small>
       </span>
       <span class="boton-flecha">›</span>
     </button>
@@ -1012,7 +1075,7 @@
   </div>
 
   <div class="rios-nota">
-    Base inicial: 25 grandes ríos europeos.
+    Base actual: 50 grandes ríos del mundo. El mapa interactivo de ríos se centra por ahora en Europa.
   </div>
 
 </section>
@@ -1032,13 +1095,27 @@
     <div id="rios-config-icono" class="espana-bandera">🌊</div>
 
     <h2 id="rios-config-titulo">
-      Ríos de Europa
+      Ríos del mundo
     </h2>
 
     <p id="rios-config-descripcion">
       Elige cómo quieres practicar.
     </p>
   </div>
+
+  <div class="bloque-config">
+    <label for="rios-region">🌐 Zona geográfica</label>
+    <select id="rios-region">
+      <option value="Todos">Todo el mundo</option>
+      <option value="Europa">Europa</option>
+      <option value="Asia">Asia</option>
+      <option value="África">África</option>
+      <option value="América">América</option>
+      <option value="Oceanía">Oceanía</option>
+    </select>
+  </div>
+
+  <div id="rios-disponibles" class="monedas-disponibles"></div>
 
   <div class="espana-opciones">
 
@@ -1085,7 +1162,7 @@
   </button>
 
   <div class="info-partida">
-    <span id="rios-tipo-partida">Ríos de Europa</span>
+    <span id="rios-tipo-partida">Ríos del mundo</span>
     <span id="rios-numero-pregunta">Pregunta 1</span>
     <span id="rios-temporizador" class="temporizador oculto">⏱ 10 s</span>
   </div>
@@ -1289,7 +1366,7 @@
 <section id="mapas-menu" class="oculto">
 
   <button id="volver-mapas-orografia" class="btn-volver">
-    ← Volver a Mapas y orografía
+    ← Volver a Mapas y geografía física
   </button>
 
   <div class="espana-cabecera">
@@ -1345,7 +1422,7 @@
     </h2>
 
     <p>
-      Empezamos por Europa. Iremos incorporando el resto de continentes.
+      Elige continente y practica países o capitales directamente sobre el mapa.
     </p>
   </div>
 
@@ -1360,36 +1437,40 @@
       <span class="boton-flecha">›</span>
     </button>
 
-    <button class="boton-portada mapas-proximamente" disabled>
+    <button id="mapas-asia" class="boton-portada">
       <span class="boton-icono">🌏</span>
       <span class="boton-texto">
         <strong>Asia</strong>
-        <small>Próximamente</small>
+        <small>47 Estados del criterio de GeoTrainer.</small>
       </span>
+      <span class="boton-flecha">›</span>
     </button>
 
-    <button class="boton-portada mapas-proximamente" disabled>
+    <button id="mapas-africa" class="boton-portada">
       <span class="boton-icono">🌍</span>
       <span class="boton-texto">
         <strong>África</strong>
-        <small>Próximamente</small>
+        <small>54 Estados y sus capitales.</small>
       </span>
+      <span class="boton-flecha">›</span>
     </button>
 
-    <button class="boton-portada mapas-proximamente" disabled>
+    <button id="mapas-america" class="boton-portada">
       <span class="boton-icono">🌎</span>
       <span class="boton-texto">
         <strong>América</strong>
-        <small>Próximamente</small>
+        <small>35 Estados de América del Norte, Centro, Caribe y Sur.</small>
       </span>
+      <span class="boton-flecha">›</span>
     </button>
 
-    <button class="boton-portada mapas-proximamente" disabled>
+    <button id="mapas-oceania" class="boton-portada">
       <span class="boton-icono">🌊</span>
       <span class="boton-texto">
         <strong>Oceanía</strong>
-        <small>Próximamente</small>
+        <small>14 Estados insulares y continentales.</small>
       </span>
+      <span class="boton-flecha">›</span>
     </button>
 
   </div>
@@ -1571,34 +1652,6 @@
 </section>
 
 
-<!-- =========================
-     CONTENIDO EN DESARROLLO
-========================== -->
-
-<section id="contenido-desarrollo" class="oculto">
-
-  <button id="volver-contenido-desarrollo" class="btn-volver">
-    ← Volver
-  </button>
-
-  <div class="espana-cabecera">
-    <div id="icono-contenido-desarrollo" class="espana-bandera">🗺️</div>
-
-    <h2 id="titulo-contenido-desarrollo">
-      Próximamente
-    </h2>
-
-    <p id="texto-contenido-desarrollo">
-      Este apartado está preparado para añadir contenido más adelante.
-    </p>
-  </div>
-
-  <div class="mensaje-desarrollo">
-    <strong>Sección preparada</strong>
-    <span>Podremos construir aquí los ejercicios cuando quieras.</span>
-  </div>
-
-</section>
 
 
 
@@ -1727,6 +1780,15 @@
     </button>
 
 
+    <button id="btn-espana-mapa" class="boton-portada">
+      <span class="boton-icono">🗺️</span>
+      <span class="boton-texto">
+        <strong>Mapa de España</strong>
+        <small>Provincias, comunidades, ríos y principales sistemas montañosos.</small>
+      </span>
+      <span class="boton-flecha">›</span>
+    </button>
+
     <button id="btn-espana-mixto" class="boton-portada">
       <span class="boton-icono">🎯</span>
 
@@ -1741,6 +1803,37 @@
   </div>
 
 </section>
+
+<!-- =========================
+     MAPA DIDÁCTICO DE ESPAÑA
+========================== -->
+<section id="espana-mapa" class="oculto mapa-ancho">
+  <button id="volver-espana-mapa" class="btn-volver">← Volver a España</button>
+  <div class="espana-cabecera">
+    <div class="espana-bandera">🇪🇸</div>
+    <h2>Mapa de España</h2>
+    <p>Práctica espacial de provincias, comunidades autónomas, ríos y relieve.</p>
+  </div>
+  <div class="mapa-didactico-aviso">En provincias y comunidades se usan puntos de referencia didácticos; no sustituyen sus límites administrativos exactos.</div>
+  <div id="espana-mapa-selector" class="mapa-selector-panel">
+    <div class="inicio-opciones">
+      <button class="boton-portada espana-mapa-modo" data-espana-mapa-modo="provincia"><span class="boton-icono">📍</span><span class="boton-texto"><strong>Provincias</strong><small>Localiza cada provincia mediante la posición de su capital.</small></span><span class="boton-flecha">›</span></button>
+      <button class="boton-portada espana-mapa-modo" data-espana-mapa-modo="comunidad"><span class="boton-icono">🧭</span><span class="boton-texto"><strong>Comunidades autónomas</strong><small>Localiza el centro didáctico de cada comunidad.</small></span><span class="boton-flecha">›</span></button>
+      <button class="boton-portada espana-mapa-modo" data-espana-mapa-modo="rios"><span class="boton-icono">🌊</span><span class="boton-texto"><strong>Ríos de España</strong><small>Localiza ocho grandes ríos mediante trazados simplificados.</small></span><span class="boton-flecha">›</span></button>
+      <button class="boton-portada espana-mapa-modo" data-espana-mapa-modo="relieve"><span class="boton-icono">⛰️</span><span class="boton-texto"><strong>Sistemas montañosos</strong><small>Localiza siete grandes unidades del relieve peninsular.</small></span><span class="boton-flecha">›</span></button>
+    </div>
+  </div>
+  <div id="espana-mapa-juego" class="oculto">
+    <div class="info-partida"><span>Mapa de España</span><span id="espana-mapa-numero">Pregunta 1</span></div>
+    <div class="marcador"><span>✅ <span id="espana-mapa-aciertos">0</span></span><span>❌ <span id="espana-mapa-fallos">0</span></span></div>
+    <h2 id="espana-mapa-pregunta" class="mapa-pregunta"></h2>
+    <p id="espana-mapa-ayuda" class="mapas-ayuda"></p>
+    <div id="espana-mapa-lienzo" class="mapa-lienzo-amplio"></div>
+    <div id="espana-mapa-feedback" class="oculto feedback-unificado"></div>
+    <div class="mapa-acciones"><button id="espana-mapa-siguiente" class="oculto">Siguiente pregunta →</button><button id="espana-mapa-cambiar" class="btn-secundario">Cambiar modo</button></div>
+  </div>
+</section>
+
     <!-- =========================
      CONFIGURACIÓN ESPAÑA
 ========================== -->
@@ -2141,6 +2234,37 @@
     </section>
 
 
+
+<!-- =========================
+     CRITERIOS Y FUENTES
+========================== -->
+<section id="criterios-fuentes" class="oculto legal-page">
+  <button id="volver-criterios-fuentes" class="btn-volver">← Volver</button>
+  <div class="legal-header">
+    <span class="legal-icono">◎</span>
+    <h2>Criterios y fuentes</h2>
+    <p>Cómo se organizan y revisan los contenidos de GeoTrainer.</p>
+  </div>
+  <div class="legal-content">
+    <h3>1. Estados incluidos</h3>
+    <p>La base principal de GeoTrainer utiliza 195 Estados: los 193 miembros de Naciones Unidas y los dos Estados observadores, Santa Sede y Estado de Palestina. Algunos territorios o entidades con estatus particular pueden aparecer en contenidos específicos, pero no se contabilizan dentro de esos 195.</p>
+
+    <h3>2. Continentes y países transcontinentales</h3>
+    <p>Para que los ejercicios sean consistentes se aplica un criterio didáctico único. En la clasificación actual, Rusia se trabaja en Europa, Turquía en Asia y Chipre en Europa. En geografía existen otros criterios válidos para determinados Estados transcontinentales; esta clasificación sirve únicamente para mantener estable el banco de preguntas.</p>
+
+    <h3>3. Capitales con casos especiales</h3>
+    <p>Cuando un Estado presenta varias capitales, sedes institucionales o situaciones particulares, GeoTrainer usa una respuesta de referencia y añade una aclaración educativa. Entre otros casos, se distinguen la capital constitucional de Bolivia, la capital administrativa de Sudáfrica, la capital administrativa de Sri Lanka y la ausencia de capital oficial de Nauru.</p>
+
+    <h3>4. Cartografía y geografía física</h3>
+    <p>Los mapas mundiales y continentales se basan en cartografía de Natural Earth. Los trazados fluviales y algunos puntos de relieve o mares son representaciones didácticas simplificadas: sirven para aprender localización general y no para medición, navegación o delimitación jurídica.</p>
+
+    <h3>5. Revisión de contenidos</h3>
+    <p>Los datos se revisan periódicamente y se contrastan, cuando procede, con fuentes institucionales, cartográficas y geográficas de referencia. Los cambios de capital, denominación o estatus pueden requerir actualizaciones posteriores.</p>
+
+    <p class="legal-update">Última revisión general: octubre de 2026.</p>
+  </div>
+</section>
+
 <!-- =========================
      AVISO LEGAL
 ========================== -->
@@ -2369,6 +2493,8 @@
   <div class="autor-subtitulo">Estudiante de Historia y Geografía</div>
 
   <div class="legal-footer">
+    <button id="btn-criterios-fuentes" class="legal-link">Criterios y fuentes</button>
+    <span aria-hidden="true">·</span>
     <button id="btn-aviso-legal" class="legal-link">Aviso legal</button>
     <span aria-hidden="true">·</span>
     <button id="btn-privacidad" class="legal-link">Política de privacidad</button>
@@ -2383,18 +2509,22 @@
   </main>
 
 
-<script src="countries.js?v=20261014-r1"></script>
-<script src="espana.js?v=20261014-r1"></script>
-<script src="sabiasque.js?v=20261014-r1"></script>
-<script src="script.js?v=20261014-r1"></script>
-<script src="mapas-europa.js?v=20261014-r1"></script>
-<script src="rios.js?v=20261014-r1"></script>
-<script src="mapas.js?v=20261014-r1"></script>
-<script src="monedas.js?v=20261014-r1"></script>
-<script src="mares.js?v=20261014-r1"></script>
-<script src="historia.js?v=20261014-r1"></script>
-<script src="maravillas.js?v=20261014-r1"></script>
-<script src="montanas.js?v=20261014-r1"></script>
+<script src="countries.js?v=20261016-r2"></script>
+<script src="espana.js?v=20261016-r2"></script>
+<script src="sabiasque.js?v=20261016-r2"></script>
+<script src="script.js?v=20261016-r2"></script>
+<script src="mapas-europa.js?v=20261016-r2"></script>
+<script src="mapas-mundo.js?v=20261016-r2"></script>
+<script src="rios.js?v=20261016-r2"></script>
+<script src="mapas.js?v=20261016-r2"></script>
+<script src="monedas.js?v=20261016-r2"></script>
+<script src="mares.js?v=20261016-r2"></script>
+<script src="historia.js?v=20261016-r2"></script>
+<script src="maravillas.js?v=20261016-r2"></script>
+<script src="montanas.js?v=20261016-r2"></script>
+<script src="mapas-fisicos.js?v=20261016-r2"></script>
+<script src="espana-mapa.js?v=20261016-r2"></script>
+<script src="ui-revision2.js?v=20261016-r2"></script>
 
 </body>
 </html>

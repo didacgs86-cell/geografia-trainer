@@ -27,9 +27,6 @@ const viajesMenu =
 const mapasOrografiaMenu =
   document.getElementById("mapas-orografia-menu");
 
-const contenidoDesarrollo =
-  document.getElementById("contenido-desarrollo");
-
 const avisoLegal =
   document.getElementById("aviso-legal");
 
@@ -56,15 +53,6 @@ const btnVolverPrivacidad =
 
 const btnVolverCookies =
   document.getElementById("volver-cookies");
-
-const tituloContenidoDesarrollo =
-  document.getElementById("titulo-contenido-desarrollo");
-
-const iconoContenidoDesarrollo =
-  document.getElementById("icono-contenido-desarrollo");
-
-const textoContenidoDesarrollo =
-  document.getElementById("texto-contenido-desarrollo");
 
 const btnGeografia =
   document.getElementById("btn-geografia");
@@ -98,9 +86,6 @@ const btnRios =
 
 const btnMapas =
   document.getElementById("btn-mapas");
-
-const btnVolverContenidoDesarrollo =
-  document.getElementById("volver-contenido-desarrollo");
 
 const sabiasQueMenu =
   document.getElementById("sabiasque-menu");
@@ -1317,31 +1302,6 @@ function mostrarMapasOrografiaMenu() {
 }
 
 
-let contenidoDesarrolloVolverA =
-  mostrarMapasOrografiaMenu;
-
-
-function mostrarContenidoDesarrollo(
-  titulo,
-  icono,
-  texto,
-  volverA = mostrarMapasOrografiaMenu
-) {
-
-  ocultarTodasLasPantallas();
-
-  contenidoDesarrollo.classList.remove("oculto");
-
-  contenidoDesarrolloVolverA =
-    typeof volverA === "function"
-      ? volverA
-      : mostrarMapasOrografiaMenu;
-
-  tituloContenidoDesarrollo.textContent = titulo;
-  iconoContenidoDesarrollo.textContent = icono;
-  textoContenidoDesarrollo.textContent = texto;
-}
-
 
 btnGeografia.addEventListener(
   "click",
@@ -1404,12 +1364,6 @@ btnMapas.addEventListener(
   }
 );
 
-btnVolverContenidoDesarrollo.addEventListener(
-  "click",
-  () => {
-    contenidoDesarrolloVolverA();
-  }
-);
 
 
 // ==========================================
@@ -2286,7 +2240,7 @@ function explicacionBandera(p) {
 
   return (
     BANDERA_EXPLICACIONES[p.iso2] ||
-    `La bandera de ${p.pais} tiene un diseño ligado a su historia e identidad. Esta nota ampliada todavía no está disponible para este territorio.`
+    `La bandera de ${p.pais} forma parte de la identidad visual e histórica del territorio.`
   );
 }
 
@@ -3532,7 +3486,6 @@ function ocultarTodasLasPantallas() {
   historiaMenu.classList.add("oculto");
   viajesMenu.classList.add("oculto");
   mapasOrografiaMenu.classList.add("oculto");
-  contenidoDesarrollo.classList.add("oculto");
 
   avisoLegal.classList.add("oculto");
   politicaPrivacidad.classList.add("oculto");
@@ -3584,6 +3537,18 @@ sabiasQueDetalle.classList.add("oculto");
   if (typeof ocultarPantallasMontanas === "function") {
     ocultarPantallasMontanas();
   }
+
+  if (typeof ocultarPantallasFisicos === "function") {
+    ocultarPantallasFisicos();
+  }
+
+  if (typeof ocultarPantallasEspanaMapa === "function") {
+    ocultarPantallasEspanaMapa();
+  }
+
+  if (typeof ocultarPantallasRevision2 === "function") {
+    ocultarPantallasRevision2();
+  }
 }
 // ==========================================
 // JUEGO DE ESPAÑA
@@ -3606,17 +3571,16 @@ function crearPreguntaComunidadProvincia(comunidad) {
 }
 
 
-function crearPreguntaCiudadAutonoma() {
+function crearPreguntasCiudadesAutonomas() {
 
-  const ciudad =
-    mezclar([...ESPANA_CIUDADES_AUTONOMAS])[0];
-
-  return {
-    ciudad: ciudad.ciudad,
-    capital: ciudad.capital,
-    tipo: ciudad.tipo,
-    tipoPregunta: "ciudad-autonoma"
-  };
+  return ESPANA_CIUDADES_AUTONOMAS.map(
+    ciudad => ({
+      ciudad: ciudad.ciudad,
+      capital: ciudad.capital,
+      tipo: ciudad.tipo,
+      tipoPregunta: "ciudad-autonoma"
+    })
+  );
 }
 
 
@@ -3639,8 +3603,8 @@ function crearBancoPreguntasEspana() {
       crearPreguntaComunidadProvincia
     );
 
-  const ciudadAutonoma =
-    crearPreguntaCiudadAutonoma();
+  const ciudadesAutonomas =
+    crearPreguntasCiudadesAutonomas();
 
 
   if (modoEspana === "capitales") {
@@ -3659,7 +3623,7 @@ function crearBancoPreguntasEspana() {
     return [
       ...provinciaComunidad,
       ...comunidadProvincia,
-      ciudadAutonoma
+      ...ciudadesAutonomas
     ];
   }
 
@@ -3667,7 +3631,7 @@ function crearBancoPreguntasEspana() {
     ...capitales,
     ...provinciaComunidad,
     ...comunidadProvincia,
-    ciudadAutonoma
+    ...ciudadesAutonomas
   ];
 }
 
@@ -3686,7 +3650,7 @@ function clavePreguntaEspana(pregunta) {
     return `comunidad-provincia|${pregunta.comunidad}`;
   }
 
-  return "ciudad-autonoma";
+  return `ciudad-autonoma|${pregunta.ciudad}`;
 }
 
 

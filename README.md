@@ -1,21 +1,21 @@
-# geografia-trainer
-App personal para aprender países, capitales y geografía
+# GeoTrainer
 
+Aplicación educativa estática de geografía, historia y viajes, publicada con GitHub Pages.
 
-## Derechos de autor
+## Revisión 2 · octubre de 2026
 
-© 2026 Didac G. S. Todos los derechos reservados.  
-Este repositorio no concede una licencia general de reutilización. Consulta `COPYRIGHT.md`.
+- Mapas interactivos de países y capitales para Europa, Asia, África, América y Oceanía.
+- Geografía física con montañas, ríos y mares; mapas didácticos de montañas y mares.
+- Banco de 50 grandes ríos del mundo con filtro geográfico; mapa europeo de ríos.
+- Mapa didáctico de España para provincias, comunidades, ríos y relieve.
+- Historia con estructura de subtemas y artículos ampliados.
+- Criterios y fuentes visibles desde el pie de página.
+- Content Security Policy y validación automática mediante `node validate.js`.
 
-## Validación automática
-
-Antes de publicar cambios importantes, ejecutar:
+## Validación local
 
 ```bash
 node validate.js
 ```
 
-El validador comprueba sintaxis JavaScript, IDs HTML duplicados, datos básicos de países,
-referencias de ríos/mares/montañas, consistencia del mapa, assets vacíos, textos provisionales
-y varios indicadores de seguridad. El workflow de GitHub Actions ejecuta la misma validación
-automáticamente en cada `push` y `pull_request`.
+El repositorio no necesita dependencias JavaScript externas para ejecutar la aplicación.

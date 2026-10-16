@@ -1,9 +1,9 @@
 
 // ==========================================
-// GEOTRAINER - RÍOS DE EUROPA
+// GEOTRAINER - RÍOS DEL MUNDO
 // ==========================================
 
-const RIOS_EUROPA = [
+const RIOS_MUNDO = [
   {
     "id": "danubio",
     "nombre": "Danubio",
@@ -30,7 +30,8 @@ const RIOS_EUROPA = [
       "Pasa por Viena, Bratislava, Budapest y Belgrado.",
       "Recorre o bordea 10 países europeos.",
       "Desemboca en el mar Negro."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "rin",
@@ -53,7 +54,8 @@ const RIOS_EUROPA = [
       "Nace en los Alpes.",
       "Forma parte de la frontera franco-alemana.",
       "Desemboca en el mar del Norte."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "volga",
@@ -73,7 +75,8 @@ const RIOS_EUROPA = [
       "Es el río más largo de Europa.",
       "Su recorrido está íntegramente en Rusia.",
       "Desemboca en el mar Caspio."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "sena",
@@ -90,7 +93,8 @@ const RIOS_EUROPA = [
       "Atraviesa París.",
       "Recorre el norte de Francia.",
       "Desemboca en el canal de la Mancha."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "tamesis",
@@ -107,7 +111,8 @@ const RIOS_EUROPA = [
       "Atraviesa Londres.",
       "Recorre el sur de Inglaterra.",
       "Desemboca en el mar del Norte."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "tajo",
@@ -125,7 +130,8 @@ const RIOS_EUROPA = [
       "Es el río más largo de la península ibérica.",
       "Pasa por Toledo y llega a Lisboa.",
       "Desemboca en el océano Atlántico."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "ebro",
@@ -143,7 +149,8 @@ const RIOS_EUROPA = [
       "Es uno de los ríos más caudalosos de España.",
       "Atraviesa Zaragoza.",
       "Forma un gran delta en el Mediterráneo."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "rodano",
@@ -162,7 +169,8 @@ const RIOS_EUROPA = [
       "Atraviesa el lago Lemán.",
       "Pasa por Lyon.",
       "Desemboca en el Mediterráneo formando un delta."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "loira",
@@ -180,7 +188,8 @@ const RIOS_EUROPA = [
       "Es el río más largo de Francia.",
       "Da nombre al famoso valle de los castillos.",
       "Desemboca en el Atlántico cerca de Nantes."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "elba",
@@ -199,7 +208,8 @@ const RIOS_EUROPA = [
       "Nace en Chequia.",
       "Atraviesa Dresde y Hamburgo.",
       "Desemboca en el mar del Norte."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "oder",
@@ -218,7 +228,8 @@ const RIOS_EUROPA = [
       "Pasa por Breslavia.",
       "Forma parte de la frontera entre Polonia y Alemania.",
       "Llega al Báltico a través de la laguna de Szczecin."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "vistula",
@@ -235,7 +246,8 @@ const RIOS_EUROPA = [
       "Es el río más largo de Polonia.",
       "Pasa por Cracovia y Varsovia.",
       "Desemboca en el mar Báltico."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "po",
@@ -253,7 +265,8 @@ const RIOS_EUROPA = [
       "Es el río más largo de Italia.",
       "Recorre la gran llanura del norte italiano.",
       "Desemboca en el Adriático."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "dnieper",
@@ -273,7 +286,8 @@ const RIOS_EUROPA = [
       "Atraviesa Kiev.",
       "Recorre Rusia, Bielorrusia y Ucrania.",
       "Desemboca en el mar Negro."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "don",
@@ -290,7 +304,8 @@ const RIOS_EUROPA = [
       "Recorre el sur de Rusia.",
       "Da nombre a Rostov del Don.",
       "Desemboca en el mar de Azov."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "ural",
@@ -309,7 +324,8 @@ const RIOS_EUROPA = [
       "Recorre Rusia y Kazajistán.",
       "Se asocia tradicionalmente a la frontera entre Europa y Asia.",
       "Desemboca en el mar Caspio."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "tiber",
@@ -325,7 +341,8 @@ const RIOS_EUROPA = [
       "Atraviesa Roma.",
       "Está ligado a los orígenes históricos de la ciudad.",
       "Desemboca en el mar Tirreno."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "duero",
@@ -343,7 +360,8 @@ const RIOS_EUROPA = [
       "Recorre la Meseta Norte española.",
       "En Portugal es conocido como Douro.",
       "Desemboca en el Atlántico junto a Oporto."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "neva",
@@ -359,7 +377,8 @@ const RIOS_EUROPA = [
       "Atraviesa San Petersburgo.",
       "Conecta el lago Ládoga con el Báltico.",
       "Desemboca en el golfo de Finlandia."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "garona",
@@ -377,7 +396,8 @@ const RIOS_EUROPA = [
       "Nace en los Pirineos españoles.",
       "Pasa por Toulouse y Burdeos.",
       "Junto al Dordoña forma el estuario de la Gironda."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "shannon",
@@ -394,7 +414,8 @@ const RIOS_EUROPA = [
       "Es el río más largo de Irlanda.",
       "Pasa por Athlone y Limerick.",
       "Desemboca en el Atlántico por un gran estuario."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "mosa",
@@ -414,7 +435,8 @@ const RIOS_EUROPA = [
       "Recorre Francia, Bélgica y Países Bajos.",
       "Pasa por Lieja y Maastricht.",
       "Alcanza el mar del Norte en el gran delta neerlandés."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "sava",
@@ -434,7 +456,8 @@ const RIOS_EUROPA = [
       "Es uno de los grandes ríos de los Balcanes.",
       "Pasa por Zagreb.",
       "Se une al Danubio en Belgrado."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "guadalquivir",
@@ -451,7 +474,8 @@ const RIOS_EUROPA = [
       "Atraviesa Córdoba y Sevilla.",
       "Es uno de los grandes ríos de Andalucía.",
       "Desemboca en el Atlántico cerca de Sanlúcar de Barrameda."
-    ]
+    ],
+    "continente": "Europa"
   },
   {
     "id": "daugava",
@@ -470,6 +494,500 @@ const RIOS_EUROPA = [
       "También se conoce como Dvina Occidental.",
       "Atraviesa Riga.",
       "Desemboca en el golfo de Riga, en el Báltico."
+    ],
+    "continente": "Europa"
+  },
+  {
+    "id": "nilo",
+    "nombre": "Nilo",
+    "continente": "África",
+    "paises": [
+      "Uganda",
+      "Sudán del Sur",
+      "Sudán",
+      "Egipto"
+    ],
+    "ciudades": [
+      "Juba",
+      "Jartum",
+      "El Cairo",
+      "Luxor"
+    ],
+    "desembocadura": "Mar Mediterráneo",
+    "pistas": [
+      "Su cuenca sostuvo a la civilización del antiguo Egipto.",
+      "El Nilo Blanco y el Nilo Azul se unen en Jartum.",
+      "Forma un gran delta antes de desembocar en el Mediterráneo."
+    ]
+  },
+  {
+    "id": "congo",
+    "nombre": "Congo",
+    "continente": "África",
+    "paises": [
+      "República Democrática del Congo",
+      "República del Congo"
+    ],
+    "ciudades": [
+      "Kinshasa",
+      "Brazzaville",
+      "Matadi"
+    ],
+    "desembocadura": "Océano Atlántico",
+    "pistas": [
+      "Es el río más caudaloso de África.",
+      "Kinshasa y Brazzaville se enfrentan en sus orillas.",
+      "Cruza dos veces el ecuador dentro de su gran cuenca."
+    ]
+  },
+  {
+    "id": "niger",
+    "nombre": "Níger",
+    "continente": "África",
+    "paises": [
+      "Guinea",
+      "Mali",
+      "Níger",
+      "Benín",
+      "Nigeria"
+    ],
+    "ciudades": [
+      "Bamako",
+      "Niamey"
+    ],
+    "desembocadura": "Golfo de Guinea",
+    "pistas": [
+      "Describe una gran curva a través de África occidental.",
+      "Pasa por Bamako y Niamey.",
+      "Forma un gran delta en Nigeria."
+    ]
+  },
+  {
+    "id": "zambezi",
+    "nombre": "Zambeze",
+    "continente": "África",
+    "paises": [
+      "Zambia",
+      "Angola",
+      "Namibia",
+      "Botsuana",
+      "Zimbabue",
+      "Mozambique"
+    ],
+    "ciudades": [
+      "Livingstone",
+      "Tete"
+    ],
+    "desembocadura": "Océano Índico",
+    "pistas": [
+      "Las cataratas Victoria se encuentran en su curso.",
+      "Forma parte de varias fronteras del África austral.",
+      "Desemboca en el océano Índico en Mozambique."
+    ]
+  },
+  {
+    "id": "orange",
+    "nombre": "Orange",
+    "continente": "África",
+    "paises": [
+      "Lesoto",
+      "Sudáfrica",
+      "Namibia"
+    ],
+    "ciudades": [
+      "Upington"
+    ],
+    "desembocadura": "Océano Atlántico",
+    "pistas": [
+      "Nace en las montañas de Lesoto.",
+      "Recorre Sudáfrica hacia el oeste.",
+      "Forma parte de la frontera entre Sudáfrica y Namibia."
+    ]
+  },
+  {
+    "id": "limpopo",
+    "nombre": "Limpopo",
+    "continente": "África",
+    "paises": [
+      "Sudáfrica",
+      "Botsuana",
+      "Zimbabue",
+      "Mozambique"
+    ],
+    "ciudades": [
+      "Chókwè"
+    ],
+    "desembocadura": "Océano Índico",
+    "pistas": [
+      "Describe un gran arco en el África austral.",
+      "Recorre o bordea cuatro países.",
+      "Desemboca en Mozambique en el océano Índico."
+    ]
+  },
+  {
+    "id": "yangtse",
+    "nombre": "Yangtsé",
+    "continente": "Asia",
+    "paises": [
+      "China"
+    ],
+    "ciudades": [
+      "Chongqing",
+      "Wuhan",
+      "Nankín",
+      "Shanghái"
+    ],
+    "desembocadura": "Mar de China Oriental",
+    "pistas": [
+      "Es el río más largo de Asia.",
+      "Pasa por Chongqing, Wuhan y Nankín.",
+      "Desemboca cerca de Shanghái."
+    ]
+  },
+  {
+    "id": "huanghe",
+    "nombre": "Huang He",
+    "continente": "Asia",
+    "paises": [
+      "China"
+    ],
+    "ciudades": [
+      "Lanzhou",
+      "Zhengzhou",
+      "Jinan"
+    ],
+    "desembocadura": "Mar de Bohai",
+    "pistas": [
+      "También se conoce como río Amarillo.",
+      "Transporta grandes cantidades de sedimentos.",
+      "Desemboca en el mar de Bohai."
+    ]
+  },
+  {
+    "id": "mekong",
+    "nombre": "Mekong",
+    "continente": "Asia",
+    "paises": [
+      "China",
+      "Myanmar (Birmania)",
+      "Laos",
+      "Tailandia",
+      "Camboya",
+      "Vietnam"
+    ],
+    "ciudades": [
+      "Vientián",
+      "Phnom Penh"
+    ],
+    "desembocadura": "Mar de China Meridional",
+    "pistas": [
+      "Recorre gran parte del sudeste asiático.",
+      "Pasa por Vientián y Phnom Penh.",
+      "Forma un amplio delta en Vietnam."
+    ]
+  },
+  {
+    "id": "ganges",
+    "nombre": "Ganges",
+    "continente": "Asia",
+    "paises": [
+      "India",
+      "Bangladés"
+    ],
+    "ciudades": [
+      "Varanasi",
+      "Patna"
+    ],
+    "desembocadura": "Golfo de Bengala",
+    "pistas": [
+      "Es un río sagrado para el hinduismo.",
+      "Atraviesa la gran llanura indogangética.",
+      "Forma, junto con el Brahmaputra, uno de los mayores deltas del mundo."
+    ]
+  },
+  {
+    "id": "brahmaputra",
+    "nombre": "Brahmaputra",
+    "continente": "Asia",
+    "paises": [
+      "China",
+      "India",
+      "Bangladés"
+    ],
+    "ciudades": [
+      "Guwahati"
+    ],
+    "desembocadura": "Golfo de Bengala",
+    "pistas": [
+      "Nace en el Tíbet y atraviesa el Himalaya oriental.",
+      "Pasa por el valle de Assam.",
+      "En Bangladés se integra en el gran sistema deltaico del Ganges."
+    ]
+  },
+  {
+    "id": "indo",
+    "nombre": "Indo",
+    "continente": "Asia",
+    "paises": [
+      "China",
+      "India",
+      "Pakistán"
+    ],
+    "ciudades": [
+      "Sukkur",
+      "Hyderabad"
+    ],
+    "desembocadura": "Mar Arábigo",
+    "pistas": [
+      "Da nombre a una de las primeras grandes civilizaciones urbanas.",
+      "Es el gran eje fluvial de Pakistán.",
+      "Desemboca en el mar Arábigo."
+    ]
+  },
+  {
+    "id": "tigris",
+    "nombre": "Tigris",
+    "continente": "Asia",
+    "paises": [
+      "Turquía",
+      "Irak"
+    ],
+    "ciudades": [
+      "Mosul",
+      "Bagdad"
+    ],
+    "desembocadura": "Shatt al-Arab",
+    "pistas": [
+      "Es uno de los dos grandes ríos de Mesopotamia.",
+      "Atraviesa Bagdad.",
+      "Se une al Éufrates antes del golfo Pérsico."
+    ]
+  },
+  {
+    "id": "eufrates",
+    "nombre": "Éufrates",
+    "continente": "Asia",
+    "paises": [
+      "Turquía",
+      "Siria",
+      "Irak"
+    ],
+    "ciudades": [
+      "Raqqa",
+      "Deir ez-Zor"
+    ],
+    "desembocadura": "Shatt al-Arab",
+    "pistas": [
+      "Es uno de los dos grandes ríos de Mesopotamia.",
+      "Recorre Turquía, Siria e Irak.",
+      "Se une al Tigris en el sur de Irak."
+    ]
+  },
+  {
+    "id": "amur",
+    "nombre": "Amur",
+    "continente": "Asia",
+    "paises": [
+      "Rusia",
+      "China"
+    ],
+    "ciudades": [
+      "Blagovéshchensk",
+      "Jabárovsk"
+    ],
+    "desembocadura": "Mar de Ojotsk",
+    "pistas": [
+      "Forma largos tramos de la frontera entre Rusia y China.",
+      "Pasa junto a Blagovéshchensk y cerca de Jabárovsk.",
+      "Desemboca en el extremo oriental de Rusia."
+    ]
+  },
+  {
+    "id": "amazonas",
+    "nombre": "Amazonas",
+    "continente": "América",
+    "paises": [
+      "Perú",
+      "Colombia",
+      "Brasil"
+    ],
+    "ciudades": [
+      "Iquitos",
+      "Manaos",
+      "Santarém"
+    ],
+    "desembocadura": "Océano Atlántico",
+    "pistas": [
+      "Es el río más caudaloso del mundo.",
+      "Atraviesa la mayor selva tropical del planeta.",
+      "Pasa por Iquitos y Manaos antes de llegar al Atlántico."
+    ]
+  },
+  {
+    "id": "mississippi",
+    "nombre": "Misisipi",
+    "continente": "América",
+    "paises": [
+      "Estados Unidos"
+    ],
+    "ciudades": [
+      "Minneapolis",
+      "San Luis",
+      "Memphis",
+      "Nueva Orleans"
+    ],
+    "desembocadura": "Golfo de México",
+    "pistas": [
+      "Es el gran eje fluvial del centro de Estados Unidos.",
+      "Recibe al Misuri como uno de sus principales afluentes.",
+      "Desemboca formando un delta en el golfo de México."
+    ]
+  },
+  {
+    "id": "parana",
+    "nombre": "Paraná",
+    "continente": "América",
+    "paises": [
+      "Brasil",
+      "Paraguay",
+      "Argentina"
+    ],
+    "ciudades": [
+      "Rosario",
+      "Paraná"
+    ],
+    "desembocadura": "Río de la Plata",
+    "pistas": [
+      "Es uno de los grandes ríos de Sudamérica.",
+      "Forma parte de fronteras entre Paraguay y sus vecinos.",
+      "Termina en el estuario del Río de la Plata."
+    ]
+  },
+  {
+    "id": "orinoco",
+    "nombre": "Orinoco",
+    "continente": "América",
+    "paises": [
+      "Venezuela",
+      "Colombia"
+    ],
+    "ciudades": [
+      "Ciudad Bolívar"
+    ],
+    "desembocadura": "Océano Atlántico",
+    "pistas": [
+      "Su cuenca ocupa gran parte de Venezuela.",
+      "Forma tramos de frontera con Colombia.",
+      "Desemboca en un amplio delta atlántico."
+    ]
+  },
+  {
+    "id": "sao-francisco",
+    "nombre": "São Francisco",
+    "continente": "América",
+    "paises": [
+      "Brasil"
+    ],
+    "ciudades": [
+      "Petrolina",
+      "Juazeiro"
+    ],
+    "desembocadura": "Océano Atlántico",
+    "pistas": [
+      "Su recorrido se encuentra íntegramente en Brasil.",
+      "Es fundamental para el nordeste brasileño.",
+      "Desemboca en el Atlántico."
+    ]
+  },
+  {
+    "id": "colorado",
+    "nombre": "Colorado",
+    "continente": "América",
+    "paises": [
+      "Estados Unidos",
+      "México"
+    ],
+    "ciudades": [
+      "Yuma"
+    ],
+    "desembocadura": "Golfo de California",
+    "pistas": [
+      "Ha excavado el Gran Cañón.",
+      "Recorre el suroeste de Estados Unidos y llega a México.",
+      "Su caudal está intensamente regulado y hoy rara vez alcanza el mar de forma natural."
+    ]
+  },
+  {
+    "id": "rio-grande",
+    "nombre": "Río Grande / Bravo",
+    "continente": "América",
+    "paises": [
+      "Estados Unidos",
+      "México"
+    ],
+    "ciudades": [
+      "El Paso",
+      "Laredo"
+    ],
+    "desembocadura": "Golfo de México",
+    "pistas": [
+      "En México se conoce como río Bravo.",
+      "Forma una larga parte de la frontera entre México y Estados Unidos.",
+      "Desemboca en el golfo de México."
+    ]
+  },
+  {
+    "id": "san-lorenzo",
+    "nombre": "San Lorenzo",
+    "continente": "América",
+    "paises": [
+      "Canadá",
+      "Estados Unidos"
+    ],
+    "ciudades": [
+      "Montreal",
+      "Quebec"
+    ],
+    "desembocadura": "Golfo de San Lorenzo",
+    "pistas": [
+      "Drena los Grandes Lagos hacia el Atlántico.",
+      "Pasa por Montreal y Quebec.",
+      "Es una gran vía de navegación de América del Norte."
+    ]
+  },
+  {
+    "id": "mackenzie",
+    "nombre": "Mackenzie",
+    "continente": "América",
+    "paises": [
+      "Canadá"
+    ],
+    "ciudades": [
+      "Fort Simpson"
+    ],
+    "desembocadura": "Mar de Beaufort",
+    "pistas": [
+      "Es uno de los grandes sistemas fluviales de América del Norte.",
+      "Recorre los Territorios del Noroeste de Canadá.",
+      "Desemboca en el océano Ártico, en el mar de Beaufort."
+    ]
+  },
+  {
+    "id": "murray",
+    "nombre": "Murray",
+    "continente": "Oceanía",
+    "paises": [
+      "Australia"
+    ],
+    "ciudades": [
+      "Albury",
+      "Mildura"
+    ],
+    "desembocadura": "Océano Austral",
+    "pistas": [
+      "Es el principal río del sistema Murray-Darling.",
+      "Recorre el sureste de Australia.",
+      "Llega al mar a través del sistema de lagos Alexandrina y Albert."
     ]
   }
 ];
@@ -490,13 +1008,13 @@ const RIOS_MODOS = {
   "ciudad-rio": {
     titulo: "Ciudad → Río",
     icono: "🏙️",
-    descripcion: "Relaciona ciudades europeas con el río que las atraviesa."
+    descripcion: "Relaciona ciudades del mundo con el río que las atraviesa."
   },
 
   "desembocadura": {
     titulo: "Desembocaduras",
     icono: "🌅",
-    descripcion: "¿Dónde termina cada uno de los grandes ríos de Europa?"
+    descripcion: "¿Dónde termina cada uno de los grandes ríos del mundo?"
   },
 
   "adivina": {
@@ -577,6 +1095,18 @@ const riosExamen10Desc =
 
 const riosExamen20Desc =
   document.getElementById("rios-examen20-desc");
+
+const riosRegion =
+  document.getElementById("rios-region");
+
+const riosDisponibles =
+  document.getElementById("rios-disponibles");
+
+const riosExamen10 =
+  document.getElementById("rios-examen10");
+
+const riosExamen20 =
+  document.getElementById("rios-examen20");
 
 const riosMapaSelector =
   document.getElementById("rios-mapa-selector");
@@ -748,9 +1278,20 @@ function nombrePaisConBanderaRios(pais) {
 
 function rioPorNombreRios(nombre) {
 
-  return RIOS_EUROPA.find(
+  return RIOS_MUNDO.find(
     rio => rio.nombre === nombre
   );
+}
+
+
+function riosFiltradosRios() {
+
+  const region =
+    document.getElementById("rios-region")?.value || "Todos";
+
+  return region === "Todos"
+    ? RIOS_MUNDO
+    : RIOS_MUNDO.filter(rio => rio.continente === region);
 }
 
 
@@ -758,7 +1299,7 @@ function paisesUnicosRios() {
 
   return [
     ...new Set(
-      RIOS_EUROPA.flatMap(
+      riosFiltradosRios().flatMap(
         rio => rio.paises
       )
     )
@@ -770,7 +1311,7 @@ function desembocadurasUnicasRios() {
 
   return [
     ...new Set(
-      RIOS_EUROPA.map(
+      riosFiltradosRios().map(
         rio => rio.desembocadura
       )
     )
@@ -833,6 +1374,35 @@ function abrirRiosMenu() {
 }
 
 
+function actualizarDisponibilidadRios() {
+
+  if (!riosModoActual) return;
+
+  const disponibles =
+    crearSemillasRios(riosModoActual).length;
+
+  if (riosDisponibles) {
+    const zona =
+      riosRegion?.value === "Todos"
+        ? "Todo el mundo"
+        : riosRegion?.value;
+
+    riosDisponibles.textContent =
+      `${zona}: ${disponibles} pregunta${disponibles === 1 ? "" : "s"} distintas disponibles en este modo.`;
+  }
+
+  if (riosExamen10) {
+    riosExamen10.disabled =
+      disponibles < 10;
+  }
+
+  if (riosExamen20) {
+    riosExamen20.disabled =
+      disponibles < 20;
+  }
+}
+
+
 function abrirConfigRios(modo) {
 
   riosModoActual = modo;
@@ -867,6 +1437,8 @@ function abrirConfigRios(modo) {
   }
 
   riosConfig.classList.remove("oculto");
+
+  actualizarDisponibilidadRios();
 }
 
 
@@ -890,7 +1462,7 @@ function crearSemillasRios(modo) {
 
   if (modo === "rio-paises") {
 
-    return RIOS_EUROPA.map(
+    return riosFiltradosRios().map(
       rio => ({
         id: `rio-pais:${rio.id}`,
         rio
@@ -904,7 +1476,7 @@ function crearSemillasRios(modo) {
     const mapa =
       new Map();
 
-    RIOS_EUROPA.forEach(rio => {
+    riosFiltradosRios().forEach(rio => {
 
       rio.paises.forEach(pais => {
 
@@ -935,7 +1507,7 @@ function crearSemillasRios(modo) {
     const mapa =
       new Map();
 
-    RIOS_EUROPA.forEach(rio => {
+    riosFiltradosRios().forEach(rio => {
 
       rio.ciudades.forEach(ciudad => {
 
@@ -961,7 +1533,7 @@ function crearSemillasRios(modo) {
 
   if (modo === "desembocadura") {
 
-    return RIOS_EUROPA.map(
+    return riosFiltradosRios().map(
       rio => ({
         id: `desembocadura:${rio.id}`,
         rio
@@ -970,7 +1542,7 @@ function crearSemillasRios(modo) {
   }
 
 
-  return RIOS_EUROPA.map(
+  return riosFiltradosRios().map(
     rio => ({
       id: `adivina:${rio.id}`,
       rio
@@ -1044,7 +1616,7 @@ function crearPreguntaRios(
       barajarRios(semilla.rios)[0];
 
     const candidatas =
-      RIOS_EUROPA.filter(
+      riosFiltradosRios().filter(
         rio =>
           !rio.paises.includes(
             semilla.pais
@@ -1078,7 +1650,7 @@ function crearPreguntaRios(
       semilla.rio;
 
     const candidatas =
-      RIOS_EUROPA
+      riosFiltradosRios()
         .filter(
           item =>
             item.id !== rio.id
@@ -1134,7 +1706,7 @@ function crearPreguntaRios(
     semilla.rio;
 
   const candidatas =
-    RIOS_EUROPA
+    riosFiltradosRios()
       .filter(
         item =>
           item.id !== rio.id
@@ -2622,7 +3194,7 @@ function mostrarFeedbackMapaRios(
   ) {
 
     const seleccionado =
-      RIOS_EUROPA.find(
+      RIOS_MUNDO.find(
         rio =>
           rio.id === idSeleccionado
       );
@@ -3294,6 +3866,14 @@ document
     "click",
     abrirRiosMenu
   );
+
+
+if (riosRegion) {
+  riosRegion.addEventListener(
+    "change",
+    actualizarDisponibilidadRios
+  );
+}
 
 
 document

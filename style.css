@@ -964,32 +964,9 @@ body {
 #historia-menu,
 #viajes-menu,
 #mapas-orografia-menu,
-#contenido-desarrollo {
-  color: #1f2937;
-}
 
-.mensaje-desarrollo {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin-top: 18px;
-  padding: 20px;
-  border: 1px dashed #cbd5e1;
-  border-radius: 14px;
-  background: #f8fafc;
-  text-align: center;
-}
 
-.mensaje-desarrollo strong {
-  font-size: 17px;
-  color: #334155;
-}
 
-.mensaje-desarrollo span {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #64748b;
-}
 
 
 /* =========================================
@@ -1175,7 +1152,6 @@ body {
 #historia-menu,
 #viajes-menu,
 #mapas-orografia-menu,
-#contenido-desarrollo,
 #banderas-menu,
 #espana-menu,
 #espana-config,
@@ -1460,14 +1436,7 @@ body {
   gap: 4px;
 }
 
-.mapas-proximamente {
-  opacity: 0.48;
-  cursor: default;
-}
 
-.mapas-proximamente:hover {
-  transform: none;
-}
 
 #mapas-pregunta {
   margin: 12px 0 8px;
@@ -3550,4 +3519,451 @@ body {
 .sabias-pais-seccion {
   color: #64748b;
   font-size: 14px;
+}
+
+
+/* =========================================
+   GEOTRAINER · REVISIÓN 2 · SISTEMA VISUAL
+========================================= */
+
+:root {
+  --gt-geo: #1f5f8b;
+  --gt-geo-soft: #eef6fb;
+  --gt-history: #8a4f2d;
+  --gt-history-soft: #fbf5ef;
+  --gt-travel: #2f6b55;
+  --gt-travel-soft: #eff8f4;
+  --gt-text: #1f2937;
+  --gt-muted: #64748b;
+  --gt-border: #dbe3ec;
+  --gt-surface: #ffffff;
+  --gt-surface-soft: #f8fafc;
+  --gt-radius: 14px;
+  --gt-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+html,
+body,
+button,
+select,
+input,
+textarea {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  color: var(--gt-text);
+}
+
+.container {
+  max-width: 1140px;
+}
+
+.container > section,
+.container > .modal-entrenamiento,
+.container > header,
+.container > footer {
+  max-width: 860px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container > section.mapa-ancho,
+#mapas-juego,
+#rios-mapa-proximamente {
+  max-width: 1100px;
+}
+
+.boton-icono-svg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #315a7d;
+}
+
+.boton-icono-svg svg {
+  width: 31px;
+  height: 31px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+#inicio #btn-geografia .boton-icono-svg,
+#geografia-menu .boton-icono-svg,
+#mapas-orografia-menu .boton-icono-svg {
+  color: var(--gt-geo);
+}
+
+#inicio #btn-historia .boton-icono-svg {
+  color: var(--gt-history);
+}
+
+#inicio #btn-viajes .boton-icono-svg {
+  color: var(--gt-travel);
+}
+
+#geografia-menu .boton-portada:hover,
+#mapas-orografia-menu .boton-portada:hover {
+  border-color: rgba(31, 95, 139, 0.35);
+}
+
+#historia-menu .boton-portada:hover {
+  border-color: rgba(138, 79, 45, 0.35);
+}
+
+#viajes-menu .boton-portada:hover {
+  border-color: rgba(47, 107, 85, 0.35);
+}
+
+.historia-articulo-header h2,
+.historia-articulo-header-editorial h2 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.historia-subtema-contexto,
+.historia-subtema-claves {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid #eadfd5;
+  border-radius: 12px;
+  background: #fffaf6;
+}
+
+.historia-subtema-contexto p {
+  margin: 0;
+  color: #52606f;
+  line-height: 1.65;
+}
+
+.historia-subtema-claves h3 {
+  margin: 0 0 12px;
+  color: #55331f;
+  font-size: 16px;
+}
+
+.historia-claves-lista {
+  display: grid;
+  gap: 8px;
+}
+
+.historia-clave-chip {
+  padding: 10px 12px;
+  border-left: 3px solid #b88461;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.progreso-examen {
+  display: block;
+  width: 100%;
+  height: 7px;
+  margin: -7px 0 18px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  appearance: none;
+  background: #e8edf3;
+}
+
+.progreso-examen::-webkit-progress-bar {
+  border-radius: 999px;
+  background: #e8edf3;
+}
+
+.progreso-examen::-webkit-progress-value {
+  border-radius: 999px;
+  background: var(--gt-geo);
+}
+
+.progreso-examen::-moz-progress-bar {
+  border-radius: 999px;
+  background: var(--gt-geo);
+}
+
+
+.mapa-selector-panel {
+  margin-top: 12px;
+}
+
+.mapa-selector-intro,
+.mapa-didactico-aviso {
+  color: var(--gt-muted);
+  line-height: 1.55;
+}
+
+.mapa-didactico-aviso {
+  margin: 0 auto 20px;
+  padding: 11px 14px;
+  border-left: 3px solid #94a3b8;
+  border-radius: 8px;
+  background: #f8fafc;
+  font-size: 13px;
+}
+
+.mapa-lienzo-amplio {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.mapa-lienzo-amplio svg,
+#mapas-lienzo svg,
+#rios-mapa-lienzo svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mapa-pregunta {
+  margin: 18px 0 8px;
+  text-align: center;
+  color: #17212b;
+  font-size: 25px;
+}
+
+.mapa-acciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.mapa-acciones button {
+  margin: 0;
+}
+
+.mapa-respuestas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.mapa-respuestas button {
+  margin: 0;
+}
+
+.feedback-unificado,
+#mapas-feedback,
+#rios-resultado,
+#monedas-feedback,
+#mares-feedback,
+#montanas-feedback,
+#fisico-feedback,
+#espana-mapa-feedback {
+  margin-top: 16px;
+}
+
+.feedback-kicker {
+  margin-bottom: 8px;
+  text-align: center;
+  color: #17212b;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.feedback-ficha {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 15px 16px;
+  border: 1px solid var(--gt-border);
+  border-radius: 12px;
+  background: var(--gt-surface-soft);
+  text-align: center;
+}
+
+.feedback-ficha strong {
+  color: #173f61;
+  font-size: 18px;
+}
+
+.feedback-ficha span {
+  color: var(--gt-muted);
+  line-height: 1.45;
+}
+
+.fisico-svg,
+.espana-mapa-svg {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #dfeef5;
+}
+
+.fisico-mar {
+  fill: #eaf4f8;
+}
+
+.fisico-pais,
+.espana-pais-contexto {
+  fill: #eef1ec;
+  stroke: #aeb8b1;
+  stroke-width: 0.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.espana-pais-principal {
+  fill: #f7f2e8;
+  stroke: #667565;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.fisico-punto-visible,
+.esp-mapa-punto-visible {
+  fill: #335f7d;
+  stroke: #ffffff;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.fisico-punto-hit,
+.esp-mapa-punto-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.fisico-punto-activo .fisico-punto-visible {
+  fill: #d97706;
+  r: 7;
+}
+
+.fisico-punto-correcto .fisico-punto-visible,
+.esp-mapa-correcto .esp-mapa-punto-visible {
+  fill: #16a34a;
+}
+
+.fisico-punto-incorrecto .fisico-punto-visible,
+.esp-mapa-incorrecto .esp-mapa-punto-visible {
+  fill: #dc2626;
+}
+
+.esp-mapa-rio {
+  fill: none;
+  stroke: #2979a8;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.esp-mapa-rio-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 18;
+  cursor: pointer;
+  vector-effect: non-scaling-stroke;
+}
+
+.esp-mapa-correcto.esp-mapa-rio,
+.esp-mapa-correcto .esp-mapa-rio {
+  stroke: #16a34a;
+}
+
+.esp-mapa-incorrecto.esp-mapa-rio,
+.esp-mapa-incorrecto .esp-mapa-rio {
+  stroke: #dc2626;
+}
+
+.mapas-fuente {
+  margin-top: 7px;
+  color: #7b8794;
+  text-align: right;
+  font-size: 11px;
+}
+
+.criterios-nota {
+  color: var(--gt-muted);
+}
+
+button:focus-visible,
+select:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #0f6ea8;
+  outline-offset: 3px;
+}
+
+select:focus-visible {
+  border-color: #0f6ea8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .mapa-acciones,
+  .mapa-respuestas {
+    grid-template-columns: 1fr;
+  }
+
+  .mapa-pregunta {
+    font-size: 21px;
+  }
+
+  .boton-icono-svg svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+#geografia-menu .espana-cabecera h2,
+#mapas-orografia-menu .espana-cabecera h2 {
+  color: var(--gt-geo);
+}
+
+#historia-menu .espana-cabecera h2,
+#historia-tema .historia-tema-cabecera h2 {
+  color: var(--gt-history);
+}
+
+#viajes-menu .espana-cabecera h2 {
+  color: var(--gt-travel);
+}
+
+.espana-islas-didacticas ellipse {
+  fill: #f7f2e8;
+  stroke: #667565;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+
+.resumen-rendimiento {
+  max-width: 620px;
+  margin: 14px auto 0;
+  padding: 12px 14px;
+  border: 1px solid var(--gt-border);
+  border-radius: 10px;
+  background: #ffffff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
+#resultado {
+  border: 1px solid var(--gt-border);
+  background: var(--gt-surface-soft);
+  color: #334155;
+  line-height: 1.55;
 }

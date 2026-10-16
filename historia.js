@@ -533,13 +533,20 @@ function abrirSubtemaHistoria(temaId, subtemaId) {
       </header>
 
       <section class="historia-resumen-destacado">
-        <span class="historia-resumen-etiqueta">
-          Resumen
-        </span>
+        <span class="historia-resumen-etiqueta">Resumen</span>
+        <p>${bloque.texto}</p>
+      </section>
 
-        <p>
-          ${bloque.texto}
-        </p>
+      <section class="historia-subtema-contexto">
+        <span class="historia-resumen-etiqueta">Marco general</span>
+        <p>${tema.subtitulo}</p>
+      </section>
+
+      <section class="historia-subtema-claves">
+        <h3>Claves generales del tema</h3>
+        <div class="historia-claves-lista">
+          ${tema.claves.slice(0, 4).map(clave => `<div class="historia-clave-chip">${clave}</div>`).join("")}
+        </div>
       </section>
 
     </article>
