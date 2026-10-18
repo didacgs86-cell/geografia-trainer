@@ -4622,3 +4622,91 @@ select:focus-visible {
     text-align: left;
   }
 }
+
+
+/* Progreso v2: recompensas contenidas y repaso separado de la nota */
+.progreso-reglas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.progreso-reglas > div {
+  padding: 12px 13px;
+  border: 1px solid #e1e8ed;
+  border-radius: 11px;
+  background: #fbfcfd;
+}
+
+.progreso-reglas strong,
+.progreso-reglas span {
+  display: block;
+}
+
+.progreso-reglas strong {
+  color: #29465d;
+  font-size: 12px;
+}
+
+.progreso-reglas span {
+  margin-top: 4px;
+  color: #6d7e8c;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.recompensa-resumen {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 10px 0 3px;
+}
+
+.recompensa-resumen strong {
+  color: #173f61;
+  font-size: 17px;
+}
+
+.recompensa-resumen span {
+  color: #657b8c;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.recompensa-original {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid #dbe6ed;
+  color: #526b7e;
+  font-size: 11px;
+}
+
+.repaso-estado {
+  display: inline-block !important;
+  width: fit-content;
+  margin-top: 5px !important;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #edf4f8;
+  color: #526f82 !important;
+  font-size: 10px !important;
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .progreso-reglas {
+    grid-template-columns: 1fr;
+  }
+
+  .recompensa-original {
+    display: block;
+  }
+
+  .recompensa-original span {
+    display: block;
+    margin-top: 3px;
+  }
+}

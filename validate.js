@@ -130,6 +130,25 @@ for (const [label, rx] of [
 if (html.includes('id="progreso-expedicion"') && html.includes('progreso.js')) ok("Mi expedición integrada");
 else fail("Falta integrar Mi expedición o progreso.js");
 
+const progresoJs = read("progreso.js");
+if (/const BONUS_PRIMERA_ACTIVIDAD = 2;/.test(progresoJs) && /let base = 5;/.test(progresoJs) && /porcentaje >= 100\) base = 15/.test(progresoJs)) {
+  ok("PX de exámenes ajustados a progresión lenta");
+} else {
+  fail("La escala de PX de examen no coincide con la progresión v2");
+}
+
+if (/contabilizarDominio: !esRepaso/.test(progresoJs) && /if \(!esRepaso\) \{\s*estado\.examenes \+= 1;/.test(progresoJs)) {
+  ok("Los repasos no inflan dominio ni número de exámenes");
+} else {
+  fail("El repaso debe quedar separado de examen y dominio");
+}
+
+if (/Tu examen original sigue siendo/.test(progresoJs) && /errores recuperados/.test(progresoJs)) {
+  ok("El repaso conserva y muestra la nota original");
+} else {
+  fail("Falta separar visualmente el repaso de la nota original");
+}
+
 if (/Progreso educativo opcional/.test(html) && /localStorage/.test(html) && /no se envía a servidores de GeoTrainer/.test(html)) {
   ok("Política de privacidad actualizada para progreso local");
 } else {

@@ -1,5 +1,5 @@
 // ==========================================
-// GEOTRAINER · SISTEMA DE PROGRESO V1
+// GEOTRAINER · SISTEMA DE PROGRESO V2
 // PX · niveles · rangos · dominio · logros
 // Almacenamiento opcional y exclusivamente local.
 // ==========================================
@@ -9,11 +9,12 @@
 
   const STORAGE_KEY = "geotrainer.progreso.v1";
   const ENABLED_KEY = "geotrainer.progreso.enabled";
-  const VERSION = 1;
-  const PX_POR_NIVEL = 150;
+  const VERSION = 2;
   const MAX_HISTORIAL_DOMINIO = 60;
-  const MAX_PX_ENTRENAMIENTO_DIA = 30;
-  const MAX_PX_REPASO_DIA = 40;
+  const BONUS_PRIMERA_ACTIVIDAD = 2;
+  const ACIERTOS_ENTRENAMIENTO_POR_PX = 5;
+  const MAX_PX_ENTRENAMIENTO_DIA = 5;
+  const MAX_PX_REPASO_DIA = 10;
 
   const CATEGORIAS = {
     capitales: "Capitales",
@@ -40,7 +41,7 @@
 
   const OBJETOS = [
     { id: "brujula", icono: "🧭", nombre: "Brújula de campo", descripcion: "Supera tu primer examen con al menos un 70 %." },
-    { id: "mapa", icono: "🗺️", nombre: "Mapa de explorador", descripcion: "Alcanza 250 PX." },
+    { id: "mapa", icono: "🗺️", nombre: "Mapa de explorador", descripcion: "Alcanza 300 PX." },
     { id: "catalejo", icono: "🔭", nombre: "Catalejo", descripcion: "Consigue un 100 % en un examen de capitales de 10 o más preguntas." },
     { id: "carta", icono: "📜", nombre: "Carta náutica", descripcion: "Consigue al menos un 90 % en mares y océanos." },
     { id: "altimetro", icono: "⛰️", nombre: "Altímetro", descripcion: "Consigue al menos un 90 % en montañas." },
@@ -73,9 +74,10 @@
       totalRespuestas: 0,
       repasosCorregidos: 0,
       racha: { ultimoDia: null, actual: 0, mejor: 0 },
-      diario: { fecha: null, pxEntrenamiento: 0, pxRepaso: 0 },
+      diario: { fecha: null, pxEntrenamiento: 0, pxRepaso: 0, aciertosEntrenamiento: 0, clavesEntrenamiento: [] },
       dominio: {},
       repaso: {},
+      ultimosExamenes: {},
       regionesAprobadas: {},
       objetos: {},
       logros: {},
@@ -92,9 +94,14 @@
       ...base,
       ...datos,
       racha: { ...base.racha, ...(datos.racha || {}) },
-      diario: { ...base.diario, ...(datos.diario || {}) },
+      diario: {
+        ...base.diario,
+        ...(datos.diario || {}),
+        clavesEntrenamiento: Array.isArray(datos.diario?.clavesEntrenamiento) ? datos.diario.clavesEntrenamiento : []
+      },
       dominio: datos.dominio && typeof datos.dominio === "object" ? datos.dominio : {},
       repaso: datos.repaso && typeof datos.repaso === "object" ? datos.repaso : {},
+      ultimosExamenes: datos.ultimosExamenes && typeof datos.ultimosExamenes === "object" ? datos.ultimosExamenes : {},
       regionesAprobadas: datos.regionesAprobadas && typeof datos.regionesAprobadas === "object" ? datos.regionesAprobadas : {},
       objetos: datos.objetos && typeof datos.objetos === "object" ? datos.objetos : {},
       logros: datos.logros && typeof datos.logros === "object" ? datos.logros : {},
@@ -162,8 +169,30 @@
       .replaceAll("'", "&#039;");
   }
 
+  function pxNecesariosParaNivel(nivel) {
+    if (nivel <= 4) return 100;
+    if (nivel <= 9) return 125;
+    if (nivel <= 14) return 150;
+    if (nivel <= 19) return 175;
+    if (nivel <= 24) return 200;
+    if (nivel <= 29) return 225;
+    return 250;
+  }
+
+  function datosNivel() {
+    let restante = Math.max(0, Number(estado.xp || 0));
+    let nivel = 1;
+    let objetivo = pxNecesariosParaNivel(nivel);
+    while (restante >= objetivo && nivel < 999) {
+      restante -= objetivo;
+      nivel += 1;
+      objetivo = pxNecesariosParaNivel(nivel);
+    }
+    return { nivel, progreso: restante, objetivo };
+  }
+
   function nivelActual() {
-    return Math.floor(estado.xp / PX_POR_NIVEL) + 1;
+    return datosNivel().nivel;
   }
 
   function rangoActual(nivel = nivelActual()) {
@@ -171,7 +200,11 @@
   }
 
   function progresoNivel() {
-    return estado.xp % PX_POR_NIVEL;
+    return datosNivel().progreso;
+  }
+
+  function objetivoNivelActual() {
+    return datosNivel().objetivo;
   }
 
   function etiquetaCategoria(id) {
@@ -183,7 +216,7 @@
     let bonus = 0;
 
     if (estado.diario.fecha !== fecha) {
-      estado.diario = { fecha, pxEntrenamiento: 0, pxRepaso: 0 };
+      estado.diario = { fecha, pxEntrenamiento: 0, pxRepaso: 0, aciertosEntrenamiento: 0, clavesEntrenamiento: [] };
     }
 
     if (estado.racha.ultimoDia !== fecha) {
@@ -191,8 +224,8 @@
       estado.racha.actual = estado.racha.ultimoDia === ayer ? estado.racha.actual + 1 : 1;
       estado.racha.mejor = Math.max(estado.racha.mejor, estado.racha.actual);
       estado.racha.ultimoDia = fecha;
-      estado.xp += 10;
-      bonus = 10;
+      estado.xp += BONUS_PRIMERA_ACTIVIDAD;
+      bonus = BONUS_PRIMERA_ACTIVIDAD;
     }
 
     return bonus;
@@ -236,32 +269,84 @@
         categoria,
         label: item.label,
         correct: item.correct,
-        fase: existente ? Math.max(0, Number(existente.fase || 0) - 1) : 0,
+        fase: 0,
+        recuperaciones: 0,
+        estado: "en_aprendizaje",
         fallos: (existente?.fallos || 0) + 1,
         ultimaFalla: fecha,
         due: fecha
       };
-      return;
+      return { fallo: true, recuperadoPrimeraVez: false, reforzado: false, consolidadoAhora: false };
     }
 
-    if (!existente) return;
+    if (!existente) {
+      return { fallo: false, recuperadoPrimeraVez: false, reforzado: false, consolidadoAhora: false };
+    }
 
     const estabaPendiente = fechaLocalAValor(existente.due) <= fechaLocalAValor(fecha);
+    if (!estabaPendiente) {
+      return { fallo: false, recuperadoPrimeraVez: false, reforzado: false, consolidadoAhora: false };
+    }
+
+    const prev = Number(existente.recuperaciones || 0);
+    const nueva = prev + 1;
     const intervalos = [1, 3, 7, 14, 30];
-    const faseNueva = Math.min((existente.fase || 0) + 1, intervalos.length - 1);
-    existente.fase = faseNueva;
-    existente.due = sumarDias(fecha, intervalos[faseNueva]);
+    const indice = Math.min(nueva - 1, intervalos.length - 1);
+    const consolidadoAhora = prev < 3 && nueva >= 3;
+
+    existente.recuperaciones = nueva;
+    existente.fase = indice;
+    existente.estado = nueva >= 3 ? "consolidada" : "recuperada";
+    existente.due = sumarDias(fecha, intervalos[indice]);
     existente.ultimaCorrecta = fecha;
 
-    if (estabaPendiente) estado.repasosCorregidos += 1;
+    const recuperadoPrimeraVez = prev === 0;
+    if (recuperadoPrimeraVez) estado.repasosCorregidos += 1;
+
+    return {
+      fallo: false,
+      recuperadoPrimeraVez,
+      reforzado: true,
+      consolidadoAhora
+    };
   }
 
-  function registrarItems(categoria, items) {
+  function registrarItems(categoria, items, opciones = {}) {
+    const contabilizarDominio = opciones.contabilizarDominio !== false;
+    const resumen = { recuperados: 0, reforzados: 0, consolidados: 0, fallos: 0 };
+
     (Array.isArray(items) ? items : []).forEach(raw => {
       const item = itemNormalizado(raw, categoria);
-      registrarResultadoDominio(categoria, item.ok);
-      actualizarRepaso(categoria, item);
+      if (contabilizarDominio) registrarResultadoDominio(categoria, item.ok);
+      const cambio = actualizarRepaso(categoria, item);
+      if (cambio.fallo) resumen.fallos += 1;
+      if (cambio.recuperadoPrimeraVez) resumen.recuperados += 1;
+      if (cambio.reforzado) resumen.reforzados += 1;
+      if (cambio.consolidadoAhora) resumen.consolidados += 1;
     });
+
+    return resumen;
+  }
+
+  function claveContextoExamen(info) {
+    return [info.categoria || "mapas", info.region || "", info.modo || ""].join("::");
+  }
+
+  function guardarUltimoExamen(info, porcentaje) {
+    estado.ultimosExamenes[claveContextoExamen(info)] = {
+      categoria: info.categoria || "mapas",
+      region: String(info.region || ""),
+      modo: String(info.modo || ""),
+      total: Number(info.total || 0),
+      aciertos: Number(info.aciertos || 0),
+      porcentaje,
+      fecha: hoy(),
+      timestamp: Date.now()
+    };
+  }
+
+  function obtenerExamenOriginal(info) {
+    return estado.ultimosExamenes[claveContextoExamen(info)] || null;
   }
 
   function limpiarFirmasExamen() {
@@ -278,11 +363,11 @@
 
   function calcularPxBase(total, porcentaje) {
     if (porcentaje < 70 || total <= 0) return 0;
-    let base = 20;
-    if (porcentaje >= 100) base = 70;
-    else if (porcentaje >= 90) base = 45;
-    else if (porcentaje >= 80) base = 30;
-    const factor = Math.max(0.5, total / 10);
+    let base = 5;
+    if (porcentaje >= 100) base = 15;
+    else if (porcentaje >= 90) base = 10;
+    else if (porcentaje >= 80) base = 7;
+    const factor = total / 10;
     return Math.round(base * factor);
   }
 
@@ -309,18 +394,18 @@
     const categoria = contexto.categoria;
 
     if (estado.examenesAprobados >= 1) desbloquear("objetos", "brujula", fecha, nuevos);
-    if (estado.xp >= 250) desbloquear("objetos", "mapa", fecha, nuevos);
-    if (categoria === "capitales" && pct === 100 && total >= 10) desbloquear("objetos", "catalejo", fecha, nuevos);
-    if (categoria === "mares" && pct >= 90 && total >= 10) desbloquear("objetos", "carta", fecha, nuevos);
-    if (categoria === "montanas" && pct >= 90 && total >= 10) desbloquear("objetos", "altimetro", fecha, nuevos);
-    if (categoria === "rios" && pct >= 90 && total >= 10) desbloquear("objetos", "cuaderno", fecha, nuevos);
+    if (estado.xp >= 300) desbloquear("objetos", "mapa", fecha, nuevos);
+    if (!contexto.esRepaso && categoria === "capitales" && pct === 100 && total >= 10) desbloquear("objetos", "catalejo", fecha, nuevos);
+    if (!contexto.esRepaso && categoria === "mares" && pct >= 90 && total >= 10) desbloquear("objetos", "carta", fecha, nuevos);
+    if (!contexto.esRepaso && categoria === "montanas" && pct >= 90 && total >= 10) desbloquear("objetos", "altimetro", fecha, nuevos);
+    if (!contexto.esRepaso && categoria === "rios" && pct >= 90 && total >= 10) desbloquear("objetos", "cuaderno", fecha, nuevos);
 
     const regiones = ["Europa", "Asia", "África", "América", "Oceanía"];
     if (regiones.every(r => estado.regionesAprobadas[r])) desbloquear("objetos", "globo", fecha, nuevos);
     if (categoriasDominadas().length >= 5) desbloquear("objetos", "pasaporte", fecha, nuevos);
 
     if (estado.examenesAprobados >= 1) desbloquear("logros", "primer-rumbo", fecha, nuevos);
-    if (pct === 100 && total >= 10) desbloquear("logros", "precision-total", fecha, nuevos);
+    if (!contexto.esRepaso && pct === 100 && total >= 10) desbloquear("logros", "precision-total", fecha, nuevos);
     if (estado.repasosCorregidos >= 20) desbloquear("logros", "segunda-oportunidad", fecha, nuevos);
     if (estado.racha.actual >= 3) desbloquear("logros", "constancia", fecha, nuevos);
     if (regiones.every(r => estado.regionesAprobadas[r])) desbloquear("logros", "vuelta-mundo", fecha, nuevos);
@@ -339,23 +424,33 @@
     const item = itemNormalizado({ ...(info.item || {}), ok: Boolean(info.acierto) }, categoria);
     registrarItems(categoria, [item]);
 
-    let px = bonusDiario;
+    let pxEntrenamiento = 0;
     if (item.ok && estado.diario.pxEntrenamiento < MAX_PX_ENTRENAMIENTO_DIA) {
-      estado.diario.pxEntrenamiento += 1;
-      estado.xp += 1;
-      px += 1;
+      const claves = Array.isArray(estado.diario.clavesEntrenamiento) ? estado.diario.clavesEntrenamiento : [];
+      if (!claves.includes(item.key)) {
+        claves.push(item.key);
+        estado.diario.clavesEntrenamiento = claves;
+        estado.diario.aciertosEntrenamiento = Number(estado.diario.aciertosEntrenamiento || 0) + 1;
+
+        if (estado.diario.aciertosEntrenamiento % ACIERTOS_ENTRENAMIENTO_POR_PX === 0) {
+          estado.diario.pxEntrenamiento += 1;
+          estado.xp += 1;
+          pxEntrenamiento = 1;
+        }
+      }
     }
 
-    const nuevos = evaluarDesbloqueos({ categoria, porcentaje: 0, total: 0 });
+    const nuevos = evaluarDesbloqueos({ categoria, porcentaje: 0, total: 0, esRepaso: false });
     const nivelDespues = nivelActual();
     guardar();
     renderTodo();
 
+    const px = bonusDiario + pxEntrenamiento;
     if (nuevos.length || nivelDespues > nivelAntes) {
       mostrarToastProgreso({ px, nuevos, nivelAntes, nivelDespues });
     }
 
-    return { px, nuevos, nivelAntes, nivelDespues };
+    return { px, pxEntrenamiento, bonusDiario, nuevos, nivelAntes, nivelDespues };
   }
 
   function registrarExamenInterno(info) {
@@ -366,11 +461,16 @@
     const porcentaje = total ? Math.round(aciertos / total * 100) : 0;
     const esRepaso = Boolean(info.esRepaso);
     const items = Array.isArray(info.items) ? info.items : [];
+    const examenOriginal = esRepaso ? obtenerExamenOriginal(info) : null;
     const bonusDiario = asegurarDia();
 
-    registrarItems(categoria, items);
-    estado.examenes += 1;
-    if (!esRepaso && porcentaje >= 70) estado.examenesAprobados += 1;
+    const resumenItems = registrarItems(categoria, items, { contabilizarDominio: !esRepaso });
+
+    if (!esRepaso) {
+      estado.examenes += 1;
+      if (porcentaje >= 70) estado.examenesAprobados += 1;
+      guardarUltimoExamen(info, porcentaje);
+    }
 
     const region = String(info.region || "");
     if (!esRepaso && porcentaje >= 70 && ["Europa", "Asia", "África", "América", "Oceanía"].includes(region)) {
@@ -381,10 +481,10 @@
     let repetido = false;
 
     if (esRepaso) {
-      const posible = aciertos * 4;
-      const restante = Math.max(0, MAX_PX_REPASO_DIA - estado.diario.pxRepaso);
+      const posible = resumenItems.recuperados;
+      const restante = Math.max(0, MAX_PX_REPASO_DIA - Number(estado.diario.pxRepaso || 0));
       pxExamen = Math.min(posible, restante);
-      estado.diario.pxRepaso += pxExamen;
+      estado.diario.pxRepaso = Number(estado.diario.pxRepaso || 0) + pxExamen;
     } else {
       limpiarFirmasExamen();
       const firma = firmaExamen(info);
@@ -397,7 +497,7 @@
     }
 
     estado.xp += pxExamen;
-    const nuevos = evaluarDesbloqueos({ categoria, porcentaje, total });
+    const nuevos = evaluarDesbloqueos({ categoria, porcentaje, total, esRepaso });
     const nivelDespues = nivelActual();
     guardar();
     renderTodo();
@@ -412,6 +512,10 @@
       bonusDiario,
       repetido,
       esRepaso,
+      recuperados: resumenItems.recuperados,
+      reforzados: resumenItems.reforzados,
+      consolidados: resumenItems.consolidados,
+      examenOriginal,
       nuevos,
       nivelAntes,
       nivelDespues,
@@ -427,6 +531,16 @@
 
     if (!progresoActivado) {
       examenPendiente = JSON.parse(JSON.stringify(info));
+      if (info.esRepaso) {
+        mostrarResumenRepaso({
+          esRepaso: true,
+          aciertos: Number(info.aciertos || 0),
+          total: Number(info.total || 0),
+          recuperados: Number(info.aciertos || 0),
+          consolidados: 0,
+          examenOriginal: null
+        });
+      }
       mostrarInvitacionExamen();
       return null;
     }
@@ -468,8 +582,8 @@
           </div>
         </div>
         <div class="progreso-home-nivel">
-          <progress max="${PX_POR_NIVEL}" value="${progresoNivel()}" aria-label="Progreso hacia el siguiente nivel"></progress>
-          <small>${progresoNivel()} / ${PX_POR_NIVEL} PX</small>
+          <progress max="${objetivoNivelActual()}" value="${progresoNivel()}" aria-label="Progreso hacia el siguiente nivel"></progress>
+          <small>${progresoNivel()} / ${objetivoNivelActual()} PX</small>
         </div>
         <button type="button" id="progreso-home-abrir" class="progreso-home-btn">Mi expedición</button>
       `;
@@ -543,6 +657,7 @@
           <div class="repaso-item">
             <div><strong>${escapeHTML(etiquetaCategoria(x.categoria))}</strong><span>${escapeHTML(x.label)}</span></div>
             <small>${x.correct ? `Respuesta: ${escapeHTML(x.correct)}` : "Concepto pendiente"}</small>
+            <span class="repaso-estado">${x.estado === "consolidada" ? "Consolidada" : x.estado === "recuperada" ? "Recuperada · pendiente de confirmar" : "En aprendizaje"}</span>
           </div>
         `).join("")}
       </div>
@@ -581,8 +696,8 @@
           <span class="expedicion-kicker">Mi expedición</span>
           <h2>Nivel ${nivel} · ${escapeHTML(rango.nombre)}</h2>
           <p>${estado.xp} PX acumulados</p>
-          <progress max="${PX_POR_NIVEL}" value="${progresoNivel()}" aria-label="Progreso al siguiente nivel"></progress>
-          <small>${PX_POR_NIVEL - progresoNivel()} PX para el nivel ${nivel + 1}</small>
+          <progress max="${objetivoNivelActual()}" value="${progresoNivel()}" aria-label="Progreso al siguiente nivel"></progress>
+          <small>${objetivoNivelActual() - progresoNivel()} PX para el nivel ${nivel + 1}</small>
         </div>
       </section>
 
@@ -591,6 +706,16 @@
         <div class="stat-card"><strong>${precision}%</strong><span>Precisión global</span></div>
         <div class="stat-card"><strong>${estado.racha.actual}</strong><span>Racha actual</span></div>
         <div class="stat-card"><strong>${pendientesHoy().length}</strong><span>Para repasar</span></div>
+      </section>
+
+      <section class="expedicion-bloque">
+        <div class="expedicion-titulo"><span>Cómo avanzas</span><small>El progreso premia aprender, no repetir por repetir</small></div>
+        <div class="progreso-reglas">
+          <div><strong>Examen de 10</strong><span>7/10 +5 PX · 8/10 +7 · 9/10 +10 · 10/10 +15</span></div>
+          <div><strong>Repaso de errores</strong><span>+1 PX por cada error recuperado por primera vez. No cambia la nota original.</span></div>
+          <div><strong>Entrenamiento</strong><span>+1 PX cada 5 aciertos distintos, con un máximo diario reducido.</span></div>
+          <div><strong>Constancia</strong><span>+2 PX por la primera actividad del día y una racha si vuelves en días consecutivos.</span></div>
+        </div>
       </section>
 
       <section class="expedicion-bloque">
@@ -687,7 +812,7 @@
       <div><span class="recompensa-kicker">Mi expedición</span><strong>Este examen puede darte PX</strong><small>Activa el progreso local para guardar niveles, dominio y logros.</small></div>
       <button type="button" class="btn-progreso-activar-examen">Activar y guardar este resultado</button>
     `;
-    cont.insertAdjacentElement("afterend", card);
+    cont.appendChild(card);
     card.querySelector("button")?.addEventListener("click", activarProgreso);
   }
 
@@ -700,34 +825,63 @@
     return logro ? `✓ ${logro.nombre}` : n.id;
   }
 
+  function mostrarResumenRepaso(reporte) {
+    const cont = resultadoVisible();
+    if (!cont) return;
+    const original = reporte.examenOriginal;
+    const textoOriginal = original
+      ? `Tu examen original sigue siendo ${original.aciertos}/${original.total} · ${original.porcentaje} %.`
+      : "Este repaso no se registra como un nuevo examen ni genera una nota porcentual.";
+    const recuperados = Number(reporte.recuperados ?? reporte.aciertos ?? 0);
+    const consolidados = Number(reporte.consolidados || 0);
+
+    cont.innerHTML = `
+      <div>🎯 Repaso de errores</div>
+      <div class="nota-grande">${Number(reporte.aciertos || 0)} de ${Number(reporte.total || 0)}</div>
+      <div class="detalle-examen">
+        respuestas correctas en este repaso<br><br>
+        <strong>${recuperados}</strong> error${recuperados === 1 ? "" : "es"} recuperado${recuperados === 1 ? "" : "s"}
+        ${consolidados ? `<br><strong>${consolidados}</strong> concepto${consolidados === 1 ? "" : "s"} consolidado${consolidados === 1 ? "" : "s"}` : ""}
+        <br><br>${escapeHTML(textoOriginal)}
+      </div>
+    `;
+  }
+
   function mostrarRecompensaExamen(reporte) {
     limpiarTarjetaRecompensa();
     const cont = resultadoVisible();
     if (!cont) return;
 
+    if (reporte.esRepaso) mostrarResumenRepaso(reporte);
+
     const card = document.createElement("div");
     card.className = "progreso-recompensa-examen";
     const nivelSube = reporte.nivelDespues > reporte.nivelAntes;
     let nota = "";
-    if (reporte.esRepaso) nota = "PX de repaso: se premia corregir errores anteriores.";
-    else if (reporte.repetido) nota = "Este mismo examen ya dio PX hoy; el dominio sí se ha actualizado.";
+    if (reporte.esRepaso) {
+      if (reporte.recuperados > 0) nota = "El repaso premia recuperar errores, pero no modifica la nota del examen original.";
+      else nota = "Buen repaso. No se añaden PX si el concepto ya estaba recuperado o aún no tocaba revisarlo.";
+    } else if (reporte.repetido) nota = "Este mismo examen ya dio PX en las últimas 24 h; su resultado se mantiene registrado sin duplicar la recompensa.";
     else if (reporte.porcentaje < 70) nota = "A partir del 70 % los exámenes conceden PX de resultado.";
-    else nota = "Resultado registrado en tu expedición.";
+    else nota = `Resultado ${reporte.aciertos}/${reporte.total}: +${reporte.pxExamen} PX.`;
 
+    const totalPx = reporte.px;
     card.innerHTML = `
       <div class="recompensa-cabecera">
         <span class="recompensa-kicker">Mi expedición</span>
-        <strong>${reporte.px > 0 ? `+${reporte.px} PX` : "Dominio actualizado"}</strong>
+        <strong>${totalPx > 0 ? `+${totalPx} PX${reporte.bonusDiario ? " totales" : ""}` : reporte.esRepaso ? "Repaso registrado" : "Resultado registrado"}</strong>
       </div>
+      ${reporte.esRepaso ? `<div class="recompensa-resumen"><strong>${reporte.recuperados}</strong><span>errores recuperados</span></div>` : `<div class="recompensa-resumen"><strong>${reporte.aciertos}/${reporte.total}</strong><span>${reporte.porcentaje} % en el examen</span></div>`}
       <div class="recompensa-nivel">Nivel ${reporte.nivelDespues} · ${escapeHTML(reporte.rango)}</div>
-      <progress max="${PX_POR_NIVEL}" value="${progresoNivel()}" aria-label="Progreso al siguiente nivel"></progress>
+      <progress max="${objetivoNivelActual()}" value="${progresoNivel()}" aria-label="Progreso al siguiente nivel"></progress>
       <small>${escapeHTML(nota)}</small>
       ${reporte.bonusDiario ? `<div class="recompensa-extra">+${reporte.bonusDiario} PX por primera actividad del día</div>` : ""}
+      ${reporte.esRepaso && reporte.examenOriginal ? `<div class="recompensa-original"><strong>Examen original</strong><span>${reporte.examenOriginal.aciertos}/${reporte.examenOriginal.total} · ${reporte.examenOriginal.porcentaje} %</span></div>` : ""}
       ${nivelSube ? `<div class="recompensa-desbloqueo"><strong>Nuevo nivel</strong><span>Has alcanzado el nivel ${reporte.nivelDespues}.</span></div>` : ""}
       ${reporte.nuevos.length ? `<div class="recompensa-desbloqueo"><strong>Nuevo desbloqueo</strong><span>${reporte.nuevos.map(descripcionDesbloqueo).map(escapeHTML).join(" · ")}</span></div>` : ""}
     `;
 
-    cont.insertAdjacentElement("afterend", card);
+    cont.appendChild(card);
   }
 
   function mostrarToastProgreso(reporte) {
