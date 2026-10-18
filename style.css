@@ -3965,3 +3965,660 @@ select:focus-visible {
   color: #334155;
   line-height: 1.55;
 }
+
+
+/* =========================================
+   MI EXPEDICIÓN · PROGRESO LOCAL
+========================================= */
+
+.progreso-home {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(140px, 220px) auto;
+  gap: 16px;
+  align-items: center;
+  margin-top: 18px;
+  padding: 15px 17px;
+  border: 1px solid #dbe5ef;
+  border-radius: 16px;
+  background: rgba(255,255,255,.92);
+  box-shadow: 0 8px 22px rgba(15, 42, 69, .06);
+}
+
+.progreso-home-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.progreso-home-simbolo {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
+  background: #eaf2f8;
+  color: #173f61;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.progreso-home-main strong,
+.progreso-home-main span {
+  display: block;
+}
+
+.progreso-home-main strong {
+  color: #18324b;
+  font-size: 15px;
+}
+
+.progreso-home-main span {
+  margin-top: 3px;
+  color: #6b7b8b;
+  font-size: 12px;
+}
+
+.progreso-home-nivel {
+  display: grid;
+  gap: 5px;
+}
+
+.progreso-home progress,
+.expedicion-identidad progress,
+.dominio-item progress,
+.progreso-recompensa-examen progress {
+  width: 100%;
+  height: 8px;
+  accent-color: #2f6b91;
+}
+
+.progreso-home-nivel small {
+  color: #778594;
+  font-size: 11px;
+  text-align: right;
+}
+
+.progreso-home-btn {
+  width: auto;
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid #b9ccdb;
+  border-radius: 11px;
+  background: #f7fafc;
+  color: #244b68;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+#progreso-expedicion {
+  color: #23384b;
+}
+
+#progreso-expedicion-contenido {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.progreso-activar-card {
+  max-width: 620px;
+  margin: 40px auto;
+  padding: 34px;
+  border: 1px solid #dbe5ef;
+  border-radius: 20px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 16px 38px rgba(15, 42, 69, .08);
+}
+
+.progreso-activar-card h2 {
+  margin: 14px 0 8px;
+  color: #163650;
+}
+
+.progreso-activar-card p {
+  color: #526476;
+  line-height: 1.65;
+}
+
+.progreso-privacidad-mini {
+  margin: 18px 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f6f9fb;
+  color: #657789;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.btn-progreso-principal,
+.btn-progreso-activar-examen {
+  width: auto;
+  margin: 0;
+  padding: 11px 16px;
+  border: 0;
+  border-radius: 11px;
+  background: #173f61;
+  color: #fff;
+  font-weight: 800;
+}
+
+.progreso-avatar {
+  display: grid;
+  place-items: center;
+  width: 82px;
+  height: 82px;
+  flex: 0 0 82px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f4f8fb, #dce8f0);
+  border: 1px solid #c8d8e5;
+  color: #173f61;
+  font-size: 36px;
+  font-weight: 900;
+  box-shadow: inset 0 0 0 7px #fff;
+}
+
+.progreso-avatar-inactivo {
+  margin: 0 auto;
+}
+
+.expedicion-hero {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  margin: 18px 0 20px;
+  padding: 24px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f5f9fc, #edf4f8);
+  border: 1px solid #d8e5ee;
+}
+
+.expedicion-identidad {
+  min-width: 0;
+  flex: 1;
+}
+
+.expedicion-kicker,
+.recompensa-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: #678095;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.expedicion-identidad h2 {
+  margin: 0;
+  color: #153650;
+  font-size: 27px;
+}
+
+.expedicion-identidad p {
+  margin: 5px 0 13px;
+  color: #5d7082;
+}
+
+.expedicion-identidad small {
+  display: block;
+  margin-top: 5px;
+  color: #738394;
+  font-size: 11px;
+}
+
+.expedicion-resumen-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  padding: 16px;
+  border: 1px solid #e0e8ef;
+  border-radius: 13px;
+  background: #fff;
+  text-align: center;
+}
+
+.stat-card strong {
+  display: block;
+  color: #163650;
+  font-size: 24px;
+}
+
+.stat-card span {
+  color: #718091;
+  font-size: 12px;
+}
+
+.expedicion-bloque {
+  margin: 18px 0;
+  padding: 20px;
+  border: 1px solid #e0e8ef;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.expedicion-titulo {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: baseline;
+  margin-bottom: 15px;
+}
+
+.expedicion-titulo span {
+  color: #173c5a;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.expedicion-titulo small {
+  color: #8090a0;
+  font-size: 11px;
+}
+
+.dominio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.dominio-item {
+  padding: 13px;
+  border-radius: 11px;
+  background: #f7fafc;
+  border: 1px solid #e4ebf0;
+}
+
+.dominio-cabecera {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.dominio-cabecera span {
+  color: #41596d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dominio-cabecera strong {
+  color: #173f61;
+  font-size: 13px;
+}
+
+.dominio-item small {
+  display: block;
+  margin-top: 5px;
+  color: #8794a0;
+  font-size: 10px;
+}
+
+.dominio-vacio {
+  opacity: .62;
+}
+
+.coleccion-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.objeto-card {
+  min-height: 145px;
+  padding: 15px;
+  border-radius: 13px;
+  border: 1px solid #e0e8ef;
+  background: #f9fbfc;
+  text-align: center;
+}
+
+.objeto-icono {
+  margin-bottom: 8px;
+  font-size: 28px;
+}
+
+.objeto-card strong,
+.objeto-card span,
+.objeto-card small {
+  display: block;
+}
+
+.objeto-card strong {
+  color: #29465d;
+  font-size: 13px;
+}
+
+.objeto-card span {
+  margin-top: 6px;
+  color: #718091;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.objeto-card small {
+  margin-top: 8px;
+  color: #8090a0;
+  font-size: 10px;
+}
+
+.objeto-bloqueado {
+  filter: grayscale(1);
+  opacity: .58;
+}
+
+.objeto-obtenido {
+  border-color: #c6d9e7;
+  background: #f3f8fb;
+}
+
+.logros-lista,
+.repaso-lista {
+  display: grid;
+  gap: 8px;
+}
+
+.logro-linea,
+.repaso-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 11px 12px;
+  border: 1px solid #e7edf2;
+  border-radius: 10px;
+  background: #fafcfd;
+}
+
+.logro-linea div,
+.repaso-item div {
+  flex: 1;
+  min-width: 0;
+}
+
+.logro-linea strong,
+.logro-linea small,
+.repaso-item strong,
+.repaso-item span,
+.repaso-item small {
+  display: block;
+}
+
+.logro-linea strong,
+.repaso-item strong {
+  color: #345167;
+  font-size: 13px;
+}
+
+.logro-linea small,
+.repaso-item span,
+.repaso-item small {
+  margin-top: 2px;
+  color: #758594;
+  font-size: 11px;
+}
+
+.logro-marca {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  border-radius: 50%;
+  background: #eef3f6;
+  color: #8090a0;
+  font-weight: 900;
+}
+
+.logro-ok .logro-marca {
+  background: #e4f2e9;
+  color: #2f7650;
+}
+
+.repaso-item {
+  justify-content: space-between;
+}
+
+.repaso-item > small {
+  flex: 0 0 auto;
+  max-width: 40%;
+  text-align: right;
+}
+
+.repaso-vacio {
+  padding: 20px;
+  border-radius: 11px;
+  background: #f7fafc;
+  text-align: center;
+}
+
+.repaso-vacio strong,
+.repaso-vacio span {
+  display: block;
+}
+
+.repaso-vacio strong {
+  color: #37614d;
+}
+
+.repaso-vacio span,
+.repaso-mas {
+  margin-top: 4px;
+  color: #7c8b98;
+  font-size: 12px;
+}
+
+.progreso-gestion p {
+  color: #657789;
+  font-size: 13px;
+}
+
+.progreso-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.progreso-acciones button {
+  width: auto;
+  margin: 0;
+}
+
+.btn-progreso-peligro {
+  padding: 10px 14px;
+  border: 1px solid #e3caca;
+  border-radius: 10px;
+  background: #fff9f9;
+  color: #8b4141;
+  font-weight: 700;
+}
+
+.progreso-recompensa-examen {
+  max-width: 620px;
+  margin: 16px auto 22px;
+  padding: 17px 18px;
+  border: 1px solid #c9dce9;
+  border-radius: 14px;
+  background: #f4f9fc;
+  color: #29465d;
+}
+
+.recompensa-cabecera {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: end;
+}
+
+.recompensa-cabecera strong {
+  color: #173f61;
+  font-size: 22px;
+}
+
+.recompensa-nivel {
+  margin: 8px 0 7px;
+  color: #405d73;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.progreso-recompensa-examen > small {
+  display: block;
+  margin-top: 7px;
+  color: #748595;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.recompensa-extra {
+  margin-top: 9px;
+  color: #55724f;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.recompensa-desbloqueo {
+  margin-top: 12px;
+  padding: 11px 12px;
+  border-left: 3px solid #b18348;
+  border-radius: 7px;
+  background: #fffaf2;
+}
+
+.recompensa-desbloqueo strong,
+.recompensa-desbloqueo span {
+  display: block;
+}
+
+.recompensa-desbloqueo strong {
+  color: #76562f;
+  font-size: 12px;
+}
+
+.recompensa-desbloqueo span {
+  margin-top: 3px;
+  color: #736554;
+  font-size: 11px;
+}
+
+.progreso-recompensa-inactiva {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  background: #f8fafb;
+  border-color: #e1e8ed;
+}
+
+.progreso-recompensa-inactiva strong,
+.progreso-recompensa-inactiva small {
+  display: block;
+}
+
+.progreso-recompensa-inactiva small {
+  margin-top: 4px;
+  color: #738392;
+  font-size: 11px;
+}
+
+.progreso-toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 9999;
+  max-width: 320px;
+  padding: 13px 15px;
+  border: 1px solid #c8d9e5;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 36px rgba(15, 42, 69, .16);
+}
+
+.progreso-toast strong,
+.progreso-toast span {
+  display: block;
+}
+
+.progreso-toast strong {
+  color: #173f61;
+  font-size: 12px;
+}
+
+.progreso-toast span {
+  margin-top: 3px;
+  color: #647789;
+  font-size: 11px;
+}
+
+@media (max-width: 760px) {
+  .progreso-home {
+    grid-template-columns: 1fr auto;
+  }
+
+  .progreso-home-nivel {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .expedicion-resumen-grid,
+  .coleccion-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dominio-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .progreso-home {
+    grid-template-columns: 1fr;
+  }
+
+  .progreso-home-btn {
+    width: 100%;
+  }
+
+  .expedicion-hero {
+    align-items: flex-start;
+    padding: 18px;
+  }
+
+  .progreso-avatar {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+    font-size: 26px;
+  }
+
+  .expedicion-identidad h2 {
+    font-size: 21px;
+  }
+
+  .expedicion-resumen-grid,
+  .dominio-grid,
+  .coleccion-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expedicion-titulo,
+  .recompensa-cabecera,
+  .progreso-recompensa-inactiva {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .repaso-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .repaso-item > small {
+    max-width: none;
+    text-align: left;
+  }
+}

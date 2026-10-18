@@ -2225,6 +2225,14 @@ function responderRios(
 
     riosContestadasEntrenamiento++;
 
+    if (window.GeoProgress) {
+      window.GeoProgress.registrarEntrenamiento({
+        categoria: "rios",
+        acierto,
+        item: { key: riosPreguntaActual.id, label: riosPreguntaActual.correcta, correct: riosPreguntaActual.correcta }
+      });
+    }
+
     if (
       riosContestadasEntrenamiento > 0 &&
       riosContestadasEntrenamiento % 15 === 0
@@ -2559,6 +2567,18 @@ function finalizarExamenRios() {
           })
         )
     };
+  }
+
+  if (window.GeoProgress) {
+    window.GeoProgress.registrarExamen({
+      categoria: "rios",
+      region: riosRegion?.value || "Todo el mundo",
+      modo: riosModoActual,
+      total,
+      aciertos: riosAciertos,
+      esRepaso: riosEsRepasoFallos,
+      items: riosResultados.map(r => ({ key: r.pregunta.id, label: r.correcta, correct: r.correcta, ok: r.acierto }))
+    });
   }
 }
 

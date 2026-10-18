@@ -2689,6 +2689,28 @@ function comprobarRespuesta(
 
   registrarPreguntaContestadaEntrenamiento();
 
+  if (
+    totalPreguntasExamen === null &&
+    window.GeoProgress
+  ) {
+    const categoriaProgreso =
+      tipoJuego === "capitales"
+        ? "capitales"
+        : tipoJuego === "paises"
+          ? "paises"
+          : "banderas";
+
+    window.GeoProgress.registrarEntrenamiento({
+      categoria: categoriaProgreso,
+      acierto: respuestaSeleccionada === correcta,
+      item: {
+        key: clavePreguntaMundo(preguntaActual),
+        label: correcta,
+        correct: correcta
+      }
+    });
+  }
+
 
   if (
     totalPreguntasExamen !== null &&
@@ -3066,6 +3088,30 @@ function mostrarResultadoFinal() {
   }
 
   actualizarBotonesFinExamen(snapshot);
+
+  if (window.GeoProgress) {
+    const categoriaProgreso =
+      tipoJuego === "capitales"
+        ? "capitales"
+        : tipoJuego === "paises"
+          ? "paises"
+          : "banderas";
+
+    window.GeoProgress.registrarExamen({
+      categoria: categoriaProgreso,
+      region: regionSeleccionada,
+      modo: tipoJuego,
+      total: totalPreguntasExamen,
+      aciertos,
+      esRepaso: snapshot.esRepaso,
+      items: snapshot.resultados.map(r => ({
+        key: clavePreguntaMundo(r.pregunta),
+        label: r.correcta,
+        correct: r.correcta,
+        ok: r.acertada
+      }))
+    });
+  }
 }
 
 
@@ -3549,6 +3595,10 @@ sabiasQueDetalle.classList.add("oculto");
 
   if (typeof ocultarPantallasRevision2 === "function") {
     ocultarPantallasRevision2();
+  }
+
+  if (typeof ocultarPantallasProgreso === "function") {
+    ocultarPantallasProgreso();
   }
 }
 // ==========================================
@@ -4112,6 +4162,21 @@ if (
 
   registrarPreguntaContestadaEntrenamiento();
 
+  if (
+    totalPreguntasEspana === null &&
+    window.GeoProgress
+  ) {
+    window.GeoProgress.registrarEntrenamiento({
+      categoria: "espana",
+      acierto: respuestaSeleccionada === correcta,
+      item: {
+        key: clavePreguntaEspana(preguntaActual),
+        label: correcta,
+        correct: correcta
+      }
+    });
+  }
+
 if (
   totalPreguntasEspana !== null &&
   numeroPregunta === totalPreguntasEspana
@@ -4202,6 +4267,23 @@ function mostrarResultadoFinalEspana() {
   }
 
   actualizarBotonesFinExamen(snapshot);
+
+  if (window.GeoProgress) {
+    window.GeoProgress.registrarExamen({
+      categoria: "espana",
+      region: "España",
+      modo: modoEspana || tipoPracticaEspana || "espana",
+      total: totalPreguntasEspana,
+      aciertos,
+      esRepaso: snapshot.esRepaso,
+      items: snapshot.resultados.map(r => ({
+        key: clavePreguntaEspana(r.pregunta),
+        label: r.correcta,
+        correct: r.correcta,
+        ok: r.acertada
+      }))
+    });
+  }
 }
 function textoExplicacionEspana() {
 

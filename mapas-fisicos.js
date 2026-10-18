@@ -91,6 +91,7 @@ function mostrarFisico() {
 function responderFisico(id, boton=null) {
   if(fisicoRespondida) return; fisicoRespondida=true;
   const ok=id===fisicoActual.id; if(ok) fisicoAciertos++; else fisicoFallos++;
+  if(window.GeoProgress){window.GeoProgress.registrarEntrenamiento({categoria:fisicoTipo==="montanas"?"montanas":"mares",acierto:ok,item:{key:`mapa:${fisicoTipo}:${fisicoActual.id}`,label:fisicoActual.nombre,correct:fisicoActual.nombre}});}
   fisicoAciertosTexto.textContent=String(fisicoAciertos); fisicoFallosTexto.textContent=String(fisicoFallos);
   if(fisicoModo==="identifica") {
     [...fisicoRespuestas.children].forEach(b=>{b.disabled=true;if(b.dataset.id===fisicoActual.id)b.classList.add("respuesta-correcta");});

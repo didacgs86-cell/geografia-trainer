@@ -425,6 +425,10 @@ function responderMontanas(
   } else {
     montanasContestadas++;
 
+    if (window.GeoProgress) {
+      window.GeoProgress.registrarEntrenamiento({ categoria: "montanas", acierto, item: { key: `${montanasModo}:${actual.id}`, label: actual.nombre, correct: actual.nombre } });
+    }
+
     if (
       montanasContestadas > 0 &&
       montanasContestadas % 15 === 0
@@ -620,6 +624,18 @@ function finalizarMontanas() {
       modo: montanasModo,
       plan: JSON.parse(JSON.stringify(montanasPlan))
     };
+  }
+
+  if (window.GeoProgress) {
+    window.GeoProgress.registrarExamen({
+      categoria: "montanas",
+      region: "Todo el mundo",
+      modo: montanasModo,
+      total,
+      aciertos: montanasAciertos,
+      esRepaso: montanasRepaso,
+      items: montanasResultados.map(r => ({ key: `${montanasModo}:${r.item.id}`, label: r.item.nombre, correct: r.item.nombre, ok: r.acierto }))
+    });
   }
 }
 

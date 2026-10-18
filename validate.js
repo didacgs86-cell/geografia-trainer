@@ -49,7 +49,7 @@ function duplicates(values) {
 const jsFiles = [
   "countries.js","espana.js","sabiasque.js","script.js","mapas-europa.js",
   "rios.js","mapas.js","monedas.js","mares.js","historia.js","maravillas.js","montanas.js",
-  "mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js"
+  "mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js","progreso.js"
 ];
 
 for (const file of jsFiles) {
@@ -109,14 +109,31 @@ const inlineJsStyleHits = jsFiles.filter(f => /\.style\.|setAttribute\(\s*["']st
 if (inlineJsStyleHits.length === 0) ok("Sin estilos inline generados desde JavaScript");
 else fail(`Estilos inline generados desde JavaScript: ${inlineJsStyleHits.join(", ")}`);
 
+const localStorageHits = jsFiles.filter(f => /\blocalStorage\b/.test(read(f)));
+if (localStorageHits.every(f => f === "progreso.js") && localStorageHits.includes("progreso.js")) {
+  ok("localStorage limitado al progreso opcional");
+} else if (localStorageHits.length === 0) {
+  fail("El sistema de progreso debería usar localStorage únicamente en progreso.js");
+} else {
+  fail(`localStorage usado fuera de progreso.js: ${localStorageHits.join(", ")}`);
+}
+
 for (const [label, rx] of [
-  ["localStorage", /\blocalStorage\b/],
   ["sessionStorage", /\bsessionStorage\b/],
   ["document.cookie", /\bdocument\.cookie\b/]
 ]) {
   const hits = jsFiles.filter(f => rx.test(read(f)));
   if (hits.length === 0) ok(`Sin uso JS de ${label}`);
   else fail(`${label} usado en: ${hits.join(", ")}`);
+}
+
+if (html.includes('id="progreso-expedicion"') && html.includes('progreso.js')) ok("Mi expedición integrada");
+else fail("Falta integrar Mi expedición o progreso.js");
+
+if (/Progreso educativo opcional/.test(html) && /localStorage/.test(html) && /no se envía a servidores de GeoTrainer/.test(html)) {
+  ok("Política de privacidad actualizada para progreso local");
+} else {
+  fail("La política de privacidad debe explicar el progreso local opcional");
 }
 
 const secretRx = /(sk_live_|sk_test_|sbp_[A-Za-z0-9]+|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.|SUPABASE_(?:KEY|URL)|api[_-]?key\s*[:=]\s*["'][^"']+)/i;
@@ -238,7 +255,7 @@ for (const requiredId of [
   else fail(`Falta ID Revisión 2: ${requiredId}`);
 }
 
-for (const file of ["mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js"]) {
+for (const file of ["mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js","progreso.js"]) {
   if (html.includes(file)) ok(`Script Revisión 2 cargado: ${file}`);
   else fail(`Script Revisión 2 no cargado: ${file}`);
 }

@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
 
-  <link rel="stylesheet" href="style.css?v=20261016-r2fix1">
+  <link rel="stylesheet" href="style.css?v=20261018-progress1">
 </head>
 
 <body>
@@ -87,6 +87,8 @@
     </button>
 
   </div>
+
+  <div id="progreso-home" class="progreso-home" aria-live="polite"></div>
 </section>
 
 
@@ -2236,6 +2238,15 @@
 
 
 <!-- =========================
+     MI EXPEDICIÓN
+========================== -->
+<section id="progreso-expedicion" class="oculto">
+  <button id="volver-progreso-expedicion" class="btn-volver">← Volver</button>
+  <div id="progreso-expedicion-contenido"></div>
+</section>
+
+
+<!-- =========================
      CRITERIOS Y FUENTES
 ========================== -->
 <section id="criterios-fuentes" class="oculto legal-page">
@@ -2345,7 +2356,7 @@
     </p>
 
     <p class="legal-update">
-      Última actualización: 11 de octubre de 2026.
+      Última actualización: 18 de octubre de 2026.
     </p>
 
   </div>
@@ -2379,12 +2390,13 @@
       al utilizar los ejercicios.
     </p>
 
-    <h3>2. Resultados de los ejercicios</h3>
+    <h3>2. Progreso educativo opcional</h3>
     <p>
-      Los aciertos, fallos, preguntas y resultados generados durante las partidas
-      se utilizan para el funcionamiento inmediato de la aplicación. En la versión
-      actual no se guardan mediante <em>localStorage</em>, cookies propias,
-      bases de datos de GeoTrainer ni sistemas propios de analítica.
+      GeoTrainer permite activar de forma voluntaria «Mi expedición». Si el usuario
+      la activa, los PX, niveles, resultados, dominio, logros y conceptos pendientes
+      de repaso se guardan mediante <em>localStorage</em> exclusivamente en el navegador
+      y dispositivo utilizado. Esta información no se envía a servidores de GeoTrainer,
+      no se utiliza para analítica ni publicidad y puede borrarse o exportarse desde la propia aplicación.
     </p>
 
     <h3>3. Alojamiento y datos técnicos</h3>
@@ -2451,7 +2463,9 @@
     <p>
       GeoTrainer no instala intencionadamente cookies propias de analítica,
       publicidad, seguimiento o perfilado, ni utiliza actualmente herramientas
-      propias de medición de audiencia.
+      propias de medición de audiencia. La función opcional «Mi expedición» utiliza
+      <em>localStorage</em> únicamente después de que el usuario la active, con la
+      finalidad de conservar su progreso educativo en ese dispositivo.
     </p>
 
     <h3>2. Cookies técnicas o de terceros</h3>
@@ -2525,6 +2539,7 @@
 <script src="mapas-fisicos.js?v=20261016-r2"></script>
 <script src="espana-mapa.js?v=20261016-r2"></script>
 <script src="ui-revision2.js?v=20261016-r2"></script>
+<script src="progreso.js?v=20261018-progress1"></script>
 
 </body>
 </html>

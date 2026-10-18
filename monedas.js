@@ -564,6 +564,10 @@ function responderMonedas(valor, botonElegido, tiempoAgotado = false) {
   } else {
     monedasContestadasEntrenamiento++;
 
+    if (window.GeoProgress) {
+      window.GeoProgress.registrarEntrenamiento({ categoria: "monedas", acierto, item: { key: monedasPreguntaActual.id, label: correcta, correct: correcta } });
+    }
+
     if (
       monedasContestadasEntrenamiento > 0 &&
       monedasContestadasEntrenamiento % 15 === 0
@@ -753,6 +757,13 @@ function crearRevisionMonedas() {
   `;
 }
 
+
+function respuestaCorrectaDesdePreguntaProgreso(pregunta) {
+  if (!pregunta) return "";
+  if (pregunta.tipo === "pais-moneda") return pregunta.pais?.codigo || "";
+  return pregunta.paisCorrecto?.iso2 || "";
+}
+
 function finalizarExamenMonedas() {
   cancelarTemporizadorMonedas();
 
@@ -794,6 +805,18 @@ function finalizarExamenMonedas() {
       plan: JSON.parse(JSON.stringify(monedasPlanActual)),
       resultados: JSON.parse(JSON.stringify(monedasResultados))
     };
+  }
+
+  if (window.GeoProgress) {
+    window.GeoProgress.registrarExamen({
+      categoria: "monedas",
+      region: monedasRegionActual,
+      modo: monedasModoActual,
+      total,
+      aciertos: monedasAciertos,
+      esRepaso: monedasEsRepasoFallos,
+      items: monedasResultados.map(r => ({ key: r.pregunta.id, label: respuestaCorrectaDesdePreguntaProgreso(r.pregunta), correct: respuestaCorrectaDesdePreguntaProgreso(r.pregunta), ok: r.acierto }))
+    });
   }
 }
 

@@ -574,6 +574,9 @@ function responderMares(valor, boton = null, tiempoAgotado = false) {
     });
   } else {
     maresContestadas++;
+    if (window.GeoProgress) {
+      window.GeoProgress.registrarEntrenamiento({ categoria: "mares", acierto, item: { key: `${maresModo}:${maresActual.id}`, label: maresActual.nombre, correct: maresActual.nombre } });
+    }
     if (maresContestadas > 0 && maresContestadas % 15 === 0) {
       maresPausaPendiente = true;
     }
@@ -716,6 +719,18 @@ function finalizarMares() {
       modo: maresModo,
       plan: JSON.parse(JSON.stringify(maresPlan))
     };
+  }
+
+  if (window.GeoProgress) {
+    window.GeoProgress.registrarExamen({
+      categoria: "mares",
+      region: "Todo el mundo",
+      modo: maresModo,
+      total,
+      aciertos: maresAciertos,
+      esRepaso: maresRepaso,
+      items: maresResultados.map(r => ({ key: `${maresModo}:${r.item.id}`, label: r.item.nombre, correct: r.item.nombre, ok: r.acierto }))
+    });
   }
 }
 

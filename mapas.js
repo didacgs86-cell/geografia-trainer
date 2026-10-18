@@ -415,6 +415,13 @@ function responderMapas(iso, tiempoAgotado) {
     mapasResultados.push({ objetivo: { ...obj }, seleccion: seleccion ? { ...seleccion } : null, acierto, tiempoAgotado });
   } else {
     mapasContestadasEntrenamiento++;
+    if (window.GeoProgress) {
+      window.GeoProgress.registrarEntrenamiento({
+        categoria: "mapas",
+        acierto,
+        item: { key: `${mapasModoActual}:${obj.iso}`, label: mapasModoActual === "paises" ? obj.pais : obj.capital, correct: mapasModoActual === "paises" ? obj.pais : obj.capital }
+      });
+    }
     if (mapasContestadasEntrenamiento % 15 === 0) mapasPausaPendiente = true;
   }
   const estado = tiempoAgotado ? "⏱ Tiempo agotado" : acierto ? "✅ Correcto" : "❌ Incorrecto";
@@ -452,6 +459,17 @@ function finalizarExamenMapas() {
   const btn = document.getElementById("mapas-repasar-fallos");
   if (fallos.length) { btn.textContent = `🎯 Repasar solo mis fallos (${fallos.length})`; btn.classList.remove("oculto"); } else btn.classList.add("oculto");
   if (!mapasEsRepasoFallos) mapasUltimoExamen = { modo: mapasModoActual, continente: mapasContinenteActual, cantidad: mapasPlanActual.length, plan: mapasPlanActual.map(x=>({...x})), resultados: mapasResultados.map(x=>({...x})) };
+  if (window.GeoProgress) {
+    window.GeoProgress.registrarExamen({
+      categoria: "mapas",
+      region: nombreCont,
+      modo: mapasModoActual,
+      total,
+      aciertos: mapasAciertos,
+      esRepaso: mapasEsRepasoFallos,
+      items: mapasResultados.map(r => ({ key: `${mapasModoActual}:${r.objetivo.iso}`, label: mapasModoActual === "paises" ? r.objetivo.pais : r.objetivo.capital, correct: mapasModoActual === "paises" ? r.objetivo.pais : r.objetivo.capital, ok: r.acierto }))
+    });
+  }
 }
 
 function repetirUltimoExamenMapas() {
