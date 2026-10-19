@@ -8,6 +8,7 @@ Aplicación educativa estática de geografía, historia y viajes, publicada con 
 - Geografía física con montañas, ríos y mares; mapas didácticos de montañas y mares.
 - Banco de 50 grandes ríos del mundo con filtro geográfico; mapa europeo de ríos.
 - Mapa didáctico de España para provincias, comunidades, ríos y relieve.
+- Mapas optimizados para móvil: objetivos táctiles amplios, zoom/pan/pellizco, ampliación automática de zonas densas y modo de mapa a pantalla completa.
 - Historia con estructura de subtemas y artículos ampliados.
 - Criterios y fuentes visibles desde el pie de página.
 - Content Security Policy y validación automática mediante `node validate.js`.

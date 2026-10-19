@@ -26,6 +26,7 @@ let fisicoAciertos = 0;
 let fisicoFallos = 0;
 let fisicoRespondida = false;
 let fisicoN = 0;
+let fisicoUXControlador = null;
 
 function escaparFisico(t) {
   return String(t ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
@@ -61,6 +62,9 @@ function svgFondoFisico() {
   return MAPA_FISICO_MUNDO.fondo.map(d=>`<path class="fisico-pais" d="${d}" fill-rule="evenodd"></path>`).join("");
 }
 function crearMapaFisico() {
+  const mantenerFocus=!!fisicoUXControlador && fisicoUXControlador.focusActivo?.();
+  fisicoUXControlador?.destroy?.();
+  fisicoUXControlador=null;
   const datos=datosFisico();
   const puntos=datos.map(x=>{
     const p=x.punto; const activo=fisicoModo==="identifica" && fisicoActual && x.id===fisicoActual.id;
@@ -70,14 +74,41 @@ function crearMapaFisico() {
     </g>`;
   }).join("");
   fisicoLienzo.innerHTML=`<svg class="fisico-svg" viewBox="${MAPA_FISICO_MUNDO.viewBox}" role="img" aria-label="Mapa mundial interactivo"><rect class="fisico-mar" x="0" y="0" width="1000" height="650"></rect>${svgFondoFisico()}<g>${puntos}</g></svg><div class="mapas-fuente">Natural Earth · posiciones didácticas aproximadas</div>`;
-  fisicoLienzo.querySelectorAll("[data-id]").forEach(el=>el.addEventListener("click",()=>{if(fisicoModo==="localiza") responderFisico(el.dataset.id);}));
+  const svg=fisicoLienzo.querySelector(".fisico-svg");
+  fisicoUXControlador=window.GeoMapUX?.crearControlador({
+    svg,
+    contenedor:fisicoLienzo,
+    maxZoom:5,
+    getPrompt:()=>fisicoPregunta?.textContent?.trim()||"Mapa interactivo",
+    marcadorSelector:".fisico-punto-visible",
+    marcadorRadioPx:fisicoTipo==="mares"?6:5.5,
+    permitirFocus:fisicoModo==="localiza"
+  })||null;
+  if(mantenerFocus) fisicoUXControlador?.focus?.();
+  if(fisicoModo==="localiza") {
+    svg.addEventListener("click",evento=>{
+      if(fisicoRespondida||fisicoUXControlador?.consumeClick())return;
+      const candidatos=datosFisico().map(x=>({id:x.id,x:x.punto.x,y:x.punto.y}));
+      const r=window.GeoMapUX?.resolverPunto(svg,evento.clientX,evento.clientY,candidatos,{maxPx:32,diferenciaAmbigua:12});
+      if(!r||!r.id)return;
+      if(r.ambiguo&&fisicoUXControlador){
+        if(fisicoUXControlador.nivelZoom()<4.8){
+          fisicoUXControlador.ampliarZona(evento.clientX,evento.clientY,99);
+          return;
+        }
+        const objetivo=r.candidatos.find(c=>c.id===fisicoActual?.id);
+        if(objetivo){responderFisico(objetivo.id);return;}
+      }
+      responderFisico(r.id);
+    });
+  }
 }
 function mostrarFisico() {
   fisicoRespondida=false; fisicoFeedback.classList.add("oculto"); fisicoFeedback.innerHTML=""; fisicoSiguiente.classList.add("oculto"); fisicoRespuestas.classList.add("oculto"); fisicoRespuestas.innerHTML="";
   fisicoActual=siguienteFisicoItem(); fisicoN++; fisicoNumero.textContent=`Pregunta ${fisicoN}`;
   if(fisicoModo==="localiza") {
     fisicoPregunta.innerHTML=`Localiza <strong>${escaparFisico(fisicoActual.nombre)}</strong>`;
-    fisicoAyuda.textContent="Toca el punto correspondiente en el mapa.";
+    fisicoAyuda.textContent="Toca cerca del punto. Si hay varios muy juntos, GeoTrainer ampliará la zona antes de corregir.";
     crearMapaFisico();
   } else {
     fisicoPregunta.textContent=fisicoTipo==="montanas"?"¿Qué montaña está señalada?":"¿Qué mar u océano está señalado?";
@@ -89,7 +120,9 @@ function mostrarFisico() {
   }
 }
 function responderFisico(id, boton=null) {
-  if(fisicoRespondida) return; fisicoRespondida=true;
+  if(fisicoRespondida) return;
+  if(fisicoUXControlador?.focusActivo?.()) fisicoUXControlador.focus();
+  fisicoRespondida=true;
   const ok=id===fisicoActual.id; if(ok) fisicoAciertos++; else fisicoFallos++;
   if(window.GeoProgress){window.GeoProgress.registrarEntrenamiento({categoria:fisicoTipo==="montanas"?"montanas":"mares",acierto:ok,item:{key:`mapa:${fisicoTipo}:${fisicoActual.id}`,label:fisicoActual.nombre,correct:fisicoActual.nombre}});}
   fisicoAciertosTexto.textContent=String(fisicoAciertos); fisicoFallosTexto.textContent=String(fisicoFallos);

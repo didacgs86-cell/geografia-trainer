@@ -46,6 +46,7 @@ const espanaMapaAciertos=document.getElementById("espana-mapa-aciertos");
 const espanaMapaFallos=document.getElementById("espana-mapa-fallos");
 const espanaMapaNumero=document.getElementById("espana-mapa-numero");
 let espanaMapaModo="provincia",espanaMapaCola=[],espanaMapaActual=null,espanaMapaOk=0,espanaMapaKo=0,espanaMapaN=0,espanaMapaRespondida=false;
+let espanaMapaUXControlador=null;
 
 function ocultarPantallasEspanaMapa(){if(espanaMapaPantalla)espanaMapaPantalla.classList.add("oculto");}
 function abrirEspanaMapa(){ocultarTodasLasPantallas();espanaMapaPantalla.classList.remove("oculto");espanaMapaSelector.classList.remove("oculto");espanaMapaJuego.classList.add("oculto");}
@@ -57,18 +58,63 @@ function iniciarEspanaMapa(modo){espanaMapaModo=modo;espanaMapaCola=[];espanaMap
 function siguienteEspanaMapa(){if(!espanaMapaCola.length)espanaMapaCola=[...bancoEspanaMapa()].sort(()=>Math.random()-.5);return espanaMapaCola.shift();}
 function lineaPathEspana(puntos){return puntos.map((p,i)=>{const q=proyectarEspana(p[1],p[0]);return`${i?'L':'M'}${q.x.toFixed(1)},${q.y.toFixed(1)}`;}).join(' ');}
 function renderEspanaMapa(){
+  const mantenerFocus=!!espanaMapaUXControlador && espanaMapaUXControlador.focusActivo?.();
+  espanaMapaUXControlador?.destroy?.();
+  espanaMapaUXControlador=null;
   let elems='';
   const banco=bancoEspanaMapa();
   if(espanaMapaModo==="rios"){
     elems=banco.map(x=>`<path class="esp-mapa-rio" data-id="${x.id}" d="${lineaPathEspana(x.puntos)}"></path><path class="esp-mapa-rio-hit" data-id="${x.id}" d="${lineaPathEspana(x.puntos)}"></path>`).join('');
   }else{
-    elems=banco.map(x=>{const p=proyectarEspana(x.lat,x.lon);return`<g class="esp-mapa-punto" data-id="${x.id}"><circle class="esp-mapa-punto-visible" cx="${p.x}" cy="${p.y}" r="${espanaMapaModo==='comunidad'?6:4}"></circle><circle class="esp-mapa-punto-hit" cx="${p.x}" cy="${p.y}" r="14"></circle></g>`}).join('');
+    elems=banco.map(x=>{const p=proyectarEspana(x.lat,x.lon);return`<g class="esp-mapa-punto" data-id="${x.id}"><circle class="esp-mapa-punto-visible" cx="${p.x}" cy="${p.y}" r="${espanaMapaModo==='comunidad'?8:7}"></circle><circle class="esp-mapa-punto-hit" cx="${p.x}" cy="${p.y}" r="30"></circle></g>`}).join('');
   }
   const contexto=['PT','FR','MA','DZ'].map(iso=>ESPANA_FONDO_MAPA[iso]?`<path class="espana-pais-contexto" d="${ESPANA_FONDO_MAPA[iso]}" fill-rule="evenodd"></path>`:'').join('');
   const espana=ESPANA_FONDO_MAPA.ES?`<path class="espana-pais-principal" d="${ESPANA_FONDO_MAPA.ES}" fill-rule="evenodd"></path>`:'';
   const islas=`<g class="espana-islas-didacticas" aria-hidden="true"><ellipse cx="871" cy="176" rx="16" ry="5"></ellipse><ellipse cx="900" cy="188" rx="6" ry="3"></ellipse><ellipse cx="116" cy="598" rx="8" ry="4"></ellipse><ellipse cx="151" cy="611" rx="9" ry="5"></ellipse><ellipse cx="80" cy="592" rx="5" ry="3"></ellipse><ellipse cx="190" cy="604" rx="5" ry="3"></ellipse></g>`;
   espanaMapaLienzo.innerHTML=`<svg viewBox="0 0 1000 650" class="espana-mapa-svg" role="img" aria-label="Mapa didáctico de España"><rect class="fisico-mar" width="1000" height="650"></rect><g>${contexto}${espana}${islas}</g><g>${elems}</g></svg><div class="mapas-fuente">Natural Earth · provincias/comunidades por puntos de referencia · ríos y relieve simplificados</div>`;
-  espanaMapaLienzo.querySelectorAll('[data-id]').forEach(el=>el.addEventListener('click',()=>responderEspanaMapa(el.dataset.id)));
+  const svg=espanaMapaLienzo.querySelector('.espana-mapa-svg');
+  espanaMapaUXControlador=window.GeoMapUX?.crearControlador({
+    svg,
+    contenedor:espanaMapaLienzo,
+    maxZoom:5.5,
+    getPrompt:()=>espanaMapaPregunta?.textContent?.trim()||"Mapa de España",
+    marcadorSelector:'.esp-mapa-punto-visible',
+    marcadorRadioPx:espanaMapaModo==='comunidad'?6.5:5.5
+  })||null;
+  if(mantenerFocus) espanaMapaUXControlador?.focus?.();
+  if(espanaMapaModo==='rios'){
+    svg.addEventListener('click',evento=>{
+      if(espanaMapaRespondida||espanaMapaUXControlador?.consumeClick())return;
+      const trayectos=[...svg.querySelectorAll('.esp-mapa-rio')].map(path=>({id:path.dataset.id,path}));
+      const r=window.GeoMapUX?.resolverTrayecto(svg,evento.clientX,evento.clientY,trayectos,{maxPx:28,diferenciaAmbigua:7});
+      if(!r||!r.id)return;
+      if(r.ambiguo&&espanaMapaUXControlador){
+        if(espanaMapaUXControlador.nivelZoom()<5.25){
+          espanaMapaUXControlador.ampliarZona(evento.clientX,evento.clientY,99);
+          return;
+        }
+        const objetivo=r.candidatos.find(c=>c.id===espanaMapaActual?.id);
+        if(objetivo){responderEspanaMapa(objetivo.id);return;}
+      }
+      responderEspanaMapa(r.id);
+    });
+  }else{
+    svg.addEventListener('click',evento=>{
+      if(espanaMapaRespondida||espanaMapaUXControlador?.consumeClick())return;
+      const puntos=bancoEspanaMapa().map(x=>{const p=proyectarEspana(x.lat,x.lon);return{id:x.id,x:p.x,y:p.y};});
+      const r=window.GeoMapUX?.resolverPunto(svg,evento.clientX,evento.clientY,puntos,{maxPx:32,diferenciaAmbigua:11});
+      if(!r||!r.id)return;
+      if(r.ambiguo&&espanaMapaUXControlador){
+        if(espanaMapaUXControlador.nivelZoom()<5.25){
+          espanaMapaUXControlador.ampliarZona(evento.clientX,evento.clientY,99);
+          return;
+        }
+        const objetivo=r.candidatos.find(c=>c.id===espanaMapaActual?.id);
+        if(objetivo){responderEspanaMapa(objetivo.id);return;}
+      }
+      responderEspanaMapa(r.id);
+    });
+  }
 }
 function mostrarEspanaMapa(){
   espanaMapaRespondida=false;
@@ -77,22 +123,22 @@ function mostrarEspanaMapa(){
   espanaMapaNumero.textContent=`Pregunta ${espanaMapaN}`;
   if(espanaMapaModo==='provincia'){
     espanaMapaPregunta.innerHTML=`Localiza la provincia de <strong>${espanaMapaActual.nombre}</strong>`;
-    espanaMapaAyuda.textContent='Cada provincia se representa por la posición de su capital.';
+    espanaMapaAyuda.textContent='Cada provincia se representa por su capital. En zonas densas, el mapa amplía antes de corregir.';
   }else if(espanaMapaModo==='comunidad'){
     espanaMapaPregunta.innerHTML=`Localiza <strong>${espanaMapaActual.nombre}</strong>`;
-    espanaMapaAyuda.textContent='Toca el punto de referencia didáctico de la comunidad autónoma.';
+    espanaMapaAyuda.textContent='Toca cerca del punto de referencia. Si hay varios juntos, GeoTrainer amplía la zona antes de corregir.';
   }else if(espanaMapaModo==='rios'){
     espanaMapaPregunta.innerHTML=`Localiza el río <strong>${espanaMapaActual.nombre}</strong>`;
-    espanaMapaAyuda.textContent='Toca el trazado aproximado del río.';
+    espanaMapaAyuda.textContent='Toca el trazado aproximado del río. La zona táctil es más ancha que la línea visible.';
   }else{
     espanaMapaPregunta.innerHTML=`Localiza <strong>${espanaMapaActual.nombre}</strong>`;
-    espanaMapaAyuda.textContent='Toca el punto aproximado de esta unidad del relieve.';
+    espanaMapaAyuda.textContent='Toca cerca del punto aproximado. Puedes usar ⛶ para ver el mapa a pantalla completa.';
   }
   espanaMapaFeedback.classList.add('oculto');
   espanaMapaSiguiente.classList.add('oculto');
   renderEspanaMapa();
 }
-function responderEspanaMapa(id){if(espanaMapaRespondida)return;espanaMapaRespondida=true;const ok=id===espanaMapaActual.id;if(ok)espanaMapaOk++;else espanaMapaKo++;if(window.GeoProgress){window.GeoProgress.registrarEntrenamiento({categoria:"espana",acierto:ok,item:{key:`mapa:${espanaMapaModo}:${espanaMapaActual.id}`,label:espanaMapaActual.nombre,correct:espanaMapaActual.nombre}});}espanaMapaAciertos.textContent=String(espanaMapaOk);espanaMapaFallos.textContent=String(espanaMapaKo);espanaMapaLienzo.querySelectorAll(`[data-id="${espanaMapaActual.id}"]`).forEach(x=>x.classList.add('esp-mapa-correcto'));if(!ok)espanaMapaLienzo.querySelectorAll(`[data-id="${id}"]`).forEach(x=>x.classList.add('esp-mapa-incorrecto'));espanaMapaFeedback.innerHTML=`<div class="feedback-kicker">${ok?'✅ Correcto':'❌ Incorrecto'}</div><div class="feedback-ficha"><strong>${espanaMapaActual.nombre}</strong><span>${espanaMapaActual.detalle}</span></div>`;espanaMapaFeedback.classList.remove('oculto');espanaMapaSiguiente.classList.remove('oculto');}
+function responderEspanaMapa(id){if(espanaMapaRespondida)return;if(espanaMapaUXControlador?.focusActivo?.())espanaMapaUXControlador.focus();espanaMapaRespondida=true;const ok=id===espanaMapaActual.id;if(ok)espanaMapaOk++;else espanaMapaKo++;if(window.GeoProgress){window.GeoProgress.registrarEntrenamiento({categoria:"espana",acierto:ok,item:{key:`mapa:${espanaMapaModo}:${espanaMapaActual.id}`,label:espanaMapaActual.nombre,correct:espanaMapaActual.nombre}});}espanaMapaAciertos.textContent=String(espanaMapaOk);espanaMapaFallos.textContent=String(espanaMapaKo);espanaMapaLienzo.querySelectorAll(`[data-id="${espanaMapaActual.id}"]`).forEach(x=>x.classList.add('esp-mapa-correcto'));if(!ok)espanaMapaLienzo.querySelectorAll(`[data-id="${id}"]`).forEach(x=>x.classList.add('esp-mapa-incorrecto'));espanaMapaFeedback.innerHTML=`<div class="feedback-kicker">${ok?'✅ Correcto':'❌ Incorrecto'}</div><div class="feedback-ficha"><strong>${espanaMapaActual.nombre}</strong><span>${espanaMapaActual.detalle}</span></div>`;espanaMapaFeedback.classList.remove('oculto');espanaMapaSiguiente.classList.remove('oculto');}
 
 document.getElementById('btn-espana-mapa').addEventListener('click',abrirEspanaMapa);
 document.getElementById('volver-espana-mapa').addEventListener('click',mostrarEspanaMenu);

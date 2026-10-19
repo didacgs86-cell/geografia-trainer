@@ -49,7 +49,7 @@ function duplicates(values) {
 const jsFiles = [
   "countries.js","espana.js","sabiasque.js","script.js","mapas-europa.js",
   "rios.js","mapas.js","monedas.js","mares.js","historia.js","maravillas.js","montanas.js",
-  "mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js","progreso.js"
+  "mapas-mundo.js","mapa-ux.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js","progreso.js"
 ];
 
 for (const file of jsFiles) {
@@ -129,6 +129,26 @@ for (const [label, rx] of [
 
 if (html.includes('id="progreso-expedicion"') && html.includes('progreso.js')) ok("Mi expedición integrada");
 else fail("Falta integrar Mi expedición o progreso.js");
+
+if (html.includes('mapa-ux.js')) ok("UX táctil común de mapas cargada");
+else fail("Falta cargar mapa-ux.js");
+
+const mapaUxJs = read("mapa-ux.js");
+if (/resolverPunto/.test(mapaUxJs) && /maxPx/.test(mapaUxJs) && /ampliarZona/.test(mapaUxJs)) {
+  ok("Mapas con selección táctil por distancia en píxeles y ampliación de zonas densas");
+} else {
+  fail("Falta la selección táctil adaptativa de mapas");
+}
+if (/\.mapa-ux-toolbar button\s*\{[\s\S]*?width:\s*44px;[\s\S]*?height:\s*44px;/.test(css)) {
+  ok("Controles de mapa con objetivo táctil de 44 px");
+} else {
+  fail("Los controles del mapa deben mantener al menos 44 px");
+}
+if (/\.mapa-ux-focus\s*\{/.test(css) && /mapa-ux-body-focus/.test(css)) {
+  ok("Modo de mapa ampliado disponible");
+} else {
+  fail("Falta el modo de mapa ampliado");
+}
 
 const progresoJs = read("progreso.js");
 if (/const BONUS_PRIMERA_ACTIVIDAD = 2;/.test(progresoJs) && /let base = 5;/.test(progresoJs) && /porcentaje >= 100\) base = 15/.test(progresoJs)) {
@@ -274,7 +294,7 @@ for (const requiredId of [
   else fail(`Falta ID Revisión 2: ${requiredId}`);
 }
 
-for (const file of ["mapas-mundo.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js","progreso.js"]) {
+for (const file of ["mapas-mundo.js","mapa-ux.js","mapas-fisicos.js","espana-mapa.js","ui-revision2.js","progreso.js"]) {
   if (html.includes(file)) ok(`Script Revisión 2 cargado: ${file}`);
   else fail(`Script Revisión 2 no cargado: ${file}`);
 }

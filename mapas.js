@@ -56,6 +56,7 @@ let mapasViewBoxBase = { x: 0, y: 0, ancho: 1000, alto: 650 };
 let mapasViewBoxActual = { ...mapasViewBoxBase };
 let mapasArrastre = null;
 let mapasHuboMovimiento = false;
+let mapasUXControlador = null;
 
 const MAPAS_CONTINENTES = {
   europa: { nombre: "Europa", icono: "EU", datos: () => MAPA_EUROPA },
@@ -187,6 +188,9 @@ function parseViewBoxMapas(viewBox) {
 }
 
 function crearSvgMapas() {
+  const mantenerFocus=!!mapasUXControlador && mapasUXControlador.focusActivo?.();
+  mapasUXControlador?.destroy?.();
+  mapasUXControlador=null;
   const mapa = mapaActualMapas();
   mapasViewBoxBase = parseViewBoxMapas(mapa.viewBox);
   mapasViewBoxActual = { ...mapasViewBoxBase };
@@ -198,26 +202,21 @@ function crearSvgMapas() {
   }).join("");
 
   const marcadores = Object.entries(mapa.marcadores || mapa.microestados || {}).map(([iso, p]) => `
-    <g class="mapas-microestado" data-iso="${iso}">
-      <circle class="mapas-microestado-visible" cx="${p.x}" cy="${p.y}" r="4.5"></circle>
-      <circle class="mapas-microestado-hit" cx="${p.x}" cy="${p.y}" r="15"></circle>
+    <g class="mapas-microestado ${mapasObjetivoActual?.iso===iso?'mapas-micro-objetivo':''}" data-iso="${iso}">
+      <circle class="mapas-micro-visible" cx="${p.x}" cy="${p.y}" r="7"></circle>
+      <circle class="mapas-micro-hit" cx="${p.x}" cy="${p.y}" r="30"></circle>
     </g>`).join("");
 
   const capitales = mapa.ordenISO.map(iso => {
     const c = mapa.capitales[iso];
     if (!c) return "";
     return `<g class="mapas-capital" data-iso="${iso}">
-      <circle class="mapas-capital-visible" cx="${c.x}" cy="${c.y}" r="3.5"></circle>
-      <circle class="mapas-capital-hit" cx="${c.x}" cy="${c.y}" r="13"></circle>
+      <circle class="mapas-capital-visible" cx="${c.x}" cy="${c.y}" r="7"></circle>
+      <circle class="mapas-capital-hit" cx="${c.x}" cy="${c.y}" r="30"></circle>
     </g>`;
   }).join("");
 
   mapasLienzo.innerHTML = `
-    <div class="mapas-toolbar" aria-label="Controles de mapa">
-      <button type="button" data-map-zoom="in" aria-label="Acercar mapa">+</button>
-      <button type="button" data-map-zoom="out" aria-label="Alejar mapa">−</button>
-      <button type="button" data-map-zoom="reset" aria-label="Restablecer mapa">↺</button>
-    </div>
     <svg id="mapas-svg" class="mapas-svg" viewBox="${mapa.viewBox}" role="img" aria-label="Mapa interactivo de ${escaparMapas(MAPAS_CONTINENTES[mapasContinenteActual].nombre)}">
       <rect class="mapas-mar" x="0" y="0" width="1000" height="650"></rect>
       <g id="mapas-capa-paises">${paths}${marcadores}</g>
@@ -230,18 +229,17 @@ function crearSvgMapas() {
   capaCapitales.classList.toggle("oculto", mapasModoActual !== "capitales");
   document.getElementById("mapas-capa-paises").classList.toggle("mapas-paises-atenuados", mapasModoActual === "capitales");
 
-  document.querySelectorAll("[data-map-zoom]").forEach(b => b.addEventListener("click", () => {
-    if (b.dataset.mapZoom === "in") zoomMapas(1.35);
-    else if (b.dataset.mapZoom === "out") zoomMapas(1 / 1.35);
-    else resetMapas();
-  }));
+  mapasUXControlador = window.GeoMapUX?.crearControlador({
+    svg,
+    contenedor: mapasLienzo,
+    maxZoom: MAPAS_ZOOM_MAX,
+    getPrompt: () => mapasPreguntaTexto?.textContent?.trim() || "Mapa interactivo",
+    marcadorSelector: ".mapas-capital-visible, .mapas-micro-visible",
+    marcadorRadioPx: 5.5
+  }) || null;
+  if(mantenerFocus) mapasUXControlador?.focus?.();
 
   svg.addEventListener("click", clickMapaMapas);
-  svg.addEventListener("wheel", wheelMapas, { passive: false });
-  svg.addEventListener("pointerdown", iniciarArrastreMapas);
-  svg.addEventListener("pointermove", moverArrastreMapas);
-  svg.addEventListener("pointerup", terminarArrastreMapas);
-  svg.addEventListener("pointercancel", terminarArrastreMapas);
 }
 
 function aplicarViewBoxMapas() {
@@ -316,31 +314,57 @@ function terminarArrastreMapas(e) {
   mapasArrastre = null;
 }
 
-function capitalMasCercanaMapas(x, y) {
+function capitalMasCercanaMapas(evento) {
   const mapa = mapaActualMapas();
-  const target = mapasObjetivoActual?.iso;
-  const orden = target ? [target, ...mapa.ordenISO.filter(i => i !== target)] : mapa.ordenISO;
-  let mejor = null, dist = Infinity;
-  for (const iso of orden) {
-    const c = mapa.capitales[iso]; if (!c) continue;
-    const d = Math.hypot(c.x - x, c.y - y);
-    const radio = iso === target ? 18 : 14;
-    if (d <= radio && d < dist) { mejor = iso; dist = d; }
+  const svg = document.getElementById("mapas-svg");
+  if (!svg || !window.GeoMapUX) return null;
+  const puntos = mapa.ordenISO.map(iso => {
+    const c = mapa.capitales[iso];
+    return c ? { id:iso, x:c.x, y:c.y } : null;
+  }).filter(Boolean);
+  const r = window.GeoMapUX.resolverPunto(svg, evento.clientX, evento.clientY, puntos, { maxPx:30, diferenciaAmbigua:11 });
+  if (r.ambiguo && mapasUXControlador) {
+    if (mapasUXControlador.nivelZoom() < MAPAS_ZOOM_MAX * 0.96) {
+      mapasUXControlador.ampliarZona(evento.clientX, evento.clientY, 99);
+      return "__AMPLIAR__";
+    }
+    const objetivo = r.candidatos.find(c => c.id === mapasObjetivoActual?.iso);
+    if (objetivo) return objetivo.id;
   }
-  return mejor;
+  return r.id;
+}
+
+function microestadoMasCercanoMapas(evento) {
+  const mapa = mapaActualMapas();
+  const svg = document.getElementById("mapas-svg");
+  const marcadores = mapa.marcadores || mapa.microestados || {};
+  if (!svg || !window.GeoMapUX) return null;
+  const objetivo=mapasObjetivoActual?.iso;
+  if(!objetivo||!marcadores[objetivo])return null;
+  const p=marcadores[objetivo];
+  const puntos=[{id:objetivo,x:p.x,y:p.y}];
+  const r = window.GeoMapUX.resolverPunto(svg, evento.clientX, evento.clientY, puntos, { maxPx:32, diferenciaAmbigua:10 });
+  if (r.ambiguo && mapasUXControlador && mapasUXControlador.nivelZoom() < 3.2) {
+    mapasUXControlador.ampliarZona(evento.clientX, evento.clientY, 1.75);
+    return "__AMPLIAR__";
+  }
+  return r.id;
 }
 
 function clickMapaMapas(e) {
-  if (mapasRespondida || mapasHuboMovimiento) { mapasHuboMovimiento = false; return; }
+  if (mapasRespondida) return;
+  if (mapasUXControlador?.consumeClick()) return;
   let iso = null;
   if (mapasModoActual === "paises") {
-    const el = e.target.closest("[data-iso]");
-    if (el && document.getElementById("mapas-svg").contains(el)) iso = el.dataset.iso;
+    iso = microestadoMasCercanoMapas(e);
+    if(!iso){
+      const el = e.target.closest("[data-iso]");
+      if (el && document.getElementById("mapas-svg").contains(el)) iso = el.dataset.iso;
+    }
   } else {
-    const p = puntoSvgMapas(e);
-    iso = capitalMasCercanaMapas(p.x, p.y);
+    iso = capitalMasCercanaMapas(e);
   }
-  if (!iso) return;
+  if (iso === "__AMPLIAR__" || !iso) return;
   responderMapas(iso, false);
 }
 
@@ -363,8 +387,8 @@ function mostrarPreguntaMapas() {
     ? `Localiza <strong>${escaparMapas(mapasObjetivoActual.pais)}</strong>`
     : `Localiza <strong>${escaparMapas(mapasObjetivoActual.capital)}</strong>`;
   mapasAyuda.textContent = mapasModoActual === "paises"
-    ? "Toca el país sobre el mapa. Los estados muy pequeños aparecen con un punto de localización."
-    : `Capital de ${mapasObjetivoActual.pais}. Toca el punto correspondiente.`;
+    ? "Toca el país sobre el mapa. Los estados muy pequeños aparecen con un punto. Usa ⛶ si quieres una vista grande."
+    : `Capital de ${mapasObjetivoActual.pais}. Toca cerca del punto; en zonas densas GeoTrainer ampliará la zona antes de corregir.`;
   crearSvgMapas();
   iniciarTemporizadorMapas();
 }
@@ -393,8 +417,8 @@ function marcarRespuestaMapas(seleccion, acierto) {
   const svg = document.getElementById("mapas-svg"); if (!svg) return;
   const objetivo = mapasObjetivoActual.iso;
   if (mapasModoActual === "paises") {
-    svg.querySelectorAll(`[data-iso="${objetivo}"]`).forEach(el => el.classList.add("mapas-correcta"));
-    if (seleccion && !acierto) svg.querySelectorAll(`[data-iso="${seleccion}"]`).forEach(el => el.classList.add("mapas-incorrecta"));
+    svg.querySelectorAll(`[data-iso="${objetivo}"]`).forEach(el => el.classList.add("mapas-correcto"));
+    if (seleccion && !acierto) svg.querySelectorAll(`[data-iso="${seleccion}"]`).forEach(el => el.classList.add("mapas-incorrecto"));
   } else {
     const c = svg.querySelector(`.mapas-capital[data-iso="${objetivo}"]`); if (c) c.classList.add("mapas-capital-correcta");
     if (seleccion && !acierto) { const s = svg.querySelector(`.mapas-capital[data-iso="${seleccion}"]`); if (s) s.classList.add("mapas-capital-incorrecta"); }
@@ -403,6 +427,7 @@ function marcarRespuestaMapas(seleccion, acierto) {
 
 function responderMapas(iso, tiempoAgotado) {
   if (mapasRespondida) return;
+  if(mapasUXControlador?.focusActivo?.()) mapasUXControlador.focus();
   cancelarTemporizadorMapas(); mapasRespondida = true;
   const acierto = !tiempoAgotado && iso === mapasObjetivoActual.iso;
   if (acierto) mapasAciertos++; else mapasFallos++;

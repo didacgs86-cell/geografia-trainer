@@ -1184,6 +1184,7 @@ let riosMapaAciertos = 0;
 let riosMapaFallos = 0;
 let riosMapaNumeroActual = 0;
 let riosMapaRespondida = false;
+let riosMapaFocusControl = null;
 
 const RIOS_MAPA_VIEWBOX_INICIAL = {
   x: 0,
@@ -2820,7 +2821,7 @@ function mostrarPreguntaMapaRios() {
       `Localiza el ${riosMapaActual.nombre}`;
 
     riosMapaAyuda.textContent =
-      "Toca directamente el trazado del río en el mapa.";
+      "Toca cerca del trazado. La zona táctil es más ancha que la línea visible y puedes usar ⛶ para ampliar.";
 
   } else {
 
@@ -2952,6 +2953,15 @@ function crearMapaVisualRios() {
         class="rios-mapa-control rios-mapa-control-reset"
         aria-label="Restablecer vista"
       >↺</button>
+
+      ${riosMapaModoActual === "localiza" ? `
+      <button
+        type="button"
+        id="rios-mapa-focus"
+        class="rios-mapa-control"
+        aria-label="Ampliar mapa"
+        title="Ampliar mapa"
+      >⛶</button>` : ""}
     </div>
 
     <div class="rios-mapa-leyenda">
@@ -2962,36 +2972,39 @@ function crearMapaVisualRios() {
   reiniciarVistaMapaRios();
   activarZoomMapaRios();
   activarGestosMapaRios();
+  riosMapaFocusControl=null;
+  const btnFocusRios=document.getElementById("rios-mapa-focus");
+  if(btnFocusRios&&window.GeoMapUX){
+    riosMapaFocusControl=window.GeoMapUX.activarFocus({
+      contenedor:riosMapaLienzo,
+      boton:btnFocusRios,
+      getPrompt:()=>riosMapaPregunta?.textContent?.trim()||"Mapa de ríos"
+    });
+  }
 
-  if (
-    riosMapaModoActual === "localiza"
-  ) {
-
-    riosMapaLienzo
-      .querySelectorAll(
-        ".rios-mapa-grupo"
-      )
-      .forEach(
-        grupo => {
-
-          grupo.addEventListener(
-            "click",
-            evento => {
-
-              evento.stopPropagation();
-
-              if (riosMapaIgnorarClick) {
-                riosMapaIgnorarClick = false;
-                return;
-              }
-
-              responderLocalizaMapaRios(
-                grupo.dataset.rioId
-              );
-            }
-          );
+  if (riosMapaModoActual === "localiza") {
+    const svg=document.getElementById("rios-mapa-svg");
+    svg?.addEventListener("click",evento=>{
+      if(riosMapaIgnorarClick){riosMapaIgnorarClick=false;return;}
+      if(riosMapaRespondida)return;
+      const trayectos=[...svg.querySelectorAll(".rios-mapa-rio")].map(path=>({
+        id:path.closest(".rios-mapa-grupo")?.dataset.rioId,
+        path
+      })).filter(x=>x.id);
+      const r=window.GeoMapUX?.resolverTrayecto(svg,evento.clientX,evento.clientY,trayectos,{maxPx:28,diferenciaAmbigua:7});
+      if(!r||!r.id)return;
+      if(r.ambiguo){
+        const zoomActual=RIOS_MAPA_VIEWBOX_INICIAL.ancho/riosMapaViewBox.ancho;
+        if(zoomActual<3.35){
+          zoomMapaRiosEnPunto(99,evento.clientX,evento.clientY);
+          window.GeoMapUX?.toast(riosMapaLienzo,"Zona ampliada · toca de nuevo");
+          return;
         }
-      );
+        const objetivo=r.candidatos.find(c=>c.id===riosMapaActual?.id);
+        if(objetivo){responderLocalizaMapaRios(objetivo.id);return;}
+      }
+      responderLocalizaMapaRios(r.id);
+    });
   }
 }
 
@@ -3048,6 +3061,7 @@ function responderLocalizaMapaRios(
 ) {
 
   if (riosMapaRespondida) return;
+  if(riosMapaFocusControl?.activo) riosMapaFocusControl.toggle();
 
   riosMapaRespondida = true;
 

@@ -1950,7 +1950,6 @@ body {
 /* Punto visible ligeramente mayor, sin hacerse pesado */
 
 .mapas-capital-visible {
-  r: 5.5;
   fill: #263b50;
   stroke: #ffffff;
   stroke-width: 1.5;
@@ -1960,7 +1959,6 @@ body {
    final se calcula por proximidad sobre todo el mapa. */
 
 .mapas-capital-hit {
-  r: 18;
   fill: transparent;
   stroke: transparent;
 }
@@ -2023,7 +2021,6 @@ body {
   }
 
   .mapas-capital-visible {
-    r: 6;
   }
 }
 
@@ -3828,7 +3825,6 @@ body {
 
 .fisico-punto-activo .fisico-punto-visible {
   fill: #d97706;
-  r: 7;
 }
 
 .fisico-punto-correcto .fisico-punto-visible,
@@ -4708,5 +4704,250 @@ select:focus-visible {
   .recompensa-original span {
     display: block;
     margin-top: 3px;
+  }
+}
+
+
+/* =========================================
+   MAPAS · UX TÁCTIL V2
+   Objetivos táctiles, vista ampliada y móvil
+========================================= */
+
+.mapas-lienzo,
+.rios-mapa-lienzo,
+.mapa-lienzo-amplio {
+  position: relative;
+}
+
+.mapa-ux-svg {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Controles propios: 44 px mínimos para uso cómodo con dedo. */
+.mapa-ux-toolbar {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.mapa-ux-toolbar button {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #cbd5e1;
+  border-radius: 11px;
+  background: rgba(255,255,255,.96);
+  color: #263b50;
+  box-shadow: 0 2px 10px rgba(15,23,42,.12);
+  font-size: 24px;
+  font-weight: 650;
+  line-height: 1;
+  transform: none;
+}
+
+.mapa-ux-toolbar button:hover,
+.mapa-ux-toolbar button:focus-visible {
+  background: #fff;
+  color: #0f2740;
+  transform: none;
+}
+
+/* También elevamos los controles del mapa de ríos al mismo tamaño táctil. */
+.rios-mapa-control {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Los trazados finos conservan su aspecto, pero su zona invisible de toque crece. */
+.rios-mapa-rio-hit {
+  stroke-width: 34;
+  pointer-events: stroke;
+}
+
+.esp-mapa-rio-hit {
+  stroke-width: 34;
+  pointer-events: stroke;
+}
+
+/* El tamaño visual del punto se calcula en JS en píxeles de pantalla. */
+.mapas-capital-visible,
+.mapas-micro-visible,
+.fisico-punto-visible,
+.esp-mapa-punto-visible {
+  transition: fill .14s ease, stroke .14s ease, opacity .14s ease;
+}
+
+/* Área SVG generosa como respaldo. La selección principal se resuelve en píxeles reales. */
+.mapas-capital-hit,
+.mapas-micro-hit,
+.fisico-punto-hit,
+.esp-mapa-punto-hit {
+  fill: transparent;
+  stroke: transparent;
+  cursor: pointer;
+}
+
+.mapa-ux-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  z-index: 20;
+  max-width: calc(100% - 28px);
+  padding: 9px 13px;
+  border-radius: 999px;
+  background: rgba(15,39,64,.92);
+  color: #fff;
+  box-shadow: 0 5px 18px rgba(15,23,42,.22);
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 8px);
+  transition: opacity .16s ease, transform .16s ease;
+}
+
+.mapa-ux-toast.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Vista ampliada: no depende de la API Fullscreen y funciona también en iPhone. */
+body.mapa-ux-body-focus {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+.mapa-ux-focus {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+  width: 100vw !important;
+  max-width: none !important;
+  height: 100dvh !important;
+  margin: 0 !important;
+  padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left)) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #eaf2f6 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.mapa-ux-focus svg {
+  flex: 1 1 auto;
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  border-radius: 0 !important;
+}
+
+.mapa-ux-focus .mapas-fuente,
+.mapa-ux-focus .rios-mapa-leyenda {
+  flex: 0 0 auto;
+  padding: 5px 8px;
+  background: rgba(248,250,252,.95);
+  text-align: left;
+  font-size: 9px;
+}
+
+.mapa-ux-focus-prompt {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  left: max(10px, env(safe-area-inset-left));
+  z-index: 14;
+  max-width: min(66vw, 520px);
+  padding: 9px 12px;
+  border: 1px solid rgba(203,213,225,.9);
+  border-radius: 11px;
+  background: rgba(255,255,255,.94);
+  color: #17212b;
+  box-shadow: 0 2px 10px rgba(15,23,42,.10);
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.3;
+  pointer-events: none;
+}
+
+.mapa-ux-focus .mapa-ux-toolbar,
+.mapa-ux-focus .rios-mapa-controles {
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+}
+
+@media (max-width: 760px) {
+  /* El mapa rompe el padding de la tarjeta y usa casi todo el ancho real del móvil. */
+  .mapas-lienzo,
+  .rios-mapa-lienzo,
+  .mapa-lienzo-amplio {
+    width: calc(100vw - 8px);
+    max-width: none;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .mapas-lienzo,
+  .rios-mapa-lienzo,
+  .fisico-svg,
+  .espana-mapa-svg {
+    border-radius: 8px;
+  }
+
+  .mapa-ux-toolbar,
+  .rios-mapa-controles {
+    top: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+
+  .mapa-ux-toolbar button,
+  .rios-mapa-control {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+  }
+
+  .rios-mapa-rio-hit,
+  .esp-mapa-rio-hit {
+    stroke-width: 44;
+  }
+
+  .mapas-ayuda,
+  .mapa-selector-intro,
+  .mapa-didactico-aviso {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape) {
+  .mapa-ux-focus-prompt {
+    max-width: 52vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mapa-ux-toast,
+  .mapas-capital-visible,
+  .mapas-micro-visible,
+  .fisico-punto-visible,
+  .esp-mapa-punto-visible {
+    transition: none !important;
   }
 }
