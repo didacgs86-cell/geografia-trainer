@@ -1,0 +1,23 @@
+GeoTrainer · Aprende sin Supabase
+
+1. Copia sabiasque.js, publicaciones.json y aprende.js a la raíz de tu repositorio.
+2. Copia las carpetas .github y scripts completas, respetando sus rutas.
+3. Abre index.html en GitHub y cambia en la política CSP:
+   connect-src 'none';  => connect-src 'self';
+   img-src 'self' data:; => img-src 'self' data: https:;
+4. Inmediatamente DESPUÉS de la línea <script src="script.js?..."> añade:
+   <script src="aprende.js?v=1"></script>
+5. En GitHub: Settings > Actions > General > Workflow permissions: habilita Read and write permissions.
+6. En Settings > General > Features comprueba que Issues esté activado.
+7. Publicar un artículo: pestaña Issues > New issue > Publicar artículo en Aprende.
+8. Espera a que GitHub Actions termine y verifica publicaciones.json en el repo.
+9. Recarga la web y entra en Viajes > Aprende. El artículo será visible desde su fecha indicada.
+
+AVISOS:
+- Este método usa el formulario privado de tu cuenta GitHub, NO un panel interno de la app.
+- El texto de la incidencia es públicamente visible en los Issues públicos.
+- Las fechas futuras ocultan el artículo en la interfaz, pero su contenido ya está en el JSON público.
+- No hay notificaciones push a dispositivos cerrados (requieren infraestructura Apple adicional).
+- La aplicación necesita Internet para consultar nuevas publicaciones.
+- Las imágenes HTTPS externas necesitan permisos de red en la app iOS; conviene alojarlas en el propio repositorio.
+- No sustituir todos los archivos de la aplicación: instala solo los del paquete y los dos cambios del index.
