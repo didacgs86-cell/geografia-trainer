@@ -101,30 +101,45 @@
   boton.addEventListener('click',()=>{actualizar();});
   // Las lecturas anteriores quedan disponibles hasta la próxima conexión.
   
-  // ======================================
+    // ======================================
   // APRENDE COMO APARTADO PRINCIPAL
   // ======================================
 
-  // Mover Aprende desde Viajes a la portada
-  const menuPrincipal = document.querySelector(
-    '#inicio .inicio-opciones'
-  );
+  // Colocar Aprende como tarjeta horizontal debajo
+  // de Geografía / Historia / Viajes y encima del progreso
+  const inicioSeccion = document.getElementById('inicio');
+  const menuPrincipal = document.querySelector('#inicio .inicio-opciones');
+  const progresoHome = document.getElementById('progreso-home');
 
-  if (menuPrincipal && boton) {
-    menuPrincipal.appendChild(boton);
-  }
+  if (inicioSeccion && menuPrincipal && boton) {
+    boton.classList.add('aprende-destacado');
+    boton.classList.remove('boton-portada');
 
-  // Cambiar el icono de Aprende
-  const iconoAprende = boton.querySelector('.boton-icono');
+    const iconoAprende = boton.querySelector('.boton-icono');
+    if (iconoAprende) {
+      iconoAprende.textContent = '📚';
+    }
 
-  if (iconoAprende) {
-    iconoAprende.textContent = '📚';
+    const tituloAprende = boton.querySelector('strong');
+    if (tituloAprende) {
+      tituloAprende.textContent = 'Aprende';
+    }
+
+    const subtituloAprende = boton.querySelector('small');
+    if (subtituloAprende) {
+      subtituloAprende.textContent =
+        'Artículos y preguntas de historia, geografía, cultura y curiosidades.';
+    }
+
+    if (progresoHome) {
+      inicioSeccion.insertBefore(boton, progresoHome);
+    } else {
+      inicioSeccion.appendChild(boton);
+    }
   }
 
   // Volver de Aprende al menú principal
-  const volverAprende = document.getElementById(
-    'volver-sabiasque-inicio'
-  );
+  const volverAprende = document.getElementById('volver-sabiasque-inicio');
 
   if (volverAprende) {
     volverAprende.addEventListener(
@@ -136,5 +151,4 @@
       true
     );
   }
-
 })();
