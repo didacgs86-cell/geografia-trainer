@@ -1,1 +1,45 @@
-[]
+[
+  {
+    "id": "gh-40191196253",
+    "titulo": "La batalla de Guadalete (711)",
+    "categoria": "Historia",
+    "icono": "📖",
+    "fecha": "2026-10-25",
+    "contenido": "En el año (711), un ejército musulmán compuesto principalmente por bereberes, dirigido por Tariq ibn Ziyad y procedente del norte de África, cruzó el estrecho de Gibraltar y derrotó al rey visigodo Rodrigo en la batalla de Guadalete.\n\nEl reino visigodo atravesaba una crisis sucesoria tras la muerte del rey Witiza (710). Sus partidarios se enfrentaban a los de Rodrigo y pudieron contribuir a su derrota, aunque su participación es discutida.\n\nLa victoria musulmana precipitó el derrumbe del reino visigodo de Toledo. En pocos años, las tropas de Tariq y Musa ibn Nusayr conquistaron gran parte de Hispania, dando origen a al-Ándalus (711), bajo dominio musulmán, mientras persistían focos de resistencia en el norte peninsular.",
+    "preguntas": [
+      {
+        "enunciado": "¿En qué año tuvo lugar la batalla de Guadalete?",
+        "opciones": [
+          "698",
+          "711",
+          "722",
+          "756"
+        ],
+        "correcta": 1,
+        "explicacion": "La batalla se sitúa tradicionalmente en el año 711 y marcó el inicio de la conquista musulmana de la península ibérica."
+      },
+      {
+        "enunciado": "¿Quién dirigía las tropas musulmanas en Guadalete?",
+        "opciones": [
+          "Musa ibn Nusayr",
+          "Abderramán I",
+          "Tariq ibn Ziyad",
+          "Almanzor"
+        ],
+        "correcta": 2,
+        "explicacion": "Tariq ibn Ziyad dirigió las tropas que derrotaron al ejército visigodo del rey Rodrigo."
+      },
+      {
+        "enunciado": "¿Qué rey visigodo fue derrotado en Guadalete?",
+        "opciones": [
+          "Witiza",
+          "Leovigildo",
+          "Recaredo",
+          "Rodrigo"
+        ],
+        "correcta": 3,
+        "explicacion": "Rodrigo fue derrotado en el año 711. Las disputas sucesorias tras el reinado de Witiza contribuyeron a la inestabilidad del reino visigodo."
+      }
+    ]
+  }
+]
