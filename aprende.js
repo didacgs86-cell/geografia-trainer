@@ -100,4 +100,41 @@
   filtro.addEventListener('change',lista);
   boton.addEventListener('click',()=>{actualizar();});
   // Las lecturas anteriores quedan disponibles hasta la próxima conexión.
+  
+  // ======================================
+  // APRENDE COMO APARTADO PRINCIPAL
+  // ======================================
+
+  // Mover Aprende desde Viajes a la portada
+  const menuPrincipal = document.querySelector(
+    '#inicio .inicio-opciones'
+  );
+
+  if (menuPrincipal && boton) {
+    menuPrincipal.appendChild(boton);
+  }
+
+  // Cambiar el icono de Aprende
+  const iconoAprende = boton.querySelector('.boton-icono');
+
+  if (iconoAprende) {
+    iconoAprende.textContent = '📚';
+  }
+
+  // Volver de Aprende al menú principal
+  const volverAprende = document.getElementById(
+    'volver-sabiasque-inicio'
+  );
+
+  if (volverAprende) {
+    volverAprende.addEventListener(
+      'click',
+      function(evento) {
+        evento.stopImmediatePropagation();
+        mostrarInicioPrincipal();
+      },
+      true
+    );
+  }
+
 })();
