@@ -4957,3 +4957,89 @@ body.mapa-ux-body-focus {
 ========================================= */
 
 .aprende-destacado {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 18px 0 22px 0;
+  padding: 18px 22px;
+  border-radius: 22px;
+  border: 1px solid #d8e6f2;
+  background: linear-gradient(135deg, #edf6ff 0%, #f7fbff 100%);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.aprende-destacado:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.10);
+  border-color: #bfd7ee;
+}
+
+.aprende-destacado .boton-icono {
+  flex: 0 0 auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #dceefe;
+  font-size: 31px;
+  line-height: 1;
+}
+
+.aprende-destacado .boton-texto {
+  flex: 1;
+  text-align: left;
+}
+
+.aprende-destacado .boton-texto strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #12345b;
+  font-size: 27px;
+  line-height: 1.15;
+}
+
+.aprende-destacado .boton-texto small {
+  display: block;
+  color: #47627e;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.aprende-destacado .boton-flecha {
+  flex: 0 0 auto;
+  color: #2d5f8f;
+  font-size: 30px;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .aprende-destacado {
+    padding: 16px 18px;
+    gap: 14px;
+    border-radius: 18px;
+  }
+
+  .aprende-destacado .boton-icono {
+    width: 50px;
+    height: 50px;
+    font-size: 27px;
+    border-radius: 14px;
+  }
+
+  .aprende-destacado .boton-texto strong {
+    font-size: 23px;
+  }
+
+  .aprende-destacado .boton-texto small {
+    font-size: 14px;
+  }
+
+  .aprende-destacado .boton-flecha {
+    font-size: 26px;
+  }
+}
