@@ -33,3 +33,9 @@ node validate.js
 ```
 
 El repositorio no necesita dependencias JavaScript externas para ejecutar la aplicación.
+
+## Zoom regional automático · noviembre de 2026
+
+En las preguntas con mapa de países, capitales, montañas, mares, ríos europeos y geografía de España, la cámara se centra automáticamente cerca del elemento solicitado. El encuadre utiliza referencias vecinas y se adapta al tamaño de los ríos y de los países. Los controles de zoom y desplazamiento siguen disponibles. En el mapa físico, los puntos alejados quedan fuera del encuadre y de la capa de marcadores de la pregunta.
+
+Para publicar, sustituye los archivos de GitHub por los de este ZIP, conservando su estructura; `index.html` incluye versiones de caché nuevas. El mapa informativo que aparece tras fallar una pregunta de países sigue siendo una vista de ubicación distinta del juego.

@@ -66,7 +66,16 @@ function crearMapaFisico() {
   fisicoUXControlador?.destroy?.();
   fisicoUXControlador=null;
   const datos=datosFisico();
-  const puntos=datos.map(x=>{
+  const base={x:0,y:0,ancho:1000,alto:650};
+  const encuadre=window.GeoEncuadre?.punto(fisicoActual?.punto,datos.map(x=>x.punto),base,{
+    vecinos:fisicoTipo==='mares'?7:12,
+    minAncho:fisicoTipo==='mares'?185:165,
+    maxAncho:fisicoTipo==='mares'?820:700
+  });
+  const puntos=datos.filter(x=>!encuadre || (
+    x.punto.x>=encuadre.x-12 && x.punto.x<=encuadre.x+encuadre.ancho+12 &&
+    x.punto.y>=encuadre.y-12 && x.punto.y<=encuadre.y+encuadre.alto+12
+  )).map(x=>{
     const p=x.punto; const activo=fisicoModo==="identifica" && fisicoActual && x.id===fisicoActual.id;
     return `<g class="fisico-punto ${activo?'fisico-punto-activo':''}" data-id="${x.id}">
       <circle class="fisico-punto-visible" cx="${p.x}" cy="${p.y}" r="${fisicoTipo==='mares'?6:4}"></circle>
@@ -84,6 +93,7 @@ function crearMapaFisico() {
     marcadorRadioPx:fisicoTipo==="mares"?6:5.5,
     permitirFocus:fisicoModo==="localiza"
   })||null;
+  if(encuadre) fisicoUXControlador?.establecerVista(encuadre);
   if(mantenerFocus) fisicoUXControlador?.focus?.();
   if(fisicoModo==="localiza") {
     svg.addEventListener("click",evento=>{

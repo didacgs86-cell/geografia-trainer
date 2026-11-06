@@ -141,8 +141,20 @@
       aplicar();
     }
 
+    let vistaInicial = { ...base };
+
+    function establecerVista(nueva, comoInicial = true) {
+      if (!nueva || !Number.isFinite(nueva.x) || !Number.isFinite(nueva.y) || !Number.isFinite(nueva.ancho)) return;
+      const ancho = Math.max(base.ancho / maxZoom, Math.min(base.ancho, nueva.ancho));
+      const alto = ancho * base.alto / base.ancho;
+      vista = { x:nueva.x + nueva.ancho/2 - ancho/2, y:nueva.y + (nueva.alto || alto)/2 - alto/2, ancho, alto };
+      limitar(vista, base);
+      if (comoInicial) vistaInicial = { ...vista };
+      aplicar();
+    }
+
     function reset() {
-      vista = { ...base };
+      vista = { ...vistaInicial };
       aplicar();
     }
 
@@ -299,6 +311,7 @@
 
     const api = {
       zoomEnCliente,
+      establecerVista,
       reset,
       nivelZoom,
       consumeClick() {
@@ -430,3 +443,34 @@
     activarFocus
   };
 })();
+
+
+// Marco regional para cada pregunta. Se basa en la localización del objetivo y
+// en los puntos próximos; nunca marca visualmente la solución.
+window.GeoEncuadre = {
+  punto(centro, referencias, base, opciones = {}) {
+    if (!centro || !Number.isFinite(centro.x) || !Number.isFinite(centro.y)) return null;
+    const ratio = base.alto / base.ancho;
+    const minimo = opciones.minAncho ?? 135;
+    const maximo = opciones.maxAncho ?? base.ancho * 0.72;
+    const cuantos = opciones.vecinos ?? 12;
+    const distancias = (referencias || []).filter(p=>Number.isFinite(p.x)&&Number.isFinite(p.y))
+      .map(p=>Math.max(Math.abs(p.x-centro.x),Math.abs(p.y-centro.y)/ratio))
+      .sort((a,b)=>a-b);
+    const radio = distancias[Math.min(cuantos,distancias.length-1)] || minimo / 2;
+    const ancho = Math.max(minimo,Math.min(maximo,radio * 2.4));
+    return this.area({ x:centro.x-ancho/2,y:centro.y-ancho*ratio/2,ancho,alto:ancho*ratio },base);
+  },
+  area(region,base) {
+    if(!region)return null;
+    const ancho=Math.max(1,Math.min(base.ancho,region.ancho));
+    const alto=ancho*base.alto/base.ancho;
+    const x=Math.max(base.x,Math.min(base.x+base.ancho-ancho,region.x+(region.ancho-ancho)/2));
+    const y=Math.max(base.y,Math.min(base.y+base.alto-alto,region.y+(region.alto-alto)/2));
+    return {x,y,ancho,alto};
+  },
+  caja(elemento) {
+    if(!elemento)return null;
+    try {const b=elemento.getBBox();return Number.isFinite(b.x)&&b.width>=0?{x:b.x,y:b.y,ancho:b.width,alto:b.height}:null;}catch{return null;}
+  }
+};

@@ -237,6 +237,20 @@ function crearSvgMapas() {
     marcadorSelector: ".mapas-capital-visible, .mapas-micro-visible",
     marcadorRadioPx: 5.5
   }) || null;
+  if (mapasObjetivoActual && window.GeoEncuadre && mapasUXControlador) {
+    const objetivo = mapasObjetivoActual.iso;
+    const capital = mapa.capitales[objetivo] || mapa.marcadores?.[objetivo] || mapa.microestados?.[objetivo];
+    const path = [...svg.querySelectorAll('.mapas-pais')].find(el=>el.dataset.iso===objetivo);
+    const caja = window.GeoEncuadre.caja(path);
+    const centro = capital ? {x:capital.x,y:capital.y} : caja ? {x:caja.x+caja.ancho/2,y:caja.y+caja.alto/2} : null;
+    const referencias = Object.values(mapa.capitales || {}).concat(Object.values(mapa.marcadores || mapa.microestados || {}));
+    let encuadre = window.GeoEncuadre.punto(centro,referencias,mapasViewBoxBase,{vecinos:12,minAncho:145,maxAncho:760});
+    if (encuadre && caja && mapasModoActual === 'paises' && caja.ancho < mapasViewBoxBase.ancho * .45) {
+      const ancho = Math.max(encuadre.ancho,caja.ancho*1.25,caja.alto*1.25*mapasViewBoxBase.ancho/mapasViewBoxBase.alto);
+      encuadre = window.GeoEncuadre.area({x:centro.x-ancho/2,y:centro.y-ancho*mapasViewBoxBase.alto/mapasViewBoxBase.ancho/2,ancho,alto:ancho*mapasViewBoxBase.alto/mapasViewBoxBase.ancho},mapasViewBoxBase);
+    }
+    if (encuadre) mapasUXControlador.establecerVista(encuadre);
+  }
   if(mantenerFocus) mapasUXControlador?.focus?.();
 
   svg.addEventListener("click", clickMapaMapas);

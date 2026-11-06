@@ -81,6 +81,19 @@ function renderEspanaMapa(){
     marcadorSelector:'.esp-mapa-punto-visible',
     marcadorRadioPx:espanaMapaModo==='comunidad'?6.5:5.5
   })||null;
+  if(window.GeoEncuadre && espanaMapaActual){
+    const base={x:0,y:0,ancho:1000,alto:650};
+    let region=null;
+    if(espanaMapaModo==='rios'){
+      const ruta=[...svg.querySelectorAll('.esp-mapa-rio')].find(x=>x.dataset.id===espanaMapaActual.id);
+      const caja=window.GeoEncuadre.caja(ruta);
+      if(caja){const ancho=Math.max(270,caja.ancho*1.6,caja.alto*1.6*1000/650);region=window.GeoEncuadre.area({x:caja.x+caja.ancho/2-ancho/2,y:caja.y+caja.alto/2-ancho*650/1000/2,ancho,alto:ancho*650/1000},base);}
+    }else{
+      const p=proyectarEspana(espanaMapaActual.lat,espanaMapaActual.lon);
+      region=window.GeoEncuadre.punto(p,banco.map(x=>proyectarEspana(x.lat,x.lon)),base,{vecinos:espanaMapaModo==='provincia'?13:8,minAncho:250,maxAncho:790});
+    }
+    if(region)espanaMapaUXControlador?.establecerVista(region);
+  }
   if(mantenerFocus) espanaMapaUXControlador?.focus?.();
   if(espanaMapaModo==='rios'){
     svg.addEventListener('click',evento=>{

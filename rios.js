@@ -2970,6 +2970,20 @@ function crearMapaVisualRios() {
   `;
 
   reiniciarVistaMapaRios();
+  const rutaObjetivo=[...riosMapaLienzo.querySelectorAll('.rios-mapa-rio')]
+    .find(x=>x.closest('.rios-mapa-grupo')?.dataset.rioId===riosMapaActual?.id);
+  const cajaObjetivo=window.GeoEncuadre?.caja(rutaObjetivo);
+  if(cajaObjetivo){
+    const base=RIOS_MAPA_VIEWBOX_INICIAL;
+    const ancho=Math.max(base.ancho/3.5,Math.min(base.ancho*.78,
+      Math.max(cajaObjetivo.ancho*1.75,cajaObjetivo.alto*1.75*base.ancho/base.alto)));
+    const region=window.GeoEncuadre.area({
+      x:cajaObjetivo.x+cajaObjetivo.ancho/2-ancho/2,
+      y:cajaObjetivo.y+cajaObjetivo.alto/2-ancho*base.alto/base.ancho/2,
+      ancho,alto:ancho*base.alto/base.ancho
+    },base);
+    if(region){riosMapaViewBox={...region};aplicarVistaMapaRios();}
+  }
   activarZoomMapaRios();
   activarGestosMapaRios();
   riosMapaFocusControl=null;
